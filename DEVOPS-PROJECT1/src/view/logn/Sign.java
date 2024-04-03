@@ -27,7 +27,6 @@ public class Sign extends JFrame {
 	private JTextField txt_height;
 	private JTextField txt_weight;
 
-//ff
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

@@ -111,7 +111,7 @@ public class Login extends JFrame {
 					.addContainerGap(18, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
-		
+		//wc
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(12, 10, 666, 511);
 		contentPane.add(panel_1);

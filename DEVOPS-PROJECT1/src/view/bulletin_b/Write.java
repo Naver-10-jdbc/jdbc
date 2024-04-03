@@ -16,9 +16,7 @@ public class Write extends JFrame {
 	private JPanel contentPane;
 	private JTextField txt_text;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
