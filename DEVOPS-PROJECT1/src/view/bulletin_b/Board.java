@@ -17,7 +17,7 @@ public class Board extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	//tt
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
