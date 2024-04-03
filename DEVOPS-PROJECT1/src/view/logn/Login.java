@@ -28,7 +28,7 @@ public class Login extends JFrame {
 					e.printStackTrace();
 				}
 			}
-		});
+		});//
 	}
 
 	public Login() {
