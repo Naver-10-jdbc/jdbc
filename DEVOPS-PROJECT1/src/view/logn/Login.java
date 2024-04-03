@@ -67,7 +67,7 @@ public class Login extends JFrame {
 		btn_login.setFont(new Font("±¼¸²", Font.PLAIN, 25));
 		btn_login.setBounds(558, 138, 120, 108);
 		contentPane.add(btn_login);
-		
+		//
 		txt_pw = new JPasswordField();
 		txt_pw.setBounds(201, 206, 314, 42);
 		contentPane.add(txt_pw);
