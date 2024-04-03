@@ -11,11 +11,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
-import java.awt.Color;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.BorderLayout;
 
 public class Login extends JFrame {
 
@@ -42,11 +37,40 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 		//setResizable(false); //화면 크기 조정 못하게
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel txt_login = new JLabel("로그인");
+		txt_login.setFont(new Font("굴림", Font.PLAIN, 26));
+		txt_login.setBounds(319, 42, 79, 63);
+		contentPane.add(txt_login);
+		
+		JLabel label_id = new JLabel("아이디");
+		label_id.setLabelFor(label_id);
+		label_id.setFont(new Font("굴림", Font.PLAIN, 18));
+		label_id.setBounds(103, 138, 412, 42);
+		contentPane.add(label_id);
+		
+		txt_id = new JTextField();
+		txt_id.setBounds(201, 140, 314, 42);
+		contentPane.add(txt_id);
+		txt_id.setColumns(10);
+		
+		JLabel label_pw = new JLabel("비밀번호");
+		label_pw.setFont(new Font("굴림", Font.PLAIN, 18));
+		label_pw.setBounds(103, 204, 443, 42);
+		contentPane.add(label_pw);
+		
+		JButton btn_login = new JButton("로그인");
+		btn_login.setFont(new Font("굴림", Font.PLAIN, 25));
+		btn_login.setBounds(558, 138, 120, 108);
+		contentPane.add(btn_login);
+		
+		txt_pw = new JPasswordField();
+		txt_pw.setBounds(201, 206, 314, 42);
+		contentPane.add(txt_pw);
 		
 		JButton btn_sign = new JButton("회원가입");
 		btn_sign.setFont(new Font("굴림", Font.PLAIN, 25));
@@ -56,69 +80,5 @@ public class Login extends JFrame {
 		JButton btn_cancel = new JButton("X");
 		btn_cancel.setBounds(629, 10, 49, 42);
 		contentPane.add(btn_cancel);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(99, 136, 579, 144);
-		contentPane.add(panel);
-		
-		JLabel label_id = new JLabel("아이디");
-		label_id.setLabelFor(label_id);
-		label_id.setFont(new Font("굴림", Font.PLAIN, 18));
-		
-		txt_id = new JTextField();
-		txt_id.setFont(new Font("굴림", Font.PLAIN, 18));
-		txt_id.setColumns(10);
-		
-		JLabel label_pw = new JLabel("비밀번호");
-		label_pw.setFont(new Font("굴림", Font.PLAIN, 18));
-		
-		txt_pw = new JPasswordField();
-		txt_pw.setFont(new Font("굴림", Font.PLAIN, 18));
-		
-		JButton btn_login = new JButton("로그인");
-		btn_login.setFont(new Font("굴림", Font.PLAIN, 25));
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(48)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_pw, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_id))
-					.addGap(62)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(txt_pw, 146, 146, 146)
-						.addComponent(txt_id, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-					.addComponent(btn_login, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(21)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_id)
-						.addComponent(txt_id, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txt_pw, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_pw, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
-					.addGap(18))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(18)
-					.addComponent(btn_login, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(18, Short.MAX_VALUE))
-		);
-		panel.setLayout(gl_panel);
-		//wc
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(12, 10, 666, 511);
-		contentPane.add(panel_1);
-		panel_1.setLayout(new BorderLayout(0, 0));
-		
-		JLabel txt_login_1 = new JLabel("\uB85C\uADF8\uC778");
-		txt_login_1.setFont(new Font("굴림", Font.PLAIN, 26));
-		panel_1.add(txt_login_1, BorderLayout.NORTH);
 	}
 }
