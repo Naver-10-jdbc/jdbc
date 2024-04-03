@@ -30,7 +30,7 @@ public class Login extends JFrame {
 			}
 		});
 	}
-
+//
 	public Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 704, 568);
