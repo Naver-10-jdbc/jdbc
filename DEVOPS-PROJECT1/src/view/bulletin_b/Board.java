@@ -1,17 +1,18 @@
 package view.bulletin_b;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JToggleButton;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class Board extends JFrame {
 
@@ -38,7 +39,8 @@ public class Board extends JFrame {
 	public Board() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 568);
-		setResizable(false); //화면 크기 조정 못하게
+		setLocationRelativeTo(null);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -74,7 +76,13 @@ public class Board extends JFrame {
 		JButton btn_add = new JButton("글쓰기");
 		btn_add.setBounds(569, 406, 79, 33);
 		contentPane.add(btn_add);
-		setVisible(false);
+
+		btn_add.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Write write = new Write();
+				write.setVisible(true);
+			}
+		});
 		
 	}
 }

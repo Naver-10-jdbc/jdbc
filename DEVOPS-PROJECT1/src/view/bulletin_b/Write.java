@@ -1,20 +1,21 @@
 package view.bulletin_b;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import java.awt.BorderLayout;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 public class Write extends JFrame {
 
@@ -42,6 +43,8 @@ public class Write extends JFrame {
 	public Write() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 568);
+		//setLocationRelativeTo(null);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -57,9 +60,21 @@ public class Write extends JFrame {
 		btn_register.setBounds(435, 423, 79, 33);
 		contentPane.add(btn_register);
 		
+		btn_register.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "등록되었습니다!","알림",JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
 		JButton btn_cancel = new JButton("취소");
 		btn_cancel.setBounds(526, 423, 79, 33);
 		contentPane.add(btn_cancel);
+		
+		btn_cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		
 		JButton btn_file = new JButton("\uCCA8\uBD80\uD30C\uC77C");
 		btn_file.setBounds(74, 366, 86, 27);
@@ -92,10 +107,9 @@ public class Write extends JFrame {
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(label_title, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txt_title, GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 528, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+							.addComponent(txt_title, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 528, GroupLayout.PREFERRED_SIZE))
+					.addGap(12))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)

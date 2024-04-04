@@ -44,7 +44,8 @@ public class Sign extends JFrame {
 	public Sign() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 531, 728);
-		setResizable(false); //화면 크기 조정 못하게
+		setLocationRelativeTo(null);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

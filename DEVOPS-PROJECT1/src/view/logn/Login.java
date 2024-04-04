@@ -11,7 +11,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
-//
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class Login extends JFrame {
 
 	private JPanel contentPane;
@@ -63,7 +65,15 @@ public class Login extends JFrame {
 		label_pw.setBounds(75, 262, 412, 42);
 		contentPane.add(label_pw);
 		
-		JButton btn_login = new JButton("로그인");
+		JButton btn_login = new JButton("로그인");//회원가입 화면으로 이동
+		btn_login.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Sign sign = new Sign();
+				sign.setVisible(true);
+				//팝업창으로 하고싶으면 setVisible(false);
+			}
+		});
+		
 		btn_login.setFont(new Font("굴림", Font.PLAIN, 25));
 		btn_login.setBounds(530, 196, 120, 108);
 		contentPane.add(btn_login);
