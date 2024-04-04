@@ -30,10 +30,10 @@ public class Login extends JFrame {
 			}
 		});
 	}
-//왜
+
 	public Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 704, 568);
+		setBounds(100, 100, 700, 568);
 		setLocationRelativeTo(null);
 		setResizable(false); //화면 크기 조정 못하게
 		contentPane = new JPanel();
@@ -44,41 +44,41 @@ public class Login extends JFrame {
 		
 		JLabel txt_login = new JLabel("로그인");
 		txt_login.setFont(new Font("굴림", Font.PLAIN, 26));
-		txt_login.setBounds(319, 42, 79, 63);
+		txt_login.setBounds(303, 87, 79, 63);
 		contentPane.add(txt_login);
 		
 		JLabel label_id = new JLabel("아이디");
 		label_id.setLabelFor(label_id);
 		label_id.setFont(new Font("굴림", Font.PLAIN, 18));
-		label_id.setBounds(103, 138, 412, 42);
+		label_id.setBounds(75, 196, 412, 42);
 		contentPane.add(label_id);
 		
 		txt_id = new JTextField();
-		txt_id.setBounds(201, 140, 314, 42);
+		txt_id.setBounds(173, 198, 314, 42);
 		contentPane.add(txt_id);
 		txt_id.setColumns(10);
 		
 		JLabel label_pw = new JLabel("비밀번호");
 		label_pw.setFont(new Font("굴림", Font.PLAIN, 18));
-		label_pw.setBounds(103, 204, 443, 42);
+		label_pw.setBounds(75, 262, 412, 42);
 		contentPane.add(label_pw);
 		
 		JButton btn_login = new JButton("로그인");
 		btn_login.setFont(new Font("굴림", Font.PLAIN, 25));
-		btn_login.setBounds(558, 138, 120, 108);
+		btn_login.setBounds(530, 196, 120, 108);
 		contentPane.add(btn_login);
 		//
 		txt_pw = new JPasswordField();
-		txt_pw.setBounds(201, 206, 314, 42);
+		txt_pw.setBounds(173, 264, 314, 42);
 		contentPane.add(txt_pw);
 		
 		JButton btn_sign = new JButton("회원가입");
 		btn_sign.setFont(new Font("굴림", Font.PLAIN, 25));
-		btn_sign.setBounds(284, 337, 170, 42);
+		btn_sign.setBounds(255, 393, 170, 42);
 		contentPane.add(btn_sign);
 		
-		JButton btn_cancel = new JButton("X");
-		btn_cancel.setBounds(629, 10, 49, 42);
+		JButton btn_cancel = new JButton("\u2190");
+		btn_cancel.setBounds(10, 10, 50, 50);
 		contentPane.add(btn_cancel);
 	}
 }
