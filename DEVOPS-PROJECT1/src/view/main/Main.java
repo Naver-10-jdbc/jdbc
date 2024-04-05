@@ -13,7 +13,9 @@ import javax.swing.table.DefaultTableModel;
 
 import view.bulletin_b.Board;
 import view.daily_ex.Daily_Exercise;
+import view.diet.Diet;
 import view.mypg.MyPage;
+import view.week_ex.Week_Exercise;
 
 public class Main extends JFrame{
    final int left_padding=20;
@@ -65,19 +67,19 @@ public class Main extends JFrame{
 	   });
 	   //체중
 	   btn32.addActionListener(l->{
-		   new Daily_Exercise();
+		  
 	   });
 	   //식단
 	   btn33.addActionListener(l->{
-		   
+		   new Diet();
 	   });
 	   //운동
 	   btn34.addActionListener(l->{
-		   new Daily_Exercise();
+		   new Week_Exercise();
 	   });
 	   //수면
-	   btn34.addActionListener(l->{
-		   
+	   btn35.addActionListener(l->{
+		   new Daily_Exercise();
 	   });
    }
    

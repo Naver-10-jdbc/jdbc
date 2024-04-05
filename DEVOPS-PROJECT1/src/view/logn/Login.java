@@ -68,10 +68,6 @@ public class Login extends JFrame {
 		});
 		
 		
-		JButton btn_cancel = new JButton("\u2190");
-		btn_cancel.setBounds(10, 10, 50, 50);
-		contentPane.add(btn_cancel);
-		
 		JButton btn_login = new JButton("\uB85C\uADF8\uC778");
 		btn_login.setFont(new Font("±¼¸²", Font.BOLD, 23));
 		btn_login.setBounds(522, 196, 121, 108);

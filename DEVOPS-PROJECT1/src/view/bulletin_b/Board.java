@@ -1,9 +1,10 @@
 package view.bulletin_b;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +36,13 @@ public class Board extends JFrame {
 		btn_back.setBounds(10, 10, 50, 50);
 		contentPane.add(btn_back);
 		
+		btn_back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
+		
 		JLabel label_board = new JLabel("인증게시판");
 		label_board.setFont(new Font("굴림", Font.PLAIN, 20));
 		label_board.setBounds(307, 35, 115, 24);
@@ -55,6 +63,15 @@ public class Board extends JFrame {
 				"번호", "작성자", "작성자", "작성시간", "좋아요"
 			}
 		));
+		
+		table.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        new Comment();
+		    }
+		});
+
+		
 		table.setFont(new Font("굴림", Font.PLAIN, 15));
 		JButton btn_add = new JButton("글쓰기");
 		btn_add.setBounds(569, 406, 79, 33);

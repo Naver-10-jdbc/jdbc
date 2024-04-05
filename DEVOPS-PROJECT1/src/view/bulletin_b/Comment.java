@@ -67,9 +67,16 @@ public class Comment extends JFrame {
 		push_write.setFont(new Font("±¼¸²", Font.PLAIN, 16));
 		scrollPane_1.setViewportView(push_write);
 		
-		JButton btn_cancel = new JButton("\u2190");
-		btn_cancel.setBounds(10, 10, 50, 50);
-		contentPane.add(btn_cancel);
+		JButton btn_back = new JButton("\u2190");
+		btn_back.setBounds(10, 10, 50, 50);
+		contentPane.add(btn_back);
+		
+		btn_back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 		
 		JButton btn_img = new JButton("\uC774\uBBF8\uC9C0 \uBD88\uB7EC\uC624\uAE30");
 		btn_img.setBounds(97, 322, 159, 144);
