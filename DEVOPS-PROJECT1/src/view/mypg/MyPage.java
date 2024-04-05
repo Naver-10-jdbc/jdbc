@@ -33,21 +33,6 @@ public class MyPage extends JFrame {
 	private JLabel wishexeLevel_title, exeLevel;
 	private JButton myHeghit;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MyPage frame = new MyPage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -864,6 +849,8 @@ public class MyPage extends JFrame {
 		gbc_sleepTime_unit.gridx = 2;
 		gbc_sleepTime_unit.gridy = 3;
 		wishbodyprofile.add(sleepTime_unit, gbc_sleepTime_unit);
+		
+		setVisible(true);
 	}
 
 }

@@ -67,6 +67,8 @@ public class Diet extends JFrame implements ActionListener {
             }
         }
         add(main, BorderLayout.CENTER);
+        setVisible(true);
+        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -93,14 +95,5 @@ public class Diet extends JFrame implements ActionListener {
             String mealDetails = button.getText(); // 버튼의 텍스트 가져오기
             JOptionPane.showMessageDialog(this, "Details: " + mealDetails); // 추후 음식 이미지+설명이 들어가는 Dialog로 수정!
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Diet gui = new Diet();
-                gui.setVisible(true);
-            }
-        });
     }
 }
