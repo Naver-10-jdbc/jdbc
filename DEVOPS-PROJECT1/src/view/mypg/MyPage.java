@@ -1,5 +1,6 @@
 package view.mypg;
 
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -10,57 +11,27 @@ import javax.swing.text.*;
 public class MyPage extends JFrame {
 
 	private JPanel contentPane;
+	
 	private JPanel head;
 	private JButton btn_back;
-	private JLabel lblNewLabel;
-	private JButton btn_inbody;
-	private JButton btn_target;
-	private JPanel now;
-	private JPanel nowbody;
-	private JPanel bodyprofile;
+	private JLabel title;
+	private JButton btn_inbody,btn_target;
+	private JPanel now, nowbody, bodyprofile;
 	private JButton bodyimg;
-	private JLabel heght;
-	private JLabel weight;
-	private JLabel bmi;
-	private JLabel skmu;
-	private JLabel bodyfat;
-	private JLabel cid;
-	private JLabel myHeghit;
-	private JLabel myWeight;
-	private JLabel MyBMI;
-	private JLabel mySkmu;
-	private JLabel myBodyfat;
-	private JLabel myCID;
-	private JLabel profilelabel;
+	private JLabel heght, weight, bmi, skmu, bodyfat, cid, myWeight, MyBMI, mySkmu, myBodyfat, myCID, profilelabel;
 	private JPanel wish;
 	private JLabel wishlabel;
 	private JPanel wishbody;
 	private JButton wishbodyimg;
 	private JPanel wishbodyprofile;
-	private JLabel wishweight;
-	private JLabel myWishWeihgt;
-	private JLabel wishskmu;
-	private JLabel myWishskmu;
-	private JLabel wishbodyfat;
-	private JLabel myWishbodyfat;
-	private JLabel wishsleep;
-	private JLabel sleepTime;
+	private JLabel wishweight, myWishWeihgt, wishskmu, myWishskmu, wishbodyfat, myWishbodyfat, wishsleep, sleepTime;
 	private JPanel wishLevel;
-	private JLabel height_unit;
-	private JLabel weight_unit;
-	private JLabel skmu_unit;
-	private JLabel bodyfat_unit;
-	private JLabel cid_unit;
-	private JLabel wishweight_unit;
-	private JLabel wishWeihgt_unit;
-	private JLabel wishbodyfat_unit;
-	private JLabel sleepTime_unit;
+	private JLabel height_unit, weight_unit, skmu_unit, bodyfat_unit, cid_unit, wishweight_unit, wishWeihgt_unit, wishbodyfat_unit, sleepTime_unit;
 	private JPanel wishCID_data;
-	private JLabel wishCID_title;
-	private JLabel whisCid;
+	private JLabel wishCID_title, whisCid;
 	private JPanel wishexeLevel_data;
-	private JLabel wishexeLevel_title;
-	private JLabel exeLevel;
+	private JLabel wishexeLevel_title, exeLevel;
+	private JButton myHeghit;
 
 	/**
 	 * Launch the application.
@@ -121,6 +92,7 @@ public class MyPage extends JFrame {
 		head.setLayout(gbl_head);
 		
 		btn_back = new JButton("←");		//가로, 세로 값 지정
+		btn_back.setBackground(new Color(255, 255, 255));
 		btn_back.setPreferredSize(new Dimension(50, 50));
 		btn_back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -132,15 +104,16 @@ public class MyPage extends JFrame {
 		gbc_btn_back.gridy = 0;
 		head.add(btn_back, gbc_btn_back);
 		
-		lblNewLabel = new JLabel("My Page");
-		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 20));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel.gridx = 2;
-		gbc_lblNewLabel.gridy = 0;
-		head.add(lblNewLabel, gbc_lblNewLabel);
+		title = new JLabel("My Page");
+		title.setFont(new Font("굴림", Font.BOLD, 20));
+		GridBagConstraints gbc_title = new GridBagConstraints();
+		gbc_title.insets = new Insets(0, 0, 0, 5);
+		gbc_title.gridx = 2;
+		gbc_title.gridy = 0;
+		head.add(title, gbc_title);
 		
 		btn_inbody = new JButton("인바디 입력");
+		btn_inbody.setBackground(new Color(255, 255, 255));
 		//인바디 입력 다이얼로그창 생성
 		btn_inbody.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -268,6 +241,7 @@ public class MyPage extends JFrame {
 		head.add(btn_inbody, gbc_btn_inbody);
 		
 		btn_target = new JButton("목표 입력");
+		btn_target.setBackground(new Color(255, 255, 255));
 		// 목표 입력 다이얼로그창 생성
 		btn_target.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -290,7 +264,7 @@ public class MyPage extends JFrame {
 		    	// 체중 입력 패널
 		    	JPanel weightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		    	JTextField weightField = new JTextField(10);
-		    	weightPanel.add(new JLabel("체중 입력"));
+		    	weightPanel.add(new JLabel("체중 입력       "));
 		    	weightPanel.add(weightField);
 		    	weightPanel.add(new JLabel("kg"));
 		    	addGridBagComponent(panel, weightPanel, 0, 0, GridBagConstraints.WEST);
@@ -497,7 +471,66 @@ public class MyPage extends JFrame {
 		gbc_heght.gridy = 0;
 		bodyprofile.add(heght, gbc_heght);
 		
-		myHeghit = new JLabel("170.5");
+		myHeghit = new JButton("170.2");
+		myHeghit.setBackground(new Color(255, 255, 255));
+		myHeghit.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // 다이얼로그 생성
+		        JDialog dialog = new JDialog();
+		        dialog.setTitle("키 정보 입력");
+		        dialog.setSize(200, 100);
+		        dialog.setResizable(false);
+		        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		        dialog.setLocationRelativeTo(null); // 화면 중앙에 위치
+
+		        // 패널 생성
+		        JPanel panel = new JPanel(new GridLayout(0, 2));
+
+		        // 키 입력 라벨 및 필드
+		        JLabel heightLabel = new JLabel("키(cm):");
+		        JTextField heightField = new JTextField();
+		        panel.add(heightLabel);
+		        panel.add(heightField);
+
+		        // 확인 버튼
+		        JButton okButton = new JButton("확인");
+		        okButton.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		                // 입력값 확인
+		                String input = heightField.getText();
+		                if (input.isEmpty() || !isNumeric(input)) {
+		                    JOptionPane.showMessageDialog(dialog, "올바른 숫자를 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+		                } else {
+		                    // 입력값을 myHeghit에 설정
+		                    myHeghit.setText(input);
+		                    dialog.dispose(); // 다이얼로그 닫기
+		                }
+		            }
+		        });
+
+		        // 취소 버튼
+		        JButton cancelButton = new JButton("취소");
+		        cancelButton.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		                dialog.dispose(); // 다이얼로그 닫기
+		            }
+		        });
+
+		        // 버튼 패널 생성
+		        JPanel buttonPanel = new JPanel();
+		        buttonPanel.add(okButton);
+		        buttonPanel.add(cancelButton);
+
+		        // 다이얼로그에 패널 추가
+		        dialog.getContentPane().add(panel, BorderLayout.CENTER);
+		        dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+		        // 다이얼로그 표시
+		        dialog.setVisible(true);
+		    }
+		});
+		
+		myHeghit.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_myHeghit = new GridBagConstraints();
 		gbc_myHeghit.anchor = GridBagConstraints.EAST;
 		gbc_myHeghit.insets = new Insets(0, 0, 5, 5);
