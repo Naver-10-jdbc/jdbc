@@ -56,7 +56,6 @@ public class Board extends JFrame {
 			}
 		));
 		table.setFont(new Font("±¼¸²", Font.PLAIN, 15));
-		
 		JButton btn_add = new JButton("±Û¾²±â");
 		btn_add.setBounds(569, 406, 79, 33);
 		contentPane.add(btn_add);

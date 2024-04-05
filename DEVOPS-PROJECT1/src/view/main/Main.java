@@ -65,7 +65,7 @@ public class Main extends JFrame{
 	   });
 	   //체중
 	   btn32.addActionListener(l->{
-		   
+		   new Daily_Exercise();
 	   });
 	   //식단
 	   btn33.addActionListener(l->{

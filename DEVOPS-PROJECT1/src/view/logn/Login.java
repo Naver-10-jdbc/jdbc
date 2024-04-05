@@ -1,18 +1,17 @@
 package view.logn;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import view.main.Main;
 
 public class Login extends JFrame {
 
@@ -77,6 +76,14 @@ public class Login extends JFrame {
 		btn_login.setFont(new Font("±¼¸²", Font.BOLD, 23));
 		btn_login.setBounds(522, 196, 121, 108);
 		contentPane.add(btn_login);
+		
+		btn_login.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Main();
+			}
+		});
+		
 		
 		setVisible(true);
 	}
