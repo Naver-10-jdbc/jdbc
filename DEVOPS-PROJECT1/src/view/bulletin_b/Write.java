@@ -24,22 +24,6 @@ public class Write extends JFrame {
 	private JTextField txt_title;
 
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Write frame = new Write();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public Write() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 568);
@@ -125,5 +109,7 @@ public class Write extends JFrame {
 		JTextArea textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		panel.setLayout(gl_panel);
+		
+		setVisible(true);
 	}
 }

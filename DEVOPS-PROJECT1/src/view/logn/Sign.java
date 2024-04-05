@@ -27,19 +27,6 @@ public class Sign extends JFrame {
 	private JTextField txt_height;
 	private JTextField txt_weight;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Sign frame = new Sign();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 
 	public Sign() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -172,6 +159,6 @@ public class Sign extends JFrame {
         btn_cancel.setBounds(281, 591, 148, 39);
         contentPane.add(btn_cancel);
         
-        
+        setVisible(true);
 	}
 }

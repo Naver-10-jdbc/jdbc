@@ -27,25 +27,8 @@ import javax.swing.JSplitPane;
 public class Comment extends JFrame {
 
 	private JPanel contentPane;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Comment frame = new Comment();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public Comment() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 1300);
@@ -226,5 +209,7 @@ public class Comment extends JFrame {
 		
 		JButton btn_del = new JButton("\uC0AD\uC81C");
 		splitPane.setRightComponent(btn_del);
+		
+		setVisible(true);
 	}
 }

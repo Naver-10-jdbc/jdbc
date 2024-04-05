@@ -20,18 +20,6 @@ public class Login extends JFrame {
 	private JTextField txt_id;
 	private JPasswordField txt_pw;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,19 +52,6 @@ public class Login extends JFrame {
 		label_pw.setFont(new Font("굴림", Font.PLAIN, 18));
 		label_pw.setBounds(75, 262, 412, 42);
 		contentPane.add(label_pw);
-		
-		JButton btn_login = new JButton("로그인");//회원가입 화면으로 이동
-		btn_login.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Sign sign = new Sign();
-				sign.setVisible(true);
-				//팝업창으로 하고싶으면 setVisible(false);
-			}
-		});
-		
-		btn_login.setFont(new Font("굴림", Font.PLAIN, 25));
-		btn_login.setBounds(530, 196, 120, 108);
-		contentPane.add(btn_login);
 		//
 		txt_pw = new JPasswordField();
 		txt_pw.setBounds(173, 264, 314, 42);
@@ -86,9 +61,24 @@ public class Login extends JFrame {
 		btn_sign.setFont(new Font("굴림", Font.PLAIN, 25));
 		btn_sign.setBounds(255, 393, 170, 42);
 		contentPane.add(btn_sign);
+		btn_sign.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Sign sign = new Sign();
+				sign.setVisible(true);
+			}
+		});
+		
 		
 		JButton btn_cancel = new JButton("\u2190");
 		btn_cancel.setBounds(10, 10, 50, 50);
 		contentPane.add(btn_cancel);
+		
+		JButton btn_login = new JButton("\uB85C\uADF8\uC778");
+		btn_login.setFont(new Font("굴림", Font.BOLD, 23));
+		btn_login.setBounds(522, 196, 121, 108);
+		contentPane.add(btn_login);
+		
+		setVisible(true);
 	}
 }
