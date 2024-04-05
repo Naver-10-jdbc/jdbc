@@ -2,6 +2,8 @@ package view.logn;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -158,6 +160,13 @@ public class Sign extends JFrame {
         JButton btn_cancel = new JButton("√Îº“");
         btn_cancel.setBounds(281, 591, 148, 39);
         contentPane.add(btn_cancel);
+        
+        btn_cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
         
         setVisible(true);
 	}

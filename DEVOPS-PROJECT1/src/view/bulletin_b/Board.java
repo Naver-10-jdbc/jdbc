@@ -63,8 +63,8 @@ public class Board extends JFrame {
 
 		btn_add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Write write = new Write();
-				write.setVisible(true);
+				new Write();
+				
 			}
 		});
 		

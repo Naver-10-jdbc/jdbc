@@ -64,8 +64,7 @@ public class Login extends JFrame {
 		btn_sign.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Sign sign = new Sign();
-				sign.setVisible(true);
+				new Sign();
 			}
 		});
 		
