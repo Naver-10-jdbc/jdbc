@@ -3,15 +3,13 @@ package view.week_ex;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import view.daily_ex.Daily_Exercise;
 
 public class Week_Exercise extends JFrame {
 
     private JPanel contentPane;
-
-
 
     public Week_Exercise() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,6 +17,7 @@ public class Week_Exercise extends JFrame {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
+        setLocationRelativeTo(null);
         contentPane.setLayout(new BorderLayout(0, 0));
 
         // 상단 패널
@@ -32,17 +31,18 @@ public class Week_Exercise extends JFrame {
         btn_back.setPreferredSize(new Dimension(50, 50));
         btn_back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // 뒤로가기 버튼 액션
+                dispose(); // 뒤로가기 버튼 액션(창닫기)
             }
         });
-        panel.add(btn_back, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.NORTHWEST,
+        panel.add(btn_back, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST,
                 GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
 
         // 제목 레이블
         JLabel lblNewLabel = new JLabel("4월 1주차 운동");
         lblNewLabel.setFont(new Font("굴림", Font.BOLD, 20));
-        panel.add(lblNewLabel, new GridBagConstraints(1, 0, 2, 1, 0, 0, GridBagConstraints.WEST,
+        panel.add(lblNewLabel, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.CENTER,
                 GridBagConstraints.NONE, new Insets(0, 0, 5, 5), 0, 0));
+
 
         // 설명 텍스트 패널
         JTextPane textPane = new JTextPane();
@@ -51,7 +51,7 @@ public class Week_Exercise extends JFrame {
         panel.add(textPane, new GridBagConstraints(1, 1, 3, 1, 0, 0, GridBagConstraints.WEST,
                 GridBagConstraints.NONE, new Insets(0, 0, 0, 5), 0, 0));
 
-        
+
         // 메인 패널
         JPanel week_exe_main = new JPanel(new GridLayout(7, 1));
         contentPane.add(week_exe_main, BorderLayout.CENTER);
@@ -68,20 +68,20 @@ public class Week_Exercise extends JFrame {
                 {"일요일", "스트레칭", "전신 스트레칭 10분"}
         };
 
-     // 각 요일별 운동 정보를 패널에 추가
+        // 각 요일별 운동 정보를 패널에 추가
         for (int i = 0; i < exerciseInfo.length; i++) {
             JPanel day_exe = new JPanel();
             day_exe.setLayout(new GridLayout(1, 2)); // 2열의 그리드 레이아웃 설정
             day_exe.setBackground(Color.WHITE);
             day_exe.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // 외곽선 검은색으로 설정
-            day_exe.setPreferredSize(new Dimension(500, 400)); // 패널 크기 지정
+            day_exe.setPreferredSize(new Dimension(300, 400)); // 패널 크기 지정
 
             // 1열에 운동 정보 추가
-            JPanel exercisePanel = new JPanel(new GridLayout(3, 1));
-            JLabel dayLabel = new JLabel(exerciseInfo[i][0]);
+            JPanel exercisePanel = new JPanel(new GridLayout(2, 1)); // dayLabel에 하나로 합쳐서 2,1로 변경
+            exercisePanel.setBackground(Color.WHITE);
+            JLabel dayLabel = new JLabel(exerciseInfo[i][0] + "  " + exerciseInfo[i][1]);
+            dayLabel.setFont(new Font("굴림", Font.PLAIN, 16));
             exercisePanel.add(dayLabel);
-            JLabel exerciseLabel = new JLabel(exerciseInfo[i][1]);
-            exercisePanel.add(exerciseLabel);
             JTextArea descriptionArea = new JTextArea(exerciseInfo[i][2]);
             descriptionArea.setLineWrap(true); // 텍스트가 영역을 벗어날 경우 자동으로 줄 바꿈
             descriptionArea.setWrapStyleWord(true); // 단어 단위 줄 바꿈
@@ -93,9 +93,15 @@ public class Week_Exercise extends JFrame {
             JPanel buttonPanel = new JPanel(new BorderLayout()); // BorderLayout으로 변경
             buttonPanel.add(exercisePanel, BorderLayout.CENTER); // exercisePanel 추가
             JButton exerciseButton = new JButton("운동하기");
+            exerciseButton.setBackground(Color.ORANGE);
+            exerciseButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new Daily_Exercise().setVisible(true); // Daily_Exercise 패널 생성 및 표시
+                }
+            });
             buttonPanel.add(exerciseButton, BorderLayout.EAST); // 버튼을 동쪽에 추가
             day_exe.add(buttonPanel); // buttonPanel을 day_exe에 추가
-
             week_exe_main.add(day_exe);
         }
         setVisible(true);
