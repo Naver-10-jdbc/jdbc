@@ -9,30 +9,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.*;
 
 public class MyPage extends JFrame {
-
-	private JPanel contentPane;
 	
-	private JPanel head;
-	private JButton btn_back;
-	private JLabel title;
-	private JButton btn_inbody,btn_target;
-	private JPanel now, nowbody, bodyprofile;
-	private JButton bodyimg;
-	private JLabel heght, weight, bmi, skmu, bodyfat, cid, myWeight, MyBMI, mySkmu, myBodyfat, myCID, profilelabel;
-	private JPanel wish;
-	private JLabel wishlabel;
-	private JPanel wishbody;
-	private JButton wishbodyimg;
-	private JPanel wishbodyprofile;
+	private JLabel myWeight, mySkmu, myBodyfat, myCID;
 	private JLabel wishweight, myWishWeihgt, wishskmu, myWishskmu, wishbodyfat, myWishbodyfat, wishsleep, sleepTime;
-	private JPanel wishLevel;
-	private JLabel height_unit, weight_unit, skmu_unit, bodyfat_unit, cid_unit, wishweight_unit, wishWeihgt_unit, wishbodyfat_unit, sleepTime_unit;
-	private JPanel wishCID_data;
-	private JLabel wishCID_title, whisCid;
-	private JPanel wishexeLevel_data;
-	private JLabel wishexeLevel_title, exeLevel;
-	private JButton myHeghit;
-
+	private JLabel whisCid,exeLevel;
 
 	/**
 	 * Create the frame.
@@ -58,15 +38,16 @@ public class MyPage extends JFrame {
 		setTitle("MyPage");
 		setResizable(false);
 		
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		////////head////////////////////////////////////////////////////////////////
-		head = new JPanel();
+		JPanel head = new JPanel();
 		head.setBackground(new Color(255, 255, 255));
 		contentPane.add(head, BorderLayout.NORTH);
 		GridBagLayout gbl_head = new GridBagLayout();
@@ -76,11 +57,12 @@ public class MyPage extends JFrame {
 		gbl_head.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		head.setLayout(gbl_head);
 		
-		btn_back = new JButton("←");		//가로, 세로 값 지정
+		JButton btn_back = new JButton("←");		//가로, 세로 값 지정
 		btn_back.setBackground(new Color(255, 255, 255));
 		btn_back.setPreferredSize(new Dimension(50, 50));
 		btn_back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose(); //뒤로가기 선택 시 창꺼짐
 			}
 		});
 		GridBagConstraints gbc_btn_back = new GridBagConstraints();
@@ -89,7 +71,7 @@ public class MyPage extends JFrame {
 		gbc_btn_back.gridy = 0;
 		head.add(btn_back, gbc_btn_back);
 		
-		title = new JLabel("My Page");
+		JLabel title = new JLabel("My Page");
 		title.setFont(new Font("굴림", Font.BOLD, 20));
 		GridBagConstraints gbc_title = new GridBagConstraints();
 		gbc_title.insets = new Insets(0, 0, 0, 5);
@@ -97,7 +79,7 @@ public class MyPage extends JFrame {
 		gbc_title.gridy = 0;
 		head.add(title, gbc_title);
 		
-		btn_inbody = new JButton("인바디 입력");
+		JButton btn_inbody = new JButton("인바디 입력");
 		btn_inbody.setBackground(new Color(255, 255, 255));
 		//인바디 입력 다이얼로그창 생성
 		btn_inbody.addActionListener(new ActionListener() {
@@ -225,7 +207,7 @@ public class MyPage extends JFrame {
 		gbc_btn_inbody.gridy = 0;
 		head.add(btn_inbody, gbc_btn_inbody);
 		
-		btn_target = new JButton("목표 입력");
+		JButton btn_target = new JButton("목표 입력");
 		btn_target.setBackground(new Color(255, 255, 255));
 		// 목표 입력 다이얼로그창 생성
 		btn_target.addActionListener(new ActionListener() {
@@ -394,7 +376,7 @@ public class MyPage extends JFrame {
 		head.add(btn_target, gbc_btn_target);
 		
 		/////////main 현재 몸상태//////////////////////////////////////////////////////////////
-		now = new JPanel();
+		JPanel now = new JPanel();
 		now.setBackground(new Color(255, 255, 255));
 		contentPane.add(now, BorderLayout.CENTER); 
 		GridBagLayout gbl_now = new GridBagLayout();
@@ -404,7 +386,7 @@ public class MyPage extends JFrame {
 		gbl_now.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		now.setLayout(gbl_now);
 		
-		profilelabel = new JLabel("프로필");
+		JLabel profilelabel = new JLabel("프로필");
 		profilelabel.setFont(new Font("굴림", Font.BOLD, 14));
 		GridBagConstraints gbc_profilelabel = new GridBagConstraints();
 		gbc_profilelabel.anchor = GridBagConstraints.EAST;
@@ -414,7 +396,7 @@ public class MyPage extends JFrame {
 		now.add(profilelabel, gbc_profilelabel);
 		
 		//현재 BMI에 해당하는 몸 이미지 제공
-		nowbody = new JPanel();
+		JPanel nowbody = new JPanel();
 		nowbody.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_nowbody = new GridBagConstraints();
 		gbc_nowbody.anchor = GridBagConstraints.NORTHWEST;
@@ -423,7 +405,7 @@ public class MyPage extends JFrame {
 		gbc_nowbody.gridy = 1;
 		now.add(nowbody, gbc_nowbody);
 		
-		bodyimg = new JButton("");
+		JButton bodyimg = new JButton("");
 		bodyimg.setBackground(new Color(255, 255, 255));
 		bodyimg.setPreferredSize(new Dimension(90, 215)); // 너비와 높이 지정
 		ImageIcon icon = new ImageIcon(MyPage.class.getResource("03_male_overweight.png")); //이미지 삽입
@@ -432,7 +414,7 @@ public class MyPage extends JFrame {
 		nowbody.add(bodyimg);
 
 		//현재 인바디 정보 제공
-		bodyprofile = new JPanel();
+		JPanel bodyprofile = new JPanel();
 		bodyprofile.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_bodyprofile = new GridBagConstraints();
 		gbc_bodyprofile.anchor = GridBagConstraints.WEST;
@@ -447,7 +429,7 @@ public class MyPage extends JFrame {
 		gbl_bodyprofile.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		bodyprofile.setLayout(gbl_bodyprofile);
 		
-		heght = new JLabel("키");
+		JLabel heght = new JLabel("키");
 		heght.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_heght = new GridBagConstraints();
 		gbc_heght.anchor = GridBagConstraints.NORTHWEST;
@@ -456,7 +438,7 @@ public class MyPage extends JFrame {
 		gbc_heght.gridy = 0;
 		bodyprofile.add(heght, gbc_heght);
 		
-		myHeghit = new JButton("170.2");
+		JButton myHeghit = new JButton("170.2");
 		myHeghit.setBackground(new Color(255, 255, 255));
 		myHeghit.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -523,14 +505,14 @@ public class MyPage extends JFrame {
 		gbc_myHeghit.gridy = 0;
 		bodyprofile.add(myHeghit, gbc_myHeghit);
 		
-		height_unit = new JLabel("cm");
+		JLabel height_unit = new JLabel("cm");
 		GridBagConstraints gbc_height_unit = new GridBagConstraints();
 		gbc_height_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_height_unit.gridx = 2;
 		gbc_height_unit.gridy = 0;
 		bodyprofile.add(height_unit, gbc_height_unit);
 		
-		weight = new JLabel("몸무게");
+		JLabel weight = new JLabel("몸무게");
 		weight.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_weight = new GridBagConstraints();
 		gbc_weight.insets = new Insets(0, 0, 5, 5);
@@ -547,14 +529,14 @@ public class MyPage extends JFrame {
 		gbc_myWeight.gridy = 1;
 		bodyprofile.add(myWeight, gbc_myWeight);
 		
-		weight_unit = new JLabel("kg");
+		JLabel weight_unit = new JLabel("kg");
 		GridBagConstraints gbc_weight_unit = new GridBagConstraints();
 		gbc_weight_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_weight_unit.gridx = 2;
 		gbc_weight_unit.gridy = 1;
 		bodyprofile.add(weight_unit, gbc_weight_unit);
 		
-		bmi = new JLabel("BMI");
+		JLabel bmi = new JLabel("BMI");
 		GridBagConstraints gbc_bmi = new GridBagConstraints();
 		gbc_bmi.anchor = GridBagConstraints.WEST;
 		gbc_bmi.insets = new Insets(0, 0, 5, 5);
@@ -562,7 +544,7 @@ public class MyPage extends JFrame {
 		gbc_bmi.gridy = 2;
 		bodyprofile.add(bmi, gbc_bmi);
 		
-		MyBMI = new JLabel("24.2");
+		JLabel MyBMI = new JLabel("24.2");
 		GridBagConstraints gbc_MyBMI = new GridBagConstraints();
 		gbc_MyBMI.anchor = GridBagConstraints.EAST;
 		gbc_MyBMI.insets = new Insets(0, 0, 5, 5);
@@ -570,7 +552,7 @@ public class MyPage extends JFrame {
 		gbc_MyBMI.gridy = 2;
 		bodyprofile.add(MyBMI, gbc_MyBMI);
 		
-		skmu = new JLabel("골격근량");
+		JLabel skmu = new JLabel("골격근량");
 		GridBagConstraints gbc_skmu = new GridBagConstraints();
 		gbc_skmu.anchor = GridBagConstraints.WEST;
 		gbc_skmu.insets = new Insets(0, 0, 5, 5);
@@ -586,14 +568,14 @@ public class MyPage extends JFrame {
 		gbc_mySkmu.gridy = 3;
 		bodyprofile.add(mySkmu, gbc_mySkmu);
 		
-		skmu_unit = new JLabel("kg");
+		JLabel skmu_unit = new JLabel("kg");
 		GridBagConstraints gbc_skmu_unit = new GridBagConstraints();
 		gbc_skmu_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_skmu_unit.gridx = 2;
 		gbc_skmu_unit.gridy = 3;
 		bodyprofile.add(skmu_unit, gbc_skmu_unit);
 		
-		bodyfat = new JLabel("체지방량");
+		JLabel bodyfat = new JLabel("체지방량");
 		GridBagConstraints gbc_bodyfat = new GridBagConstraints();
 		gbc_bodyfat.anchor = GridBagConstraints.WEST;
 		gbc_bodyfat.insets = new Insets(0, 0, 5, 5);
@@ -609,14 +591,14 @@ public class MyPage extends JFrame {
 		gbc_myBodyfat.gridy = 4;
 		bodyprofile.add(myBodyfat, gbc_myBodyfat);
 		
-		bodyfat_unit = new JLabel("kg");
+		JLabel bodyfat_unit = new JLabel("kg");
 		GridBagConstraints gbc_bodyfat_unit = new GridBagConstraints();
 		gbc_bodyfat_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_bodyfat_unit.gridx = 2;
 		gbc_bodyfat_unit.gridy = 4;
 		bodyprofile.add(bodyfat_unit, gbc_bodyfat_unit);
 		
-		cid = new JLabel("CID 유형");
+		JLabel cid = new JLabel("CID 유형");
 		GridBagConstraints gbc_cid = new GridBagConstraints();
 		gbc_cid.anchor = GridBagConstraints.WEST;
 		gbc_cid.insets = new Insets(0, 0, 0, 5);
@@ -632,14 +614,14 @@ public class MyPage extends JFrame {
 		gbc_myCID.gridy = 5;
 		bodyprofile.add(myCID, gbc_myCID);
 		
-		cid_unit = new JLabel("자형");
+		JLabel cid_unit = new JLabel("자형");
 		GridBagConstraints gbc_cid_unit = new GridBagConstraints();
 		gbc_cid_unit.gridx = 2;
 		gbc_cid_unit.gridy = 5;
 		bodyprofile.add(cid_unit, gbc_cid_unit);
 		
 		//////main 목표////////////////////////////////////////////////////////
-		wish = new JPanel();
+		JPanel wish = new JPanel();
 		wish.setBackground(new Color(255, 255, 255));
 		contentPane.add(wish, BorderLayout.SOUTH);
 		GridBagLayout gbl_wish = new GridBagLayout();
@@ -649,7 +631,7 @@ public class MyPage extends JFrame {
 		gbl_wish.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		wish.setLayout(gbl_wish);
 		
-		wishlabel = new JLabel("목표");
+		JLabel wishlabel = new JLabel("목표");
 		wishlabel.setFont(new Font("굴림", Font.BOLD, 14));
 		GridBagConstraints gbc_wishlabel = new GridBagConstraints();
 		gbc_wishlabel.anchor = GridBagConstraints.EAST;
@@ -659,7 +641,7 @@ public class MyPage extends JFrame {
 		wish.add(wishlabel, gbc_wishlabel);
 		
 		//목표하는 CID와 운동강도 정보
-		wishLevel = new JPanel();
+		JPanel wishLevel = new JPanel();
 		wishLevel.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_wishLevel = new GridBagConstraints();
 		gbc_wishLevel.anchor = GridBagConstraints.WEST;
@@ -688,7 +670,7 @@ public class MyPage extends JFrame {
 		gbc_exeLevel.gridx = 2;
 		gbc_exeLevel.gridy = 0;
 		
-		wishCID_data = new JPanel();
+		JPanel wishCID_data = new JPanel();
 		GridBagConstraints gbc_wishCID_data = new GridBagConstraints();
 		gbc_wishCID_data.gridheight = 3;
 		gbc_wishCID_data.insets = new Insets(0, 0, 0, 5);
@@ -698,7 +680,7 @@ public class MyPage extends JFrame {
 		wishLevel.add(wishCID_data, gbc_wishCID_data);
 		wishCID_data.setLayout(new BorderLayout(0, 0));
 		
-		wishCID_title = new JLabel("CID 목표");
+		JLabel wishCID_title = new JLabel("CID 목표");
 		wishCID_title.setHorizontalAlignment(SwingConstants.CENTER);
 		wishCID_data.add(wishCID_title);
 		
@@ -706,7 +688,7 @@ public class MyPage extends JFrame {
 		whisCid.setHorizontalAlignment(SwingConstants.CENTER);
 		wishCID_data.add(whisCid, BorderLayout.SOUTH);
 		
-		wishexeLevel_data = new JPanel();
+		JPanel wishexeLevel_data = new JPanel();
 		GridBagConstraints gbc_wishexeLevel_data = new GridBagConstraints();
 		gbc_wishexeLevel_data.gridheight = 3;
 		gbc_wishexeLevel_data.fill = GridBagConstraints.BOTH;
@@ -715,7 +697,7 @@ public class MyPage extends JFrame {
 		wishLevel.add(wishexeLevel_data, gbc_wishexeLevel_data);
 		wishexeLevel_data.setLayout(new BorderLayout(0, 0));
 		
-		wishexeLevel_title = new JLabel("운동강도");
+		JLabel wishexeLevel_title = new JLabel("운동강도");
 		wishexeLevel_title.setHorizontalAlignment(SwingConstants.CENTER);
 		wishexeLevel_data.add(wishexeLevel_title, BorderLayout.CENTER);
 		
@@ -724,7 +706,7 @@ public class MyPage extends JFrame {
 		wishexeLevel_data.add(exeLevel, BorderLayout.SOUTH);
 		
 		//목표하는 BMI에 해당하는 몸 이미지 제공
-		wishbody = new JPanel();
+		JPanel wishbody = new JPanel();
 		wishbody.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_wishbody = new GridBagConstraints();
 		gbc_wishbody.gridheight = 2;
@@ -734,7 +716,7 @@ public class MyPage extends JFrame {
 		gbc_wishbody.gridy = 1;
 		wish.add(wishbody, gbc_wishbody);
 		
-		wishbodyimg = new JButton("");
+		JButton wishbodyimg = new JButton("");
 		wishbodyimg.setBackground(new Color(255, 255, 255));
 		wishbodyimg.setPreferredSize(new Dimension(90, 215));
 		ImageIcon icon2 = new ImageIcon(MyPage.class.getResource("02.male_normal.png")); //버튼에 이미지 삽입
@@ -743,7 +725,7 @@ public class MyPage extends JFrame {
 		wishbody.add(wishbodyimg);
 
 		//목표 인바디 정보 제공
-		wishbodyprofile = new JPanel();
+		JPanel wishbodyprofile = new JPanel();
 		wishbodyprofile.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_wishbodyprofile = new GridBagConstraints();
 		gbc_wishbodyprofile.anchor = GridBagConstraints.NORTHWEST;
@@ -775,7 +757,7 @@ public class MyPage extends JFrame {
 		gbc_myWishWeihgt.gridy = 0;
 		wishbodyprofile.add(myWishWeihgt, gbc_myWishWeihgt);
 		
-		wishweight_unit = new JLabel("kg");
+		JLabel wishweight_unit = new JLabel("kg");
 		GridBagConstraints gbc_wishweight_unit = new GridBagConstraints();
 		gbc_wishweight_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_wishweight_unit.gridx = 2;
@@ -798,7 +780,7 @@ public class MyPage extends JFrame {
 		gbc_myWishskmu.gridy = 1;
 		wishbodyprofile.add(myWishskmu, gbc_myWishskmu);
 		
-		wishWeihgt_unit = new JLabel("kg");
+		JLabel wishWeihgt_unit = new JLabel("kg");
 		GridBagConstraints gbc_wishWeihgt_unit = new GridBagConstraints();
 		gbc_wishWeihgt_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_wishWeihgt_unit.gridx = 2;
@@ -821,7 +803,7 @@ public class MyPage extends JFrame {
 		gbc_myWishbodyfat.gridy = 2;
 		wishbodyprofile.add(myWishbodyfat, gbc_myWishbodyfat);
 		
-		wishbodyfat_unit = new JLabel("kg");
+		JLabel wishbodyfat_unit = new JLabel("kg");
 		GridBagConstraints gbc_wishbodyfat_unit = new GridBagConstraints();
 		gbc_wishbodyfat_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_wishbodyfat_unit.gridx = 2;
@@ -844,7 +826,7 @@ public class MyPage extends JFrame {
 		gbc_sleepTime.gridy = 3;
 		wishbodyprofile.add(sleepTime, gbc_sleepTime);
 		
-		sleepTime_unit = new JLabel("시간");
+		JLabel sleepTime_unit = new JLabel("시간");
 		GridBagConstraints gbc_sleepTime_unit = new GridBagConstraints();
 		gbc_sleepTime_unit.gridx = 2;
 		gbc_sleepTime_unit.gridy = 3;
