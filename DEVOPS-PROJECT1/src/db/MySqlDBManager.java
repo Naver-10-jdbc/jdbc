@@ -11,9 +11,9 @@ public class MySqlDBManager {
       try {
          if(connection==null) {   
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/dev";
-            String id=" ";
-            String pwd=" ";
+            String url = "jdbc:mysql://192.168.0.33/test";
+            String id="root";
+            String pwd="0124";
             connection=DriverManager.getConnection(url,id,pwd);
          }
          return connection;
