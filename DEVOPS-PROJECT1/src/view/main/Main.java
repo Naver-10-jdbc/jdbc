@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -55,41 +56,57 @@ public class Main extends JFrame{
    }
    
    private void Event_Listener() {
-	   //myPage
-	   btn11.addActionListener((e)->{
-		   System.out.println("Mypage"); 
-		   new MyPage();	        
-	   });
-	   //인증 게시판
-	   btn31.addActionListener((e)->{
-		   System.out.println("인증게시판");
-	       new Board();  
-	   });
-	   //체중
-	   btn32.addActionListener(l->{
-		  
-	   });
-	   //식단
-	   btn33.addActionListener(l->{
-		   new Diet();
-	   });
-	   //운동
-	   btn34.addActionListener(l->{
-		   new Week_Exercise();
-	   });
-	   //수면
-	   btn35.addActionListener(l->{
-		   new Daily_Exercise();
-	   });
+      //myPage
+      btn11.addActionListener((e)->{
+         System.out.println("Mypage"); 
+         new MyPage();           
+      });
+      //인증 게시판
+      btn31.addActionListener((e)->{
+         System.out.println("인증게시판");
+          new Board();  
+      });
+      //체중
+      btn32.addActionListener(l->{
+         while (true) {
+            String str=JOptionPane.showInputDialog("오늘의 몸무게를 입력해주세요.");
+            if(str==null) break;
+            else{
+               boolean flag=true;
+               for(char c:str.toCharArray()) {
+                  int num=c-'0';
+                  if(num>=0&&num<=9) continue;
+                  else {
+                     flag=false;
+                     break;
+                  }
+               }
+               if(flag) break;
+               JOptionPane.showMessageDialog(null, "숫자만 입력해주세요.");
+            }
+         }
+      });
+      //식단
+      btn33.addActionListener(l->{
+         new Diet();
+      });
+      //운동
+      btn34.addActionListener(l->{
+         new Week_Exercise();
+      });
+      //수면
+      btn35.addActionListener(l->{
+         new Daily_Exercise();
+      });
    }
    
    private void Init_Layout() {
-	   	panel3=new JPanel();
-	   	panel3.setBackground(Color.white);
-	   	panel3.setBounds(left_padding+30, 380, 504, 120);
-	   	panel3.setLayout(null);
-	   	panel3.setOpaque(true);
-	   	add(panel3);
+         panel3=new JPanel();
+         panel3.setBackground(Color.white);
+         panel3.setBounds(left_padding+30, 380, 504, 120);
+         panel3.setLayout(null);
+         panel3.setOpaque(true);
+         add(panel3);
 
         panel4=new JPanel();
         panel4.setBounds(left_padding, 550, 504, 120);

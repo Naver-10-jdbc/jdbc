@@ -168,7 +168,7 @@ public class Daily_Exercise extends JFrame {
 	}
 	private void Event_Listener() {
 		start_btn.addActionListener((i)->{
-			
+			new Dialog_Timer();
 		});
 	}
 }
