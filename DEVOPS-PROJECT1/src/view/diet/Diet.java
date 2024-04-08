@@ -8,10 +8,42 @@ import javax.swing.border.LineBorder;
 
 public class Diet extends JFrame implements ActionListener {
     public Diet() {
-        setTitle("Meal Planner");
+        setTitle("주간식단");
         setSize(700, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout()); // 제목열 추가를 위해 보드로 함(각 식단위에 텍스트 줌)
+
+        // 화면 중앙배치
+        setLocationRelativeTo(null);
+        
+     // 패널 for the NORTH position
+        JPanel head = new JPanel(new BorderLayout()); // head 패널에 BorderLayout 사용
+        head.setBackground(Color.WHITE);
+
+        // WEST 위치에 btn_back 버튼 추가
+        JButton btn_back = new JButton("←");
+        btn_back.setPreferredSize(new Dimension(50, 50));
+        btn_back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // 뒤로가기 버튼 액션(창닫기)
+            }
+        });
+        head.add(btn_back, BorderLayout.WEST); // 버튼을 WEST 위치에 추가
+
+        // 가운데에 titleLabel을 추가
+        JLabel titleLabel = new JLabel("주간식단");
+        titleLabel.setFont(new Font("굴림", Font.BOLD, 20));
+
+        // 가운데 패널을 생성하여 titleLabel을 추가하여 중앙에 위치하도록 함
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centerPanel.setBackground(Color.WHITE);
+        centerPanel.add(titleLabel);
+
+        // head 패널의 가운데에 centerPanel을 추가
+        head.add(centerPanel, BorderLayout.CENTER);
+
+        // head 패널을 프레임에 추가
+        add(head, BorderLayout.NORTH);
 
         // 식단표 들어가는 영역
         JPanel main = new JPanel();
@@ -75,7 +107,7 @@ public class Diet extends JFrame implements ActionListener {
         JButton button = (JButton) e.getSource();
         String buttonText = button.getText();
 
-        // 클릭된 버튼이 meal time 버튼인 경우
+     // 클릭된 버튼이 meal time 버튼인 경우
         if (buttonText.equals("Breakfast") || buttonText.equals("Lunch") || buttonText.equals("Dinner")) {
             // 버튼을 누를 때마다 해당 패널의 버튼 활성화 상태 변경
             JPanel mealPanel = (JPanel) button.getParent();
@@ -86,14 +118,33 @@ public class Diet extends JFrame implements ActionListener {
                         if (btn instanceof JButton) {
                             JButton mealButton = (JButton) btn;
                             mealButton.setEnabled(!mealButton.isEnabled());
+                            // 버튼이 비활성화 상태인 경우 배경색을 회색으로 변경
+                            if (!mealButton.isEnabled()) {
+                                mealButton.setBackground(Color.LIGHT_GRAY);
+                            } else {
+                                mealButton.setBackground(Color.WHITE); // 활성화된 버튼의 배경색은 다시 하얀색으로 변경
+                            }
                         }
                     }
                 }
             }
-        } else {
-            // 클릭된 버튼이 탄수화물, 단백질, 식이섬유 버튼인 경우
+        }
+     // 클릭된 버튼이 탄수화물, 단백질, 식이섬유 버튼인 경우
+        else {
             String mealDetails = button.getText(); // 버튼의 텍스트 가져오기
-            JOptionPane.showMessageDialog(this, "Details: " + mealDetails); // 추후 음식 이미지+설명이 들어가는 Dialog로 수정!
+            // 아래 경로는 실제 이미지 파일의 경로로 수정해야 합니다.
+            ImageIcon icon = new ImageIcon("sweetpotato.png"); // 이미지 아이콘 생성
+            JLabel imageLabel = new JLabel(icon); // 이미지 레이블 생성
+            JLabel detailsLabel = new JLabel(mealDetails); // 상세 정보 레이블 생성
+            JLabel textLabel = new JLabel("이 음식에 대한 설명이 들어가는 영역입니다"); // 설명 레이블 생성
+            JPanel panel = new JPanel(new BorderLayout()); // 패널에 BorderLayout 설정
+
+            // 이미지, 상세 정보, 설명 레이블을 패널에 추가
+            panel.add(imageLabel, BorderLayout.NORTH);
+            panel.add(detailsLabel, BorderLayout.CENTER);
+            panel.add(textLabel, BorderLayout.SOUTH);
+
+            JOptionPane.showMessageDialog(this, panel, "Meal Details", JOptionPane.PLAIN_MESSAGE); // 메시지 다이얼로그로 띄우기
         }
     }
 }

@@ -438,8 +438,9 @@ public class MyPage extends JFrame {
 		gbc_heght.gridy = 0;
 		bodyprofile.add(heght, gbc_heght);
 		
-		JButton myHeghit = new JButton("170.2");
+		JButton myHeghit = new JButton("170.2");//회원가입 시 받은 키 값 넣기
 		myHeghit.setBackground(new Color(255, 255, 255));
+		//키변경 버튼 이벤트
 		myHeghit.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // 다이얼로그 생성
