@@ -39,15 +39,15 @@ public class Comment extends JFrame {
         scrollPane_1.setBounds(97, 80, 479, 232);
         contentPane.add(scrollPane_1);
 
-        JLabel push_title = new JLabel("¿À´ÃÀÇ ¿îµ¿");//ÀÛ¼ºÀÚ°¡ ¾´ ±Û Á¦¸ñ ¹Ş¾Æ¿À±âmmm
-        push_title.setFont(new Font("±¼¸²", Font.PLAIN, 25));
+        JLabel push_title = new JLabel("ì˜¤ëŠ˜ì˜ ìš´ë™");//ì‘ì„±ìê°€ ì“´ ê¸€ ì œëª© ë°›ì•„ì˜¤ê¸°mmm
+        push_title.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 25));
         scrollPane_1.setColumnHeaderView(push_title);
 
         JTextArea push_write = new JTextArea();
         scrollPane_1.setViewportView(push_write);
-        push_write.setEditable(false); // ÆíÁı ºÒ°¡´ÉÇÏ°Ô ¼³Á¤
+        push_write.setEditable(false); // í¸ì§‘ ë¶ˆê°€ëŠ¥í•˜ê²Œ ì„¤ì •
 
-        JButton btn_back = new JButton("¡ç");
+        JButton btn_back = new JButton("â†");
         btn_back.setBounds(10, 10, 50, 50);
         contentPane.add(btn_back);
 
@@ -57,50 +57,20 @@ public class Comment extends JFrame {
             }
         });
 
-        JButton btn_img = new JButton("»çÁø µî·Ï");
-        btn_img.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    try {
-                        // ÀÌ¹ÌÁö¸¦ ÀĞ¾î¿È
-                        Image img = ImageIO.read(selectedFile);
-                        // ÀÌ¹ÌÁöÀÇ ºñÀ²À» À¯ÁöÇÏ¸é¼­ ¹öÆ° Å©±â¿¡ ¸Â°Ô Á¶Àı
-                        Image scaledImg = img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
-                        // ÀÌ¹ÌÁö¸¦ Ç¥½ÃÇÒ JLabel »ı¼º
-                        JLabel label = new JLabel(new ImageIcon(scaledImg));
-                        // JLabelÀ» Æ÷ÇÔÇÏ´Â ÆĞ³Î »ı¼º
-                        JPanel panel = new JPanel();
-                        panel.add(label);
-                        // ÆË¾÷ Ã¢À¸·Î ÀÌ¹ÌÁö Ç¥½Ã
-                        JOptionPane.showMessageDialog(null, panel, "ÀÌ¹ÌÁö", JOptionPane.PLAIN_MESSAGE);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-     
-        btn_img.setBounds(477, 322, 99, 23);
-        contentPane.add(btn_img);
 
         JSplitPane splitPane = new JSplitPane();
         splitPane.setBounds(445, 47, 131, 23);
         contentPane.add(splitPane);
 
-        JButton btn_alter = new JButton("¼öÁ¤");
+        JButton btn_alter = new JButton("ìˆ˜ì •");
         btn_alter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // ¼öÁ¤ ±â´É ±¸Çö
+                // ìˆ˜ì • ê¸°ëŠ¥ êµ¬í˜„
             }
         });
         splitPane.setLeftComponent(btn_alter);
- 
-        
-        
-        JButton btn_del = new JButton("»èÁ¦");
+
+        JButton btn_del = new JButton("ì‚­ì œ");
         splitPane.setRightComponent(btn_del);
 
         JScrollPane push_comment = new JScrollPane();
@@ -111,17 +81,17 @@ public class Comment extends JFrame {
         push_comment.setViewportView(textArea);
         textArea.setEditable(false);
 
-        // ÀÔ·Â ÆĞ³Î
+        // ì…ë ¥ íŒ¨ë„
         JPanel inputPanel = new JPanel(new BorderLayout());
         JTextField textField = new JTextField();
-        JButton registerButton = new JButton("µî·Ï");
+        JButton registerButton = new JButton("ë“±ë¡");
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String comment = textField.getText();
                 if (!comment.isEmpty()) {
-                    addComment(comment, textArea);
-                    textField.setText(""); // ÀÔ·Â ÇÊµå ÃÊ±âÈ­
+                    addComment(comment, textArea, "ì‘ì„±ì"); // ëŒ“ê¸€ ì‘ì„±ì ì¶”ê°€
+                    textField.setText(""); // ì…ë ¥ í•„ë“œ ì´ˆê¸°í™”
                 }
             }
         });
@@ -133,7 +103,7 @@ public class Comment extends JFrame {
         setVisible(true);
     }
 
-    private void addComment(String comment, JTextArea textArea) {
-        textArea.append(comment + "\n"); // ´ñ±Û Ãß°¡
+    private void addComment(String comment, JTextArea textArea, String author) {
+        textArea.append(author + ": " + comment + "\n"); // ëŒ“ê¸€ ì¶”ê°€ (ì‘ì„±ìì™€ í•¨ê»˜)
     }
 }
