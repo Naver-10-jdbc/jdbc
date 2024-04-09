@@ -1,222 +1,137 @@
 package view.bulletin_b;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
-import javax.swing.JScrollBar;
-import javax.swing.JFormattedTextField;
-import javax.swing.JButton;
-import javax.swing.JTextPane;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class Comment extends JFrame {
 
-	private JPanel contentPane;
+    private JPanel contentPane;
 
+    public Comment() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 700, 1300);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
-	public Comment() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 1300);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        JScrollPane scrollPane_1 = new JScrollPane();
+        scrollPane_1.setBounds(97, 80, 479, 232);
+        contentPane.add(scrollPane_1);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(97, 476, 479, 50);
-		contentPane.add(scrollPane);
-		
-		JLabel label_comment = new JLabel("\uB313\uAE00");
-		scrollPane.setRowHeaderView(label_comment);
-		label_comment.setFont(new Font("굴림", Font.PLAIN, 16));
-		
-		JTextArea txt_comment = new JTextArea();
-		scrollPane.setViewportView(txt_comment);
-		
-		JButton btn_register = new JButton("\uB4F1\uB85D");
-		btn_register.setBounds(489, 537, 87, 23);
-		contentPane.add(btn_register);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(97, 80, 479, 232);
-		contentPane.add(scrollPane_1);
-		
-		JLabel push_title = new JLabel("\uC81C\uBAA9\uBD88\uB7EC\uC624\uAE30");//작성자가 쓴 글 제목 받아오기
-		push_title.setFont(new Font("굴림", Font.PLAIN, 25));
-		scrollPane_1.setColumnHeaderView(push_title);
-		
-		JLabel push_write = new JLabel("\uAE00 \uBD88\uB7EC\uC624\uAE30");
-		push_write.setFont(new Font("굴림", Font.PLAIN, 16));
-		scrollPane_1.setViewportView(push_write);
-		
-		JButton btn_back = new JButton("\u2190");
-		btn_back.setBounds(10, 10, 50, 50);
-		contentPane.add(btn_back);
-		
-		btn_back.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				
-			}
-		});
-		
-		JButton btn_img = new JButton("\uC774\uBBF8\uC9C0 \uBD88\uB7EC\uC624\uAE30");
-		btn_img.setBounds(97, 322, 159, 144);
-		contentPane.add(btn_img);
-		
-		JPanel comment_1 = new JPanel();
-		comment_1.setBounds(99, 571, 480, 64);
-		contentPane.add(comment_1);
-		GridBagLayout gbl_comment_1 = new GridBagLayout();
-		gbl_comment_1.columnWidths = new int[]{260, 215, 0};
-		gbl_comment_1.rowHeights = new int[]{15, 0, 0};
-		gbl_comment_1.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_comment_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		comment_1.setLayout(gbl_comment_1);
-		
-		JLabel label_writer_1 = new JLabel("\uC791\uC131\uC790, \uB0A0\uC9DC");
-		GridBagConstraints gbc_label_writer_1 = new GridBagConstraints();
-		gbc_label_writer_1.insets = new Insets(0, 0, 5, 5);
-		gbc_label_writer_1.anchor = GridBagConstraints.WEST;
-		gbc_label_writer_1.gridx = 0;
-		gbc_label_writer_1.gridy = 0;
-		comment_1.add(label_writer_1, gbc_label_writer_1);
-		
-		JButton btn_com_1 = new JButton("\uC0AD\uC81C");
-		btn_com_1.setFont(new Font("굴림", Font.PLAIN, 12));
-		btn_com_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		GridBagConstraints gbc_btn_com_1 = new GridBagConstraints();
-		gbc_btn_com_1.anchor = GridBagConstraints.EAST;
-		gbc_btn_com_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btn_com_1.gridx = 1;
-		gbc_btn_com_1.gridy = 0;
-		comment_1.add(btn_com_1, gbc_btn_com_1);
-		
-		JScrollPane scrollPane_3 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
-		gbc_scrollPane_3.gridwidth = 2;
-		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_3.gridx = 0;
-		gbc_scrollPane_3.gridy = 1;
-		comment_1.add(scrollPane_3, gbc_scrollPane_3);
-		
-		JTextArea push_com_1 = new JTextArea();
-		scrollPane_3.setViewportView(push_com_1);
-		
-		JPanel comment_2 = new JPanel();
-		comment_2.setBounds(99, 634, 480, 64);
-		contentPane.add(comment_2);
-		GridBagLayout gbl_comment_2 = new GridBagLayout();
-		gbl_comment_2.columnWidths = new int[]{260, 215, 0};
-		gbl_comment_2.rowHeights = new int[]{18, 36, 0};
-		gbl_comment_2.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_comment_2.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		comment_2.setLayout(gbl_comment_2);
-		
-		JLabel label_writer_2 = new JLabel("\uC791\uC131\uC790,\uB0A0\uC9DC");
-		GridBagConstraints gbc_label_writer_2 = new GridBagConstraints();
-		gbc_label_writer_2.anchor = GridBagConstraints.WEST;
-		gbc_label_writer_2.insets = new Insets(0, 0, 5, 5);
-		gbc_label_writer_2.gridx = 0;
-		gbc_label_writer_2.gridy = 0;
-		comment_2.add(label_writer_2, gbc_label_writer_2);
-		
-		JButton btn_com_2 = new JButton("\uC0AD\uC81C");
-		btn_com_2.setFont(new Font("Gulim", Font.PLAIN, 12));
-		btn_com_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		GridBagConstraints gbc_btn_com_2 = new GridBagConstraints();
-		gbc_btn_com_2.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btn_com_2.insets = new Insets(0, 0, 5, 0);
-		gbc_btn_com_2.gridx = 1;
-		gbc_btn_com_2.gridy = 0;
-		comment_2.add(btn_com_2, gbc_btn_com_2);
-		
-		JScrollPane scrollPane_3_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_3_1 = new GridBagConstraints();
-		gbc_scrollPane_3_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_3_1.gridwidth = 2;
-		gbc_scrollPane_3_1.gridx = 0;
-		gbc_scrollPane_3_1.gridy = 1;
-		comment_2.add(scrollPane_3_1, gbc_scrollPane_3_1);
-		
-		JTextArea push_com_2 = new JTextArea();
-		scrollPane_3_1.setViewportView(push_com_2);
-		
-		JPanel comment_3 = new JPanel();
-		comment_3.setBounds(99, 697, 480, 64);
-		contentPane.add(comment_3);
-		GridBagLayout gbl_comment_3 = new GridBagLayout();
-		gbl_comment_3.columnWidths = new int[]{260, 215, 0};
-		gbl_comment_3.rowHeights = new int[]{15, 0, 0};
-		gbl_comment_3.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_comment_3.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		comment_3.setLayout(gbl_comment_3);
-		
-		JLabel label_writer_3 = new JLabel("\uC791\uC131\uC790, \uB0A0\uC9DC");
-		GridBagConstraints gbc_label_writer_3 = new GridBagConstraints();
-		gbc_label_writer_3.anchor = GridBagConstraints.WEST;
-		gbc_label_writer_3.insets = new Insets(0, 0, 5, 5);
-		gbc_label_writer_3.gridx = 0;
-		gbc_label_writer_3.gridy = 0;
-		comment_3.add(label_writer_3, gbc_label_writer_3);
-		
-		JButton btn_com_3 = new JButton("\uC0AD\uC81C");
-		GridBagConstraints gbc_btn_com_3 = new GridBagConstraints();
-		gbc_btn_com_3.anchor = GridBagConstraints.EAST;
-		gbc_btn_com_3.insets = new Insets(0, 0, 5, 0);
-		gbc_btn_com_3.gridx = 1;
-		gbc_btn_com_3.gridy = 0;
-		comment_3.add(btn_com_3, gbc_btn_com_3);
-		
-		JScrollPane scrollPane_3_2 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_3_2 = new GridBagConstraints();
-		gbc_scrollPane_3_2.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_3_2.gridwidth = 2;
-		gbc_scrollPane_3_2.gridx = 0;
-		gbc_scrollPane_3_2.gridy = 1;
-		comment_3.add(scrollPane_3_2, gbc_scrollPane_3_2);
-		
-		JTextArea push_com_3 = new JTextArea();
-		scrollPane_3_2.setViewportView(push_com_3);
-		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBounds(445, 47, 131, 23);
-		contentPane.add(splitPane);
-		
-		JButton btn_alter = new JButton("\uC218\uC815");
-		btn_alter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		splitPane.setLeftComponent(btn_alter);
-		
-		JButton btn_del = new JButton("\uC0AD\uC81C");
-		splitPane.setRightComponent(btn_del);
-		
-		setVisible(true);
-	}
+        JLabel push_title = new JLabel("오늘의 운동");//작성자가 쓴 글 제목 받아오기
+        push_title.setFont(new Font("굴림", Font.PLAIN, 25));
+        scrollPane_1.setColumnHeaderView(push_title);
+
+        JTextArea push_write = new JTextArea();
+        scrollPane_1.setViewportView(push_write);
+        push_write.setEditable(false); // 편집 불가능하게 설정
+
+        JButton btn_back = new JButton("←");
+        btn_back.setBounds(10, 10, 50, 50);
+        contentPane.add(btn_back);
+
+        btn_back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        JButton btn_img = new JButton("사진 등록");
+        btn_img.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    try {
+                        // 이미지를 읽어옴
+                        Image img = ImageIO.read(selectedFile);
+                        // 이미지의 비율을 유지하면서 버튼 크기에 맞게 조절
+                        Image scaledImg = img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+                        // 이미지를 표시할 JLabel 생성
+                        JLabel label = new JLabel(new ImageIcon(scaledImg));
+                        // JLabel을 포함하는 패널 생성
+                        JPanel panel = new JPanel();
+                        panel.add(label);
+                        // 팝업 창으로 이미지 표시
+                        JOptionPane.showMessageDialog(null, panel, "이미지", JOptionPane.PLAIN_MESSAGE);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+     
+        btn_img.setBounds(477, 322, 99, 23);
+        contentPane.add(btn_img);
+
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setBounds(445, 47, 131, 23);
+        contentPane.add(splitPane);
+
+        JButton btn_alter = new JButton("수정");
+        btn_alter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // 수정 기능 구현
+            }
+        });
+        splitPane.setLeftComponent(btn_alter);
+
+        JButton btn_del = new JButton("삭제");
+        splitPane.setRightComponent(btn_del);
+
+        JScrollPane push_comment = new JScrollPane();
+        push_comment.setBounds(97, 368, 479, 177);
+        contentPane.add(push_comment);
+
+        JTextArea textArea = new JTextArea();
+        push_comment.setViewportView(textArea);
+        textArea.setEditable(false);
+
+        // 입력 패널
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        JTextField textField = new JTextField();
+        JButton registerButton = new JButton("등록");
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String comment = textField.getText();
+                if (!comment.isEmpty()) {
+                    addComment(comment, textArea);
+                    textField.setText(""); // 입력 필드 초기화
+                }
+            }
+        });
+        inputPanel.add(textField, BorderLayout.CENTER);
+        inputPanel.add(registerButton, BorderLayout.EAST);
+        inputPanel.setBounds(97, 555, 479, 50);
+        contentPane.add(inputPanel);
+
+        setVisible(true);
+    }
+
+    private void addComment(String comment, JTextArea textArea) {
+        textArea.append(comment + "\n"); // 댓글 추가
+    }
 }
