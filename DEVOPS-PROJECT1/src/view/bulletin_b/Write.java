@@ -1,12 +1,17 @@
 package view.bulletin_b;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,20 +42,20 @@ public class Write extends JFrame {
 		
 		JLabel board_title = new JLabel("\uAC8C\uC2DC\uD310 \uAE00\uC4F0\uAE30");
 		board_title.setBounds(64, 21, 152, 59);
-		board_title.setFont(new Font("����", Font.PLAIN, 22));
+		board_title.setFont(new Font("굴림", Font.PLAIN, 22));
 		contentPane.add(board_title);
 		
-		JButton btn_register = new JButton("���");
+		JButton btn_register = new JButton("등록");
 		btn_register.setBounds(435, 423, 79, 33);
 		contentPane.add(btn_register);
 		
 		btn_register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "��ϵǾ����ϴ�!","�˸�",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "등록되었습니다!","알림",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
-		JButton btn_cancel = new JButton("���");
+		JButton btn_cancel = new JButton("취소");
 		btn_cancel.setBounds(526, 423, 79, 33);
 		contentPane.add(btn_cancel);
 		
@@ -60,25 +65,46 @@ public class Write extends JFrame {
 			}
 		});
 		
-		JButton btn_file = new JButton("\uCCA8\uBD80\uD30C\uC77C");
-		btn_file.setBounds(74, 366, 86, 27);
-		contentPane.add(btn_file);
+		JButton btn_img = new JButton("사진 등록");
+        btn_img.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    try {
+                        // 이미지를 읽어옴
+                        Image img = ImageIO.read(selectedFile);
+                        // 이미지의 비율을 유지하면서 버튼 크기에 맞게 조절
+                        Image scaledImg = img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+                        // 이미지를 표시할 JLabel 생성
+                        JLabel label = new JLabel(new ImageIcon(scaledImg));
+                        // JLabel을 포함하는 패널 생성
+                        JPanel panel = new JPanel();
+                        panel.add(label);
+                        // 팝업 창으로 이미지 표시
+                        JOptionPane.showMessageDialog(null, panel, "이미지", JOptionPane.PLAIN_MESSAGE);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+		btn_img.setBounds(74, 366, 86, 27);
+		contentPane.add(btn_img);
 		
-		txt_file = new JTextField();
-		txt_file.setBounds(175, 369, 430, 21);
-		contentPane.add(txt_file);
-		txt_file.setColumns(10);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(64, 94, 541, 262);
 		contentPane.add(panel);
 		
 		JLabel label_title = new JLabel("\uC81C\uBAA9");
-		label_title.setFont(new Font("����", Font.PLAIN, 15));
+		label_title.setFont(new Font("굴림", Font.PLAIN, 15));
 		label_title.setHorizontalAlignment(JLabel.CENTER);
 		
 		txt_title = new JTextField();
-		txt_title.setFont(new Font("����", Font.PLAIN, 15));
+		txt_title.setFont(new Font("굴림", Font.PLAIN, 15));
 		txt_title.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
