@@ -32,6 +32,13 @@ public class Daily_Exercise extends JFrame {
 		Init_Jframe();
 		setVisible(true);
 	}
+	private void Event_Listener() {
+		start_btn.addActionListener((i)->{
+			String name[]= {"운동1","운동2","운동3","운동4"};
+			new Dialog_Timer(1,true,name);
+			
+		});
+	}
 	private void Init_Jframe() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 630);
@@ -165,10 +172,5 @@ public class Daily_Exercise extends JFrame {
 		start_btn=new JButton("운동시작");
 		start_btn.setBounds(120,350,100,40);
 		panel2.add(start_btn);
-	}
-	private void Event_Listener() {
-		start_btn.addActionListener((i)->{
-			new Dialog_Timer();
-		});
 	}
 }
