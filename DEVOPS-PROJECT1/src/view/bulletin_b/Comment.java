@@ -97,7 +97,9 @@ public class Comment extends JFrame {
             }
         });
         splitPane.setLeftComponent(btn_alter);
-
+ 
+        
+        
         JButton btn_del = new JButton("ªË¡¶");
         splitPane.setRightComponent(btn_del);
 
