@@ -39,7 +39,7 @@ public class Comment extends JFrame {
         scrollPane_1.setBounds(97, 80, 479, 232);
         contentPane.add(scrollPane_1);
 
-        JLabel push_title = new JLabel("오늘의 운동");//작성자가 쓴 글 제목 받아오기
+        JLabel push_title = new JLabel("오늘의 운동");//작성자가 쓴 글 제목 받아오기mmm
         push_title.setFont(new Font("굴림", Font.PLAIN, 25));
         scrollPane_1.setColumnHeaderView(push_title);
 
