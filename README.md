@@ -1,4 +1,4 @@
-![image](https://github.com/Naver-10-jdbc/jdbc/assets/160723084/3fabafc1-4461-408d-94c8-861abbde5afc)# jdbc 미니프로젝트
+# jdbc 미니프로젝트
 
 # 팀명: 건강하조
 ## 팀원 및 역할
