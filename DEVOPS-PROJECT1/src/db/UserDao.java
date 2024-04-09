@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import model.User;
+import start.MainApp;
 
 public class UserDao {
     private static final Connection CONNECTION = MySqlDBManager.getInstance();
