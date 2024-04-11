@@ -1,19 +1,32 @@
 package view.bulletin_b;
 
-import db.MySqlDBManager;
-
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import db.MySqlDBManager;
+import view.logn.Session;
 
 public class Comment extends JFrame {
 
@@ -104,8 +117,10 @@ public class Comment extends JFrame {
         JTextField textField = new JTextField();
 
         JButton registerButton = new JButton("등록");
-        registerButton.setBounds(460, 510, 116, 30);
-        contentPane.add(registerButton);
+        inputPanel.add(textField, BorderLayout.CENTER);
+        inputPanel.add(registerButton, BorderLayout.EAST);
+        inputPanel.setBounds(97, 510, 479, 50);
+        contentPane.add(inputPanel);
 
         // 등록 버튼 클릭 시 댓글 등록
         registerButton.addActionListener(new ActionListener() {
@@ -119,10 +134,7 @@ public class Comment extends JFrame {
             }
         });
 
-        inputPanel.add(textField, BorderLayout.CENTER);
-        inputPanel.add(registerButton, BorderLayout.EAST);
-        inputPanel.setBounds(97, 510, 479, 50);
-        contentPane.add(inputPanel);
+        
 
         setVisible(true);
 
@@ -218,25 +230,30 @@ public class Comment extends JFrame {
             }
         }
     }
-
+//
     // 댓글을 추가하는 메서드
+ // 댓글을 추가하는 메서드
     private void addComment(int boardId, String comment, JTable commentTable) {
         Connection conn = null;
+        
         PreparedStatement pstmt = null;
 
         try {
             // 데이터베이스 연결
             conn = MySqlDBManager.getInstance();
 
+            // 현재 로그인된 사용자의 ID 가져오기
+            String userId = Session.getInstance().getUserId(); // 이 부분은 세션 클래스나 로그인 관련 클래스에 따라 다를 수 있습니다.
+
             // SQL 쿼리 작성
-            String sql = "INSERT INTO comments (board_id, comment) VALUES (?, ?)";
+            String sql = "INSERT INTO comment (board_id, comment, user_id) VALUES (?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, boardId);
             pstmt.setString(2, comment);
+            pstmt.setString(3, userId); // 사용자 ID 추가
 
             // 쿼리 실행
             pstmt.executeUpdate();
-
 
             // 댓글 테이블 갱신
             loadComments(boardId, commentTable);
@@ -252,6 +269,7 @@ public class Comment extends JFrame {
             }
         }
     }
+
 
     // 게시글 삭제 메서드
     private void deleteBoard(int boardId) {
