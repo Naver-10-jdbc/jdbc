@@ -6,6 +6,6 @@ import view.logn.Login;
 public class MainApp {
 	static String user_id;
 	public static void main(String[] args) {
-		new Login();
+		new Board();
 	}
 }

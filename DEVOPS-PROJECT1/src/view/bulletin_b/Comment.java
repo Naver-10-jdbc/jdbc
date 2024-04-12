@@ -65,7 +65,7 @@ public class Comment extends JFrame {
         JTextArea contentTextArea = new JTextArea();
         contentTextArea.setEditable(false);
         JScrollPane contentScrollPane = new JScrollPane(contentTextArea);
-        contentScrollPane.setBounds(97, 120, 479, 200);
+        contentScrollPane.setBounds(97, 120, 260, 200);
         contentPane.add(contentScrollPane);
 
         // 이전 버튼
@@ -89,7 +89,7 @@ public class Comment extends JFrame {
             }
         };
         JScrollPane commentScrollPane = new JScrollPane(commentTable);
-        commentScrollPane.setBounds(97, 330, 479, 170);
+        commentScrollPane.setBounds(97, 340, 479, 170);
         contentPane.add(commentScrollPane);
 
         commentTable.addMouseListener(new MouseAdapter() {
@@ -142,7 +142,7 @@ public class Comment extends JFrame {
         JButton registerButton = new JButton("등록");
         inputPanel.add(textField, BorderLayout.CENTER);
         inputPanel.add(registerButton, BorderLayout.EAST);
-        inputPanel.setBounds(97, 510, 479, 50);
+        inputPanel.setBounds(97, 530, 479, 50);
         contentPane.add(inputPanel);
 
         // 등록 버튼 클릭 시 댓글 등록
@@ -217,7 +217,7 @@ public class Comment extends JFrame {
                     Image scaledImage = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
                     imageIcon = new ImageIcon(scaledImage);
                     imageLabel = new JLabel(imageIcon); // 이미지 레이블 전역 변수로 변경
-                    imageLabel.setBounds(97, 560, 200, 200);
+                    imageLabel.setBounds(350, 120, 200, 200);
                     contentPane.add(imageLabel); // contentPane에 이미지 레이블 추가
                 }
             }
