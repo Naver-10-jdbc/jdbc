@@ -64,51 +64,51 @@ public class InbodyDialog extends JDialog {
         panel.add(radioPanel);
 
         JButton okButton = new JButton("확인");
-        okButton.addActionListener(new OkButtonListener());
+        okButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (weightField.getText().isEmpty() || !isNumeric(weightField.getText()) ||
+		                skmuField.getText().isEmpty() || !isNumeric(skmuField.getText()) ||
+		                bodyfatField.getText().isEmpty() || !isNumeric(bodyfatField.getText()) ||
+		                (!cidC.isSelected() && !cidI.isSelected() && !cidD.isSelected())) {
+		                JOptionPane.showMessageDialog(InbodyDialog.this, "입력값을 다시 확인하여 모두 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
+		            } else {
+		                String weightValue = weightField.getText();
+		                String skmuValue = skmuField.getText();
+		                String bodyfatValue = bodyfatField.getText();
+		                String cidValue = "";
+		                if (cidC.isSelected()) {
+		                    cidValue = "C";
+		                } else if (cidI.isSelected()) {
+		                    cidValue = "I";
+		                } else if (cidD.isSelected()) {
+		                    cidValue = "D";
+		                }
+
+		                myWeight.setText(weightValue);
+		                mySkmu.setText(skmuValue);
+		                myBodyfat.setText(bodyfatValue);
+		                myCID.setText(cidValue);
+
+		                dispose();
+		            }
+				
+			}
+		});
         JButton cancelButton = new JButton("취소");
-        cancelButton.addActionListener(new CancelButtonListener());
+        cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 
         panel.add(okButton);
         panel.add(cancelButton);
 
         add(panel);
         pack();
-    }
-
-    private class OkButtonListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            if (weightField.getText().isEmpty() || !isNumeric(weightField.getText()) ||
-                skmuField.getText().isEmpty() || !isNumeric(skmuField.getText()) ||
-                bodyfatField.getText().isEmpty() || !isNumeric(bodyfatField.getText()) ||
-                (!cidC.isSelected() && !cidI.isSelected() && !cidD.isSelected())) {
-                JOptionPane.showMessageDialog(InbodyDialog.this, "입력값을 다시 확인하여 모두 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
-            } else {
-                String weightValue = weightField.getText();
-                String skmuValue = skmuField.getText();
-                String bodyfatValue = bodyfatField.getText();
-                String cidValue = "";
-                if (cidC.isSelected()) {
-                    cidValue = "C";
-                } else if (cidI.isSelected()) {
-                    cidValue = "I";
-                } else if (cidD.isSelected()) {
-                    cidValue = "D";
-                }
-
-                myWeight.setText(weightValue);
-                mySkmu.setText(skmuValue);
-                myBodyfat.setText(bodyfatValue);
-                myCID.setText(cidValue);
-
-                dispose();
-            }
-        }
-    }
-
-    private class CancelButtonListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            dispose();
-        }
     }
 
     private boolean isNumeric(String str) {

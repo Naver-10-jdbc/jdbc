@@ -7,6 +7,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.*;
 
+import db.MyPageDAO;
+import db.UsersData;
+import view.logn.Session;
+
 public class MyPage extends JFrame {
 	
 	private JLabel myWeight, mySkmu, myBodyfat, myCID;
@@ -14,6 +18,9 @@ public class MyPage extends JFrame {
 	private JLabel whisCid,exeLevel;
 	private String myHeightText, myWeightText;
 	private JLabel myBMI;
+	private Session session;
+	private UsersData usersData;
+	private MyPageDAO myPageDAO;
 	
 	// GridBagLayout에 컴포넌트를 추가하는 메소드
 	private void addGridBagComponent(Container container, Component component, int gridx, int gridy, int anchor) {
@@ -25,7 +32,8 @@ public class MyPage extends JFrame {
 	}
 	
 	public MyPage() {
-		
+		usersData=new MyPageDAO().loginData();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 630);
 		setTitle("MyPage");
@@ -77,7 +85,6 @@ public class MyPage extends JFrame {
 		//인바디 입력 다이얼로그창 생성
 		btn_inbody.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        // 다이얼로그 생성
 		        InbodyDialog dialog = new InbodyDialog((JFrame) SwingUtilities.getWindowAncestor(btn_inbody), myWeight, mySkmu, myBodyfat, myCID);
 		        dialog.setVisible(true);
 		    }
@@ -92,6 +99,7 @@ public class MyPage extends JFrame {
 		
 		JButton btnTarget = new JButton("목표 입력");
 		btnTarget.setBackground(new Color(255, 255, 255));
+		//목표입력 다이얼로그창 생성
 		btnTarget.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        TargetDialog dialog = new TargetDialog((JFrame) SwingUtilities.getWindowAncestor(btnTarget), myWishWeihgt, myWishskmu, myWishbodyfat, whisCid, exeLevel, sleepTime);
@@ -168,7 +176,7 @@ public class MyPage extends JFrame {
 		gbc_heght.gridy = 0;
 		bodyprofile.add(heght, gbc_heght);
 		
-		JButton myHeightButton = new JButton("170.2");
+		JButton myHeightButton = new JButton(usersData.getUser_height());
 		myHeightButton.setBackground(new Color(255, 255, 255));
 		myHeightButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -201,7 +209,7 @@ public class MyPage extends JFrame {
 		gbc_weight.gridy = 1;
 		bodyprofile.add(weight, gbc_weight);
 		
-		myWeight = new JLabel("70.2");
+		myWeight = new JLabel(usersData.getUser_weight());
 		GridBagConstraints gbc_myWeight = new GridBagConstraints();
 		gbc_myWeight.anchor = GridBagConstraints.EAST;
 		gbc_myWeight.insets = new Insets(0, 0, 5, 5);
@@ -551,8 +559,17 @@ public class MyPage extends JFrame {
 	public String getmyHeightText() {
 		return myHeightText;
 	}
+	//키 변경 시 값 데이트
+	public void setmyHeightText(String myHeightText) {
+		this.myHeightText=myHeightText;
+	}
+	
 	public String getmyWeightText() {
 		return myWeightText;
+	}
+	//몸무게 변경 시 값 데이트
+	public void setmyWeightText(String myWeightText) {
+		this.myWeightText=myWeightText;
 	}
 	
 }
