@@ -80,37 +80,6 @@ public class Comment extends JFrame {
             }
         });
 
-        // 수정
-        JSplitPane splitPane = new JSplitPane();
-        splitPane.setBounds(445, 47, 131, 23);
-        contentPane.add(splitPane);
-
-        JButton btn_alter = new JButton("수정");
-        btn_alter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // 수정 기능 구현
-            }
-        });
-        splitPane.setLeftComponent(btn_alter);
-
-        // 삭제
-        JButton btn_del = new JButton("삭제");
-        splitPane.setRightComponent(btn_del);
-
-        // 삭제 버튼 클릭 시 게시글 삭제
-        btn_del.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // 확인 다이얼로그 표시
-                int option = JOptionPane.showConfirmDialog(null, "게시글을 삭제하시겠습니까?", "게시글 삭제", JOptionPane.YES_NO_OPTION);
-
-                // 확인 버튼을 클릭한 경우에만 게시글 삭제 진행
-                if (option == JOptionPane.YES_OPTION) {
-                    deleteBoard(selectedBoardId); // 선택된 게시글 삭제
-                    dispose(); // 창 닫기
-                }
-            }
-        });
-
         // commentTable 초기화
         commentTable = new JTable(){
         	@Override
@@ -197,6 +166,25 @@ public class Comment extends JFrame {
 
         // 게시글의 댓글 목록을 표시
         loadComments(selectedBoardId, commentTable);
+        
+                // 삭제
+                JButton btn_del = new JButton("삭제");
+                btn_del.setBounds(502, 49, 77, 21);
+                contentPane.add(btn_del);
+                
+                        // 삭제 버튼 클릭 시 게시글 삭제
+                        btn_del.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                // 확인 다이얼로그 표시
+                                int option = JOptionPane.showConfirmDialog(null, "게시글을 삭제하시겠습니까?", "게시글 삭제", JOptionPane.YES_NO_OPTION);
+                
+                                // 확인 버튼을 클릭한 경우에만 게시글 삭제 진행
+                                if (option == JOptionPane.YES_OPTION) {
+                                    deleteBoard(selectedBoardId); // 선택된 게시글 삭제
+                                    dispose(); // 창 닫기
+                                }
+                            }
+                        });
     }
 
 
@@ -324,31 +312,67 @@ public class Comment extends JFrame {
     }
 
 
-    // 게시글 삭제 메서드
+ // 게시글 삭제 메서드
     private void deleteBoard(int boardId) {
         Connection conn = null;
-        CallableStatement stmt = null;
+        PreparedStatement pstmtDeleteComments = null;
+        PreparedStatement pstmtDeleteBoard = null;
 
         try {
             // 데이터베이스 연결
-            conn = MySqlDBManager.getInstance();;
+            conn = MySqlDBManager.getInstance();
 
-            // 프로시저 호출
-            stmt = conn.prepareCall("{CALL delete_board(?)}");
-            stmt.setInt(1, boardId);
-            stmt.executeUpdate(); // 프로시저 실행
+            // 게시글 작성자의 ID를 가져오는 SQL 작성
+            String sqlGetAuthorId = "SELECT user_id FROM board WHERE board_id = ?";
+            PreparedStatement pstmtGetAuthorId = conn.prepareStatement(sqlGetAuthorId);
+            pstmtGetAuthorId.setInt(1, boardId);
+            ResultSet rs = pstmtGetAuthorId.executeQuery();
+
+            // 게시글 작성자의 ID 가져오기
+            String authorId = null;
+            if (rs.next()) {
+                authorId = rs.getString("user_id");
+            }
+
+            // 현재 로그인된 사용자의 ID 가져오기
+            String loggedInUserId = Session.getInstance().getUserId(); // 이 부분은 세션 클래스나 로그인 관련 클래스에 따라 다를 수 있습니다.
+
+            // 게시글 작성자의 ID와 로그인한 사용자의 ID가 일치하는 경우에만 삭제 진행
+            if (authorId != null && authorId.equals(loggedInUserId)) {
+                // 댓글 삭제 SQL 작성
+                String sqlDeleteComments = "DELETE FROM comment WHERE board_id = ?";
+                pstmtDeleteComments = conn.prepareStatement(sqlDeleteComments);
+                pstmtDeleteComments.setInt(1, boardId);
+
+                // 댓글 삭제 실행
+                pstmtDeleteComments.executeUpdate();
+
+                // 게시글 삭제 SQL 작성
+                String sqlDeleteBoard = "DELETE FROM board WHERE board_id = ?";
+                pstmtDeleteBoard = conn.prepareStatement(sqlDeleteBoard);
+                pstmtDeleteBoard.setInt(1, boardId);
+
+                // 게시글 삭제 실행
+                pstmtDeleteBoard.executeUpdate();
+            } else {
+                // 작성자의 ID와 로그인한 사용자의 ID가 일치하지 않는 경우에는 삭제를 거부
+                JOptionPane.showMessageDialog(null, "게시글 작성자만 삭제할 수 있습니다.", "권한 없음", JOptionPane.ERROR_MESSAGE);
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             try {
-                if (stmt != null) stmt.close();
+                if (pstmtDeleteComments != null) pstmtDeleteComments.close();
+                if (pstmtDeleteBoard != null) pstmtDeleteBoard.close();
                 if (conn != null) conn.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
     }
+
+
     
     private void deleteComment(String cmtDate, String comment, String userId, int boardId, JTable commentTable) {
         Connection conn = null;
