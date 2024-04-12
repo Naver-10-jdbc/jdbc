@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,13 +17,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -107,11 +112,60 @@ public class Comment extends JFrame {
         });
 
         // commentTable 초기화
-        commentTable = new JTable();
+        commentTable = new JTable(){
+        	@Override
+            public boolean isCellEditable(int row, int column) {
+                // 모든 셀을 편집할 수 없도록 비활성화
+                return false;
+            }
+        };
         JScrollPane commentScrollPane = new JScrollPane(commentTable);
         commentScrollPane.setBounds(97, 330, 479, 170);
         contentPane.add(commentScrollPane);
 
+        commentTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // 마우스 오른쪽 버튼을 클릭했는지 확인
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    // 마우스가 클릭된 위치의 행 인덱스를 가져옴
+                    int row = commentTable.rowAtPoint(e.getPoint());
+                    // 해당 행을 선택 상태로 설정
+                    commentTable.setRowSelectionInterval(row, row);
+                    // 팝업 메뉴 생성
+                    JPopupMenu popupMenu = new JPopupMenu();
+                    // 삭제 메뉴 아이템 생성
+                    JMenuItem deleteMenuItem = new JMenuItem("삭제");
+                    // 삭제 메뉴 아이템에 대한 액션 리스너 추가
+                    deleteMenuItem.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // 선택된 행의 댓글 ID를 가져와서 삭제 확인 다이얼로그를 표시하고, 삭제 진행
+                        	String cmtDate = (String) commentTable.getValueAt(row, 0);
+                            String comment = (String) commentTable.getValueAt(row, 1);
+                            String userId = (String) commentTable.getValueAt(row, 2);
+                            String loggedInUserId = Session.getInstance().getUserId();
+                            if (!userId.equals(loggedInUserId)) {
+                                JOptionPane.showMessageDialog(null, "다른 사용자의 댓글은 삭제할 수 없습니다.", "권한 없음", JOptionPane.ERROR_MESSAGE);
+                                return; // 삭제 권한이 없으면 메서드 종료
+                            }
+                            
+                            int option = JOptionPane.showConfirmDialog(null, "댓글을 삭제하시겠습니까?", "댓글 삭제", JOptionPane.YES_NO_OPTION);
+                            if (option == JOptionPane.YES_OPTION) {
+                                deleteComment(cmtDate, comment, userId, selectedBoardId, commentTable);
+                            }
+                        }
+                    });
+                    // 팝업 메뉴에 삭제 메뉴 아이템 추가
+                    popupMenu.add(deleteMenuItem);
+                    // 팝업 메뉴를 마우스 클릭된 위치에 표시
+                    popupMenu.show(commentTable, e.getX(), e.getY());
+                }
+            }
+        });
+
+
+        
         // 입력 패널
         JPanel inputPanel = new JPanel(new BorderLayout());
         JTextField textField = new JTextField();
@@ -230,8 +284,7 @@ public class Comment extends JFrame {
             }
         }
     }
-//
-    // 댓글을 추가하는 메서드
+
  // 댓글을 추가하는 메서드
     private void addComment(int boardId, String comment, JTable commentTable) {
         Connection conn = null;
@@ -296,4 +349,38 @@ public class Comment extends JFrame {
             }
         }
     }
+    
+    private void deleteComment(String cmtDate, String comment, String userId, int boardId, JTable commentTable) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            // 데이터베이스 연결
+            conn = MySqlDBManager.getInstance();
+
+            // SQL 쿼리 작성
+            String sql = "DELETE FROM comment WHERE cmt_date = ? AND comment = ? AND user_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, cmtDate);
+            pstmt.setString(2, comment);
+            pstmt.setString(3, userId);
+
+            // 쿼리 실행
+            pstmt.executeUpdate();
+
+            // 댓글 테이블 갱신
+            loadComments(boardId, commentTable);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }

@@ -57,7 +57,13 @@ public class Board extends JFrame {
 		scrollPane.setBounds(97, 95, 551, 287);
 		contentPane.add(scrollPane);
 
-		table = new JTable();
+		table = new JTable() {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+	        // 모든 셀을 편집할 수 없도록 비활성화
+	        return false;
+			}
+	    };
 		table.setBackground(new Color(192, 192, 192));
 		scrollPane.setViewportView(table);
 
