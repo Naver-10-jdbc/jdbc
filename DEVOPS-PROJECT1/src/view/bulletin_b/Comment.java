@@ -5,27 +5,48 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import db.MySqlDBManager;
+import view.logn.Session;
 
 public class Comment extends JFrame {
 
     private JPanel contentPane;
 
-    public Comment() {
+    private JTable commentTable;
+
+    private JLabel imageLabel;
+
+
+    private int selectedBoardId; // ¼±ÅÃµÈ °Ô½Ã±ÛÀÇ ID ÀúÀå
+
+
+    public Comment(int boardId) {
+        selectedBoardId = boardId;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 1300);
         setLocationRelativeTo(null);
@@ -35,75 +56,331 @@ public class Comment extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(97, 80, 479, 232);
-        contentPane.add(scrollPane_1);
+        // °Ô½Ã±Û Á¤º¸¸¦ Ç¥½ÃÇÒ ÄÄÆ÷³ÍÆ®µé
+        JLabel titleLabel = new JLabel();
+        titleLabel.setFont(new Font("±¼¸²", Font.PLAIN, 25));
+        titleLabel.setBounds(100, 80, 479, 30);
+        contentPane.add(titleLabel);
 
-        JLabel push_title = new JLabel("ì˜¤ëŠ˜ì˜ ìš´ë™");//ì‘ì„±ìê°€ ì“´ ê¸€ ì œëª© ë°›ì•„ì˜¤ê¸°mmm
-        push_title.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 25));
-        scrollPane_1.setColumnHeaderView(push_title);
+        JTextArea contentTextArea = new JTextArea();
+        contentTextArea.setEditable(false);
+        JScrollPane contentScrollPane = new JScrollPane(contentTextArea);
+        contentScrollPane.setBounds(97, 120, 479, 200);
+        contentPane.add(contentScrollPane);
 
-        JTextArea push_write = new JTextArea();
-        scrollPane_1.setViewportView(push_write);
-        push_write.setEditable(false); // í¸ì§‘ ë¶ˆê°€ëŠ¥í•˜ê²Œ ì„¤ì •
-
-        JButton btn_back = new JButton("â†");
+        // ÀÌÀü ¹öÆ°
+        JButton btn_back = new JButton("¡ç");
         btn_back.setBounds(10, 10, 50, 50);
         contentPane.add(btn_back);
 
+        // ÀÌÀü ¹öÆ° Å¬¸¯ ½Ã Ã¢ ´İ±â
         btn_back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
 
-
+        // ¼öÁ¤
         JSplitPane splitPane = new JSplitPane();
         splitPane.setBounds(445, 47, 131, 23);
         contentPane.add(splitPane);
 
-        JButton btn_alter = new JButton("ìˆ˜ì •");
+        JButton btn_alter = new JButton("¼öÁ¤");
         btn_alter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // ìˆ˜ì • ê¸°ëŠ¥ êµ¬í˜„
+                // ¼öÁ¤ ±â´É ±¸Çö
             }
         });
         splitPane.setLeftComponent(btn_alter);
 
-        JButton btn_del = new JButton("ì‚­ì œ");
+        // »èÁ¦
+        JButton btn_del = new JButton("»èÁ¦");
         splitPane.setRightComponent(btn_del);
 
-        JScrollPane push_comment = new JScrollPane();
-        push_comment.setBounds(97, 368, 479, 177);
-        contentPane.add(push_comment);
+        // »èÁ¦ ¹öÆ° Å¬¸¯ ½Ã °Ô½Ã±Û »èÁ¦
+        btn_del.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // È®ÀÎ ´ÙÀÌ¾ó·Î±× Ç¥½Ã
+                int option = JOptionPane.showConfirmDialog(null, "°Ô½Ã±ÛÀ» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?", "°Ô½Ã±Û »èÁ¦", JOptionPane.YES_NO_OPTION);
 
-        JTextArea textArea = new JTextArea();
-        push_comment.setViewportView(textArea);
-        textArea.setEditable(false);
+                // È®ÀÎ ¹öÆ°À» Å¬¸¯ÇÑ °æ¿ì¿¡¸¸ °Ô½Ã±Û »èÁ¦ ÁøÇà
+                if (option == JOptionPane.YES_OPTION) {
+                    deleteBoard(selectedBoardId); // ¼±ÅÃµÈ °Ô½Ã±Û »èÁ¦
+                    dispose(); // Ã¢ ´İ±â
+                }
+            }
+        });
 
-        // ì…ë ¥ íŒ¨ë„
+        // commentTable ÃÊ±âÈ­
+        commentTable = new JTable(){
+        	@Override
+            public boolean isCellEditable(int row, int column) {
+                // ¸ğµç ¼¿À» ÆíÁıÇÒ ¼ö ¾øµµ·Ï ºñÈ°¼ºÈ­
+                return false;
+            }
+        };
+        JScrollPane commentScrollPane = new JScrollPane(commentTable);
+        commentScrollPane.setBounds(97, 330, 479, 170);
+        contentPane.add(commentScrollPane);
+
+        commentTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // ¸¶¿ì½º ¿À¸¥ÂÊ ¹öÆ°À» Å¬¸¯Çß´ÂÁö È®ÀÎ
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    // ¸¶¿ì½º°¡ Å¬¸¯µÈ À§Ä¡ÀÇ Çà ÀÎµ¦½º¸¦ °¡Á®¿È
+                    int row = commentTable.rowAtPoint(e.getPoint());
+                    // ÇØ´ç ÇàÀ» ¼±ÅÃ »óÅÂ·Î ¼³Á¤
+                    commentTable.setRowSelectionInterval(row, row);
+                    // ÆË¾÷ ¸Ş´º »ı¼º
+                    JPopupMenu popupMenu = new JPopupMenu();
+                    // »èÁ¦ ¸Ş´º ¾ÆÀÌÅÛ »ı¼º
+                    JMenuItem deleteMenuItem = new JMenuItem("»èÁ¦");
+                    // »èÁ¦ ¸Ş´º ¾ÆÀÌÅÛ¿¡ ´ëÇÑ ¾×¼Ç ¸®½º³Ê Ãß°¡
+                    deleteMenuItem.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // ¼±ÅÃµÈ ÇàÀÇ ´ñ±Û ID¸¦ °¡Á®¿Í¼­ »èÁ¦ È®ÀÎ ´ÙÀÌ¾ó·Î±×¸¦ Ç¥½ÃÇÏ°í, »èÁ¦ ÁøÇà
+                        	String cmtDate = (String) commentTable.getValueAt(row, 0);
+                            String comment = (String) commentTable.getValueAt(row, 1);
+                            String userId = (String) commentTable.getValueAt(row, 2);
+                            String loggedInUserId = Session.getInstance().getUserId();
+                            if (!userId.equals(loggedInUserId)) {
+                                JOptionPane.showMessageDialog(null, "´Ù¸¥ »ç¿ëÀÚÀÇ ´ñ±ÛÀº »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù.", "±ÇÇÑ ¾øÀ½", JOptionPane.ERROR_MESSAGE);
+                                return; // »èÁ¦ ±ÇÇÑÀÌ ¾øÀ¸¸é ¸Ş¼­µå Á¾·á
+                            }
+                            
+                            int option = JOptionPane.showConfirmDialog(null, "´ñ±ÛÀ» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?", "´ñ±Û »èÁ¦", JOptionPane.YES_NO_OPTION);
+                            if (option == JOptionPane.YES_OPTION) {
+                                deleteComment(cmtDate, comment, userId, selectedBoardId, commentTable);
+                            }
+                        }
+                    });
+                    // ÆË¾÷ ¸Ş´º¿¡ »èÁ¦ ¸Ş´º ¾ÆÀÌÅÛ Ãß°¡
+                    popupMenu.add(deleteMenuItem);
+                    // ÆË¾÷ ¸Ş´º¸¦ ¸¶¿ì½º Å¬¸¯µÈ À§Ä¡¿¡ Ç¥½Ã
+                    popupMenu.show(commentTable, e.getX(), e.getY());
+                }
+            }
+        });
+
+
+        
+        // ÀÔ·Â ÆĞ³Î
         JPanel inputPanel = new JPanel(new BorderLayout());
         JTextField textField = new JTextField();
-        JButton registerButton = new JButton("ë“±ë¡");
+
+        JButton registerButton = new JButton("µî·Ï");
+        inputPanel.add(textField, BorderLayout.CENTER);
+        inputPanel.add(registerButton, BorderLayout.EAST);
+        inputPanel.setBounds(97, 510, 479, 50);
+        contentPane.add(inputPanel);
+
+        // µî·Ï ¹öÆ° Å¬¸¯ ½Ã ´ñ±Û µî·Ï
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String comment = textField.getText();
                 if (!comment.isEmpty()) {
-                    addComment(comment, textArea, "ì‘ì„±ì"); // ëŒ“ê¸€ ì‘ì„±ì ì¶”ê°€
-                    textField.setText(""); // ì…ë ¥ í•„ë“œ ì´ˆê¸°í™”
+                    addComment(selectedBoardId, comment, commentTable); // ´ñ±Û ÀÛ¼ºÀÚ Ãß°¡
+                    textField.setText(""); // ÀÔ·Â ÇÊµå ÃÊ±âÈ­
                 }
             }
         });
-        inputPanel.add(textField, BorderLayout.CENTER);
-        inputPanel.add(registerButton, BorderLayout.EAST);
-        inputPanel.setBounds(97, 555, 479, 50);
-        contentPane.add(inputPanel);
+
+        
 
         setVisible(true);
+
+        // ¼±ÅÃµÈ °Ô½Ã±ÛÀÇ Á¤º¸¸¦ °¡Á®¿Í¼­ Ç¥½Ã
+        showBoardDetails(selectedBoardId, titleLabel, contentTextArea, commentTable);
+
+        // °Ô½Ã±ÛÀÇ ´ñ±Û ¸ñ·ÏÀ» Ç¥½Ã
+        loadComments(selectedBoardId, commentTable);
     }
 
-    private void addComment(String comment, JTextArea textArea, String author) {
-        textArea.append(author + ": " + comment + "\n"); // ëŒ“ê¸€ ì¶”ê°€ (ì‘ì„±ìì™€ í•¨ê»˜)
+
+
+    // ¼±ÅÃµÈ °Ô½Ã±ÛÀÇ »ó¼¼ Á¤º¸¸¦ °¡Á®¿Í¼­ Ç¥½ÃÇÏ´Â ¸Ş¼­µå
+    private void showBoardDetails(int boardId, JLabel titleLabel, JTextArea contentTextArea, JTable commentTable) {
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+
+        try {
+            // µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á
+            conn =MySqlDBManager.getInstance();
+
+            // ÇÁ·Î½ÃÀú È£Ãâ
+            cstmt = conn.prepareCall("{CALL select_board(?)}");
+            cstmt.setInt(1, boardId);
+            rs = cstmt.executeQuery();
+
+            // °á°ú°¡ ÀÖÀ» °æ¿ì¿¡¸¸ Á¤º¸ Ç¥½Ã
+            if (rs.next()) {
+                titleLabel.setText(rs.getString("title")); // Á¦¸ñ Ç¥½Ã
+                contentTextArea.setText(rs.getString("contents")); // ³»¿ë Ç¥½Ã
+
+                // ÀÌ¹ÌÁö Ç¥½Ã
+                byte[] imageData = rs.getBytes("picture");
+                if (imageData != null) {
+                    ImageIcon imageIcon = new ImageIcon(imageData);
+                    Image image = imageIcon.getImage();
+                    Image scaledImage = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                    imageIcon = new ImageIcon(scaledImage);
+                    imageLabel = new JLabel(imageIcon); // ÀÌ¹ÌÁö ·¹ÀÌºí Àü¿ª º¯¼ö·Î º¯°æ
+                    imageLabel.setBounds(97, 560, 200, 200);
+                    contentPane.add(imageLabel); // contentPane¿¡ ÀÌ¹ÌÁö ·¹ÀÌºí Ãß°¡
+                }
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                MySqlDBManager.disconnect(conn, cstmt, rs);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
+
+    // °Ô½Ã±ÛÀÇ ´ñ±ÛÀ» °¡Á®¿Í¼­ Å×ÀÌºí¿¡ Ç¥½ÃÇÏ´Â ¸Ş¼­µå
+    private void loadComments(int boardId, JTable commentTable) {
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+
+        try {
+            // µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á
+            conn =MySqlDBManager.getInstance();
+
+            // ÇÁ·Î½ÃÀú È£Ãâ
+            cstmt = conn.prepareCall("{CALL select_comments(?)}");
+            cstmt.setInt(1, boardId);
+            rs = cstmt.executeQuery();
+
+            // Å×ÀÌºí ¸ğµ¨ »ı¼º
+            DefaultTableModel model = new DefaultTableModel(new String[]{"³¯Â¥", "´ñ±Û", "ÀÛ¼ºÀÚ"}, 0);
+
+            // °á°ú¼Â¿¡¼­ µ¥ÀÌÅÍ ÀĞ¾î¿Í ¸ğµ¨¿¡ Ãß°¡
+            while (rs.next()) {
+                String cmt_date = rs.getString("cmt_date");
+                String comment = rs.getString("comment");
+                String user_id = rs.getString("user_id");
+                model.addRow(new Object[]{cmt_date, comment, user_id});
+            }
+
+            // Å×ÀÌºí¿¡ ¸ğµ¨ ¼³Á¤
+            commentTable.setModel(model);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                MySqlDBManager.disconnect(conn, cstmt, rs);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+ // ´ñ±ÛÀ» Ãß°¡ÇÏ´Â ¸Ş¼­µå
+    private void addComment(int boardId, String comment, JTable commentTable) {
+        Connection conn = null;
+        
+        PreparedStatement pstmt = null;
+
+        try {
+            // µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á
+            conn = MySqlDBManager.getInstance();
+
+            // ÇöÀç ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ ID °¡Á®¿À±â
+            String userId = Session.getInstance().getUserId(); // ÀÌ ºÎºĞÀº ¼¼¼Ç Å¬·¡½º³ª ·Î±×ÀÎ °ü·Ã Å¬·¡½º¿¡ µû¶ó ´Ù¸¦ ¼ö ÀÖ½À´Ï´Ù.
+
+            // SQL Äõ¸® ÀÛ¼º
+            String sql = "INSERT INTO comment (board_id, comment, user_id) VALUES (?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, boardId);
+            pstmt.setString(2, comment);
+            pstmt.setString(3, userId); // »ç¿ëÀÚ ID Ãß°¡
+
+            // Äõ¸® ½ÇÇà
+            pstmt.executeUpdate();
+
+            // ´ñ±Û Å×ÀÌºí °»½Å
+            loadComments(boardId, commentTable);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
+    // °Ô½Ã±Û »èÁ¦ ¸Ş¼­µå
+    private void deleteBoard(int boardId) {
+        Connection conn = null;
+        CallableStatement stmt = null;
+
+        try {
+            // µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á
+            conn = MySqlDBManager.getInstance();;
+
+            // ÇÁ·Î½ÃÀú È£Ãâ
+            stmt = conn.prepareCall("{CALL delete_board(?)}");
+            stmt.setInt(1, boardId);
+            stmt.executeUpdate(); // ÇÁ·Î½ÃÀú ½ÇÇà
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    private void deleteComment(String cmtDate, String comment, String userId, int boardId, JTable commentTable) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            // µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á
+            conn = MySqlDBManager.getInstance();
+
+            // SQL Äõ¸® ÀÛ¼º
+            String sql = "DELETE FROM comment WHERE cmt_date = ? AND comment = ? AND user_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, cmtDate);
+            pstmt.setString(2, comment);
+            pstmt.setString(3, userId);
+
+            // Äõ¸® ½ÇÇà
+            pstmt.executeUpdate();
+
+            // ´ñ±Û Å×ÀÌºí °»½Å
+            loadComments(boardId, commentTable);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }
