@@ -1,6 +1,5 @@
 package view.mypg;
 
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -8,19 +7,20 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.*;
 
+import db.MyPageDAO;
+import db.UsersData;
+import view.logn.Session;
+
 public class MyPage extends JFrame {
 	
 	private JLabel myWeight, mySkmu, myBodyfat, myCID;
 	private JLabel wishweight, myWishWeihgt, wishskmu, myWishskmu, wishbodyfat, myWishbodyfat, wishsleep, sleepTime;
 	private JLabel whisCid,exeLevel;
-
-	/**
-	 * Create the frame.
-	 */
-	
-	private boolean isNumeric(String str) {
-	    return str.matches("-?\\d+(\\.\\d+)?");
-	}
+	private String myHeightText, myWeightText;
+	private JLabel myBMI;
+	private Session session;
+	private UsersData usersData;
+	private MyPageDAO myPageDAO;
 	
 	// GridBagLayout에 컴포넌트를 추가하는 메소드
 	private void addGridBagComponent(Container container, Component component, int gridx, int gridy, int anchor) {
@@ -32,7 +32,8 @@ public class MyPage extends JFrame {
 	}
 	
 	public MyPage() {
-		
+		usersData=new MyPageDAO().loginData();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 630);
 		setTitle("MyPage");
@@ -84,121 +85,10 @@ public class MyPage extends JFrame {
 		//인바디 입력 다이얼로그창 생성
 		btn_inbody.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        // 다이얼로그 생성
-		        JDialog dialog = new JDialog();
-		        dialog.setTitle("인바디 수정");
-		        dialog.setSize(280, 300);
-		        dialog.setResizable(false);
-		        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		        dialog.setLocationRelativeTo(null); // 화면 중앙에 위치
-
-		        // 패널 생성
-		        JPanel panel = new JPanel();
-		        panel.setLayout(new GridLayout(6, 1));
-
-		        // 체중 입력 패널
-		        JPanel weightPanel = new JPanel(new BorderLayout());
-		        weightPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // 여백 설정
-		        JTextField weightField = new JTextField();
-		        weightPanel.add(weightField, BorderLayout.CENTER);
-		        weightPanel.add(new JLabel("kg", SwingConstants.CENTER), BorderLayout.EAST);
-		        panel.add(new JLabel("체중 입력", SwingConstants.CENTER));
-		        panel.add(weightPanel);
-
-		        // 골격근량 입력 패널
-		        JPanel skmuPanel = new JPanel(new BorderLayout());
-		        skmuPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // 여백 설정
-		        JTextField skmuField = new JTextField();
-		        skmuPanel.add(skmuField, BorderLayout.CENTER);
-		        skmuPanel.add(new JLabel("kg", SwingConstants.CENTER), BorderLayout.EAST);
-		        panel.add(new JLabel("골격근량 입력", SwingConstants.CENTER));
-		        panel.add(skmuPanel);
-
-		        // 체지방량 입력 패널
-		        JPanel bodyfatPanel = new JPanel(new BorderLayout());
-		        bodyfatPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // 여백 설정
-		        JTextField bodyfatField = new JTextField();
-		        bodyfatPanel.add(bodyfatField, BorderLayout.CENTER);
-		        bodyfatPanel.add(new JLabel("kg", SwingConstants.CENTER), BorderLayout.EAST);
-		        panel.add(new JLabel("체지방량 입력", SwingConstants.CENTER));
-		        panel.add(bodyfatPanel);
-
-		        // CID 라디오 버튼
-		        JPanel radioPanel = new JPanel();
-		        radioPanel.setLayout(new GridLayout(1, 3));
-		        radioPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // 여백 설정
-		        JRadioButton cidC = new JRadioButton("C");
-		        JRadioButton cidI = new JRadioButton("I");
-		        JRadioButton cidD = new JRadioButton("D");
-		        ButtonGroup cidGroup = new ButtonGroup();
-		        cidGroup.add(cidC);
-		        cidGroup.add(cidI);
-		        cidGroup.add(cidD);
-		        radioPanel.add(cidC);
-		        radioPanel.add(cidI);
-		        radioPanel.add(cidD);
-		        panel.add(new JLabel("CID 유형 선택", SwingConstants.CENTER));
-		        panel.add(radioPanel);
-
-		        // 확인 버튼
-		        JButton okButton = new JButton("확인");
-		        okButton.addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		                // 입력값 확인
-		                if (weightField.getText().isEmpty() || !isNumeric(weightField.getText()) ||
-		                    skmuField.getText().isEmpty() || !isNumeric(skmuField.getText()) ||
-		                    bodyfatField.getText().isEmpty() || !isNumeric(bodyfatField.getText()) ||
-		                    (!cidC.isSelected() && !cidI.isSelected() && !cidD.isSelected())) {
-		                    JOptionPane.showMessageDialog(dialog, "입력값을 다시 확인하여 모두 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
-		                } else {
-		                    // 입력값 처리
-		                    String weightValue = weightField.getText();
-		                    String skmuValue = skmuField.getText();
-		                    String bodyfatValue = bodyfatField.getText();
-		                    String cidValue = "";
-		                    if (cidC.isSelected()) {
-		                        cidValue = "C";
-		                    } else if (cidI.isSelected()) {
-		                        cidValue = "I";
-		                    } else if (cidD.isSelected()) {
-		                        cidValue = "D";
-		                    }
-
-		                    // 읽어온 값으로 라벨 업데이트
-		                    myWeight.setText(weightValue);
-		                    mySkmu.setText(skmuValue);
-		                    myBodyfat.setText(bodyfatValue);
-		                    myCID.setText(cidValue);
-
-		                    // 다이얼로그 닫기
-		                    dialog.dispose();
-		                }
-		            }
-		        });
-
-		        // 취소 버튼
-		        JButton cancelButton = new JButton("취소");
-		        cancelButton.addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		                dialog.dispose();
-		            }
-		        });
-
-		        // 버튼 패널 생성
-		        JPanel buttonPanel = new JPanel();
-		        buttonPanel.add(okButton);
-		        buttonPanel.add(cancelButton);
-
-		        // 패널 추가
-		        dialog.getContentPane().add(panel, BorderLayout.CENTER);
-		        dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
-		        // 다이얼로그 표시
+		        InbodyDialog dialog = new InbodyDialog((JFrame) SwingUtilities.getWindowAncestor(btn_inbody), myWeight, mySkmu, myBodyfat, myCID);
 		        dialog.setVisible(true);
 		    }
 		});
-
-
 		
 		GridBagConstraints gbc_btn_inbody = new GridBagConstraints();
 		gbc_btn_inbody.anchor = GridBagConstraints.WEST;
@@ -207,173 +97,21 @@ public class MyPage extends JFrame {
 		gbc_btn_inbody.gridy = 0;
 		head.add(btn_inbody, gbc_btn_inbody);
 		
-		JButton btn_target = new JButton("목표 입력");
-		btn_target.setBackground(new Color(255, 255, 255));
-		// 목표 입력 다이얼로그창 생성
-		btn_target.addActionListener(new ActionListener() {
+		JButton btnTarget = new JButton("목표 입력");
+		btnTarget.setBackground(new Color(255, 255, 255));
+		//목표입력 다이얼로그창 생성
+		btnTarget.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	// 다이얼로그 창 생성
-		    	JDialog dialog = new JDialog();
-		    	dialog.setTitle("목표 업데이트");
-		    	dialog.setSize(400, 500);
-		    	dialog.setResizable(false);
-		    	dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		    	dialog.setLocationRelativeTo(null); // 화면 중앙에 표시
-
-		    	// 패널 생성
-		    	JPanel panel = new JPanel(new GridBagLayout());
-
-		    	// GridBagConstraints 설정
-		    	GridBagConstraints gbc = new GridBagConstraints();
-		    	gbc.anchor = GridBagConstraints.WEST; // 왼쪽 정렬
-		    	gbc.insets = new Insets(5, 5, 5, 5); // 여백 설정
-
-		    	// 체중 입력 패널
-		    	JPanel weightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		    	JTextField weightField = new JTextField(10);
-		    	weightPanel.add(new JLabel("체중 입력       "));
-		    	weightPanel.add(weightField);
-		    	weightPanel.add(new JLabel("kg"));
-		    	addGridBagComponent(panel, weightPanel, 0, 0, GridBagConstraints.WEST);
-
-		    	// 골격근량 입력 패널
-		    	JPanel skmuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		    	JTextField skmuField = new JTextField(10);
-		    	skmuPanel.add(new JLabel("골격근량 입력"));
-		    	skmuPanel.add(skmuField);
-		    	skmuPanel.add(new JLabel("kg"));
-		    	addGridBagComponent(panel, skmuPanel, 0, 1, GridBagConstraints.WEST);
-
-		    	// 체지방량 입력 패널
-		    	JPanel bodyfatPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		    	JTextField bodyfatField = new JTextField(10);
-		    	bodyfatPanel.add(new JLabel("체지방량 입력"));
-		    	bodyfatPanel.add(bodyfatField);
-		    	bodyfatPanel.add(new JLabel("kg"));
-		    	addGridBagComponent(panel, bodyfatPanel, 0, 2, GridBagConstraints.WEST);
-
-		    	// 수면시간 입력 패널
-		    	JPanel sleepPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		    	JTextField sleepField = new JTextField(10);
-		    	sleepPanel.add(new JLabel("수면시간 입력"));
-		    	sleepPanel.add(sleepField);
-		    	sleepPanel.add(new JLabel("시간"));
-		    	addGridBagComponent(panel, sleepPanel, 0, 3, GridBagConstraints.WEST);
-
-		    	// CID 라디오 버튼
-		    	JPanel radioPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		    	ButtonGroup cidGroup = new ButtonGroup();
-		    	JRadioButton cidC = new JRadioButton("C");
-		    	JRadioButton cidI = new JRadioButton("I");
-		    	JRadioButton cidD = new JRadioButton("D");
-		    	cidGroup.add(cidC);
-		    	cidGroup.add(cidI);
-		    	cidGroup.add(cidD);
-		    	radioPanel.add(new JLabel("CID 유형 선택"));
-		    	radioPanel.add(cidC);
-		    	radioPanel.add(cidI);
-		    	radioPanel.add(cidD);
-		    	addGridBagComponent(panel, radioPanel, 0, 4, GridBagConstraints.WEST);
-
-		    	// 운동강도 수정 라디오 버튼
-		    	JPanel exePanel = new JPanel(new GridBagLayout());
-		    	exePanel.setBorder(BorderFactory.createTitledBorder("운동강도 수정"));
-
-		    	// GridBagConstraints 설정
-		    	gbc = new GridBagConstraints();
-		    	gbc.anchor = GridBagConstraints.WEST; // 왼쪽 정렬
-		    	gbc.insets = new Insets(5, 5, 5, 5); // 여백 설정
-
-		    	// 라디오버튼1
-		    	JRadioButton exeHigh = new JRadioButton("난이도 상");
-		    	JLabel exeHighLabel = new JLabel("평소 운동을 많이 하는 당신! 고강도 운동을 해봅시다");
-		    	addGridBagComponent(exePanel, exeHigh, 0, 0, GridBagConstraints.WEST);
-		    	addGridBagComponent(exePanel, exeHighLabel, 0, 1, GridBagConstraints.WEST);
-
-		    	// 라디오버튼2
-		    	JRadioButton exeMid = new JRadioButton("난이도 중");
-		    	JLabel exeMidLabel = new JLabel("적당히 운동을 하고 사는 당신. 꾸준한 운동을 합시다");
-		    	addGridBagComponent(exePanel, exeMid, 0, 2, GridBagConstraints.WEST);
-		    	addGridBagComponent(exePanel, exeMidLabel, 0, 3, GridBagConstraints.WEST);
-
-		    	// 라디오버튼3
-		    	JRadioButton exeLow = new JRadioButton("난이도 하");
-		    	JLabel exeLowLabel = new JLabel("평소 운동을 안하는 당신. 다치지 않게 운동을 합시다");
-		    	addGridBagComponent(exePanel, exeLow, 0, 4, GridBagConstraints.WEST);
-		    	addGridBagComponent(exePanel, exeLowLabel, 0, 5, GridBagConstraints.WEST);
-
-		    	ButtonGroup exeGroup = new ButtonGroup();
-		    	exeGroup.add(exeHigh);
-		    	exeGroup.add(exeMid);
-		    	exeGroup.add(exeLow);
-
-		    	addGridBagComponent(panel, exePanel, 0, 5, GridBagConstraints.WEST); // 운동강도 수정 패널 추가
-
-		    	// 확인 버튼
-		    	JButton confirmButton = new JButton("확인");
-		    	confirmButton.addActionListener(new ActionListener() {
-		    	    public void actionPerformed(ActionEvent e) {
-		    	        // 입력값 확인
-		    	        if (weightField.getText().isEmpty() || !isNumeric(weightField.getText()) ||
-		    	            skmuField.getText().isEmpty() || !isNumeric(skmuField.getText()) ||
-		    	            bodyfatField.getText().isEmpty() || !isNumeric(bodyfatField.getText()) ||
-		    	            sleepField.getText().isEmpty() || !isNumeric(sleepField.getText()) ||
-		    	            (!cidC.isSelected() && !cidI.isSelected() && !cidD.isSelected()) ||
-		    	            (!exeHigh.isSelected() && !exeMid.isSelected() && !exeLow.isSelected())) {
-		    	            JOptionPane.showMessageDialog(dialog, "입력값을 다시 확인하여 모두 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
-		    	        } else {
-		    	            // 입력값 처리
-		    	            myWishWeihgt.setText(weightField.getText());
-		    	            myWishskmu.setText(skmuField.getText());
-		    	            myWishbodyfat.setText(bodyfatField.getText());
-		    	            if (cidC.isSelected()) {
-		    	                whisCid.setText("C");
-		    	            } else if (cidI.isSelected()) {
-		    	                whisCid.setText("I");
-		    	            } else {
-		    	                whisCid.setText("D");
-		    	            }
-		    	            if (exeHigh.isSelected()) {
-		    	                exeLevel.setText("상");
-		    	            } else if (exeMid.isSelected()) {
-		    	                exeLevel.setText("중");
-		    	            } else {
-		    	                exeLevel.setText("하");
-		    	            }
-		    	            sleepTime.setText(sleepField.getText());
-		    	            dialog.dispose(); // 다이얼로그 창 닫기
-		    	        }
-		    	    }
-		    	});
-
-		    	// 취소 버튼
-		    	JButton cancelButton = new JButton("취소");
-		    	cancelButton.addActionListener(new ActionListener() {
-		    	    public void actionPerformed(ActionEvent e) {
-		    	        dialog.dispose(); // 다이얼로그 창 닫기
-		    	    }
-		    	});
-
-		    	// 확인, 취소 버튼 패널
-		    	JPanel buttonPanel = new JPanel();
-		    	buttonPanel.add(confirmButton);
-		    	buttonPanel.add(cancelButton);
-
-		    	// 패널 추가
-		    	dialog.getContentPane().add(panel, BorderLayout.CENTER);
-		    	dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
-		    	// 다이얼로그 표시
-		    	dialog.setVisible(true);
+		        TargetDialog dialog = new TargetDialog((JFrame) SwingUtilities.getWindowAncestor(btnTarget), myWishWeihgt, myWishskmu, myWishbodyfat, whisCid, exeLevel, sleepTime);
+		        dialog.setVisible(true);
 		    }
 		});
 
-
-		GridBagConstraints gbc_btn_target = new GridBagConstraints();
-		gbc_btn_target.anchor = GridBagConstraints.WEST;
-		gbc_btn_target.gridx = 5;
-		gbc_btn_target.gridy = 0;
-		head.add(btn_target, gbc_btn_target);
+		GridBagConstraints gbcBtnTarget = new GridBagConstraints();
+		gbcBtnTarget.anchor = GridBagConstraints.WEST;
+		gbcBtnTarget.gridx = 5;
+		gbcBtnTarget.gridy = 0;
+		head.add(btnTarget, gbcBtnTarget);
 		
 		/////////main 현재 몸상태//////////////////////////////////////////////////////////////
 		JPanel now = new JPanel();
@@ -438,73 +176,22 @@ public class MyPage extends JFrame {
 		gbc_heght.gridy = 0;
 		bodyprofile.add(heght, gbc_heght);
 		
-		JButton myHeghit = new JButton("170.2");//회원가입 시 받은 키 값 넣기
-		myHeghit.setBackground(new Color(255, 255, 255));
-		//키변경 버튼 이벤트
-		myHeghit.addActionListener(new ActionListener() {
+		JButton myHeightButton = new JButton(usersData.getUser_height());
+		myHeightButton.setBackground(new Color(255, 255, 255));
+		myHeightButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        // 다이얼로그 생성
-		        JDialog dialog = new JDialog();
-		        dialog.setTitle("키 정보 입력");
-		        dialog.setSize(200, 100);
-		        dialog.setResizable(false);
-		        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		        dialog.setLocationRelativeTo(null); // 화면 중앙에 위치
-
-		        // 패널 생성
-		        JPanel panel = new JPanel(new GridLayout(0, 2));
-
-		        // 키 입력 라벨 및 필드
-		        JLabel heightLabel = new JLabel("키(cm):");
-		        JTextField heightField = new JTextField();
-		        panel.add(heightLabel);
-		        panel.add(heightField);
-
-		        // 확인 버튼
-		        JButton okButton = new JButton("확인");
-		        okButton.addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		                // 입력값 확인
-		                String input = heightField.getText();
-		                if (input.isEmpty() || !isNumeric(input)) {
-		                    JOptionPane.showMessageDialog(dialog, "올바른 숫자를 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
-		                } else {
-		                    // 입력값을 myHeghit에 설정
-		                    myHeghit.setText(input);
-		                    dialog.dispose(); // 다이얼로그 닫기
-		                }
-		            }
-		        });
-
-		        // 취소 버튼
-		        JButton cancelButton = new JButton("취소");
-		        cancelButton.addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		                dialog.dispose(); // 다이얼로그 닫기
-		            }
-		        });
-
-		        // 버튼 패널 생성
-		        JPanel buttonPanel = new JPanel();
-		        buttonPanel.add(okButton);
-		        buttonPanel.add(cancelButton);
-
-		        // 다이얼로그에 패널 추가
-		        dialog.getContentPane().add(panel, BorderLayout.CENTER);
-		        dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
-		        // 다이얼로그 표시
+		    	HeightDialog dialog = new HeightDialog(MyPage.this, myHeightButton, myBMI); // MyPage 인스턴스를 전달하여 참조
 		        dialog.setVisible(true);
 		    }
 		});
-		
-		myHeghit.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_myHeghit = new GridBagConstraints();
-		gbc_myHeghit.anchor = GridBagConstraints.EAST;
-		gbc_myHeghit.insets = new Insets(0, 0, 5, 5);
-		gbc_myHeghit.gridx = 1;
-		gbc_myHeghit.gridy = 0;
-		bodyprofile.add(myHeghit, gbc_myHeghit);
+
+		myHeightButton.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_myHeight = new GridBagConstraints();
+		gbc_myHeight.anchor = GridBagConstraints.EAST;
+		gbc_myHeight.insets = new Insets(0, 0, 5, 5);
+		gbc_myHeight.gridx = 1;
+		gbc_myHeight.gridy = 0;
+		bodyprofile.add(myHeightButton, gbc_myHeight);
 		
 		JLabel height_unit = new JLabel("cm");
 		GridBagConstraints gbc_height_unit = new GridBagConstraints();
@@ -522,7 +209,7 @@ public class MyPage extends JFrame {
 		gbc_weight.gridy = 1;
 		bodyprofile.add(weight, gbc_weight);
 		
-		myWeight = new JLabel("70.2");
+		myWeight = new JLabel(usersData.getUser_weight());
 		GridBagConstraints gbc_myWeight = new GridBagConstraints();
 		gbc_myWeight.anchor = GridBagConstraints.EAST;
 		gbc_myWeight.insets = new Insets(0, 0, 5, 5);
@@ -545,13 +232,22 @@ public class MyPage extends JFrame {
 		gbc_bmi.gridy = 2;
 		bodyprofile.add(bmi, gbc_bmi);
 		
-		JLabel MyBMI = new JLabel("24.2");
+		//현재 몸무게(myHeightButton) 값 가져오기
+		myHeightText = myHeightButton.getText();
+		double myHeightNum = Double.parseDouble(myHeightText);
+		//현재 몸무게(myWeight) 값 가져오기
+		myWeightText = myWeight.getText();
+		double myWeightNum = Double.parseDouble(myWeightText);
+		//BMI 계산
+		String MyBMICal = String.format("%.1f", myWeightNum / ((myHeightNum / 100) * (myHeightNum / 100)));
+				
+		myBMI = new JLabel(MyBMICal);
 		GridBagConstraints gbc_MyBMI = new GridBagConstraints();
 		gbc_MyBMI.anchor = GridBagConstraints.EAST;
 		gbc_MyBMI.insets = new Insets(0, 0, 5, 5);
 		gbc_MyBMI.gridx = 1;
 		gbc_MyBMI.gridy = 2;
-		bodyprofile.add(MyBMI, gbc_MyBMI);
+		bodyprofile.add(myBMI, gbc_MyBMI);
 		
 		JLabel skmu = new JLabel("골격근량");
 		GridBagConstraints gbc_skmu = new GridBagConstraints();
@@ -750,7 +446,7 @@ public class MyPage extends JFrame {
 		gbc_wishweight.gridy = 0;
 		wishbodyprofile.add(wishweight, gbc_wishweight);
 		
-		myWishWeihgt = new JLabel("70.2");
+		myWishWeihgt = new JLabel("67.1");
 		GridBagConstraints gbc_myWishWeihgt = new GridBagConstraints();
 		gbc_myWishWeihgt.anchor = GridBagConstraints.EAST;
 		gbc_myWishWeihgt.insets = new Insets(0, 0, 5, 5);
@@ -765,12 +461,36 @@ public class MyPage extends JFrame {
 		gbc_wishweight_unit.gridy = 0;
 		wishbodyprofile.add(wishweight_unit, gbc_wishweight_unit);
 		
+		//bmi 영역 추가
+		JLabel wishBmi = new JLabel("BMI");
+		GridBagConstraints gbc_whisBmi = new GridBagConstraints();
+		gbc_whisBmi.anchor = GridBagConstraints.WEST;
+		gbc_whisBmi.insets = new Insets(0, 0, 5, 5);
+		gbc_whisBmi.gridx = 0;
+		gbc_whisBmi.gridy = 1;
+		wishbodyprofile.add(wishBmi, gbc_whisBmi);
+		
+		//현재 몸무게(myWishWeihgt) 값 가져오기
+		String myWishWeihgtText = myWishWeihgt.getText();
+		double myWishWeihgtNum = Double.parseDouble(myWishWeihgtText);
+		//BMI 계산
+		String MyWIshBMICal = String.format("%.1f", myWishWeihgtNum / ((myHeightNum / 100) * (myHeightNum / 100)));
+				
+		JLabel MyWIshBMI = new JLabel(MyWIshBMICal);
+		GridBagConstraints gbc_MyWIshBMI = new GridBagConstraints();
+		gbc_MyWIshBMI.anchor = GridBagConstraints.EAST;
+		gbc_MyWIshBMI.insets = new Insets(0, 0, 5, 5);
+		gbc_MyWIshBMI.gridx = 1;
+		gbc_MyWIshBMI.gridy = 1;
+		wishbodyprofile.add(MyWIshBMI , gbc_MyWIshBMI);
+		
+		
 		wishskmu = new JLabel("골격근량");
 		GridBagConstraints gbc_wishskmu = new GridBagConstraints();
 		gbc_wishskmu.anchor = GridBagConstraints.WEST;
 		gbc_wishskmu.insets = new Insets(0, 0, 5, 5);
 		gbc_wishskmu.gridx = 0;
-		gbc_wishskmu.gridy = 1;
+		gbc_wishskmu.gridy = 2;
 		wishbodyprofile.add(wishskmu, gbc_wishskmu);
 		
 		myWishskmu = new JLabel("19.5");
@@ -778,14 +498,14 @@ public class MyPage extends JFrame {
 		gbc_myWishskmu.anchor = GridBagConstraints.EAST;
 		gbc_myWishskmu.insets = new Insets(0, 0, 5, 5);
 		gbc_myWishskmu.gridx = 1;
-		gbc_myWishskmu.gridy = 1;
+		gbc_myWishskmu.gridy = 2;
 		wishbodyprofile.add(myWishskmu, gbc_myWishskmu);
 		
 		JLabel wishWeihgt_unit = new JLabel("kg");
 		GridBagConstraints gbc_wishWeihgt_unit = new GridBagConstraints();
 		gbc_wishWeihgt_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_wishWeihgt_unit.gridx = 2;
-		gbc_wishWeihgt_unit.gridy = 1;
+		gbc_wishWeihgt_unit.gridy = 2;
 		wishbodyprofile.add(wishWeihgt_unit, gbc_wishWeihgt_unit);
 		
 		wishbodyfat = new JLabel("체지방량");
@@ -793,7 +513,7 @@ public class MyPage extends JFrame {
 		gbc_wishbodyfat.anchor = GridBagConstraints.WEST;
 		gbc_wishbodyfat.insets = new Insets(0, 0, 5, 5);
 		gbc_wishbodyfat.gridx = 0;
-		gbc_wishbodyfat.gridy = 2;
+		gbc_wishbodyfat.gridy = 3;
 		wishbodyprofile.add(wishbodyfat, gbc_wishbodyfat);
 		
 		myWishbodyfat = new JLabel("19.5");
@@ -801,14 +521,14 @@ public class MyPage extends JFrame {
 		gbc_myWishbodyfat.anchor = GridBagConstraints.EAST;
 		gbc_myWishbodyfat.insets = new Insets(0, 0, 5, 5);
 		gbc_myWishbodyfat.gridx = 1;
-		gbc_myWishbodyfat.gridy = 2;
+		gbc_myWishbodyfat.gridy = 3;
 		wishbodyprofile.add(myWishbodyfat, gbc_myWishbodyfat);
 		
 		JLabel wishbodyfat_unit = new JLabel("kg");
 		GridBagConstraints gbc_wishbodyfat_unit = new GridBagConstraints();
 		gbc_wishbodyfat_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_wishbodyfat_unit.gridx = 2;
-		gbc_wishbodyfat_unit.gridy = 2;
+		gbc_wishbodyfat_unit.gridy = 3;
 		wishbodyprofile.add(wishbodyfat_unit, gbc_wishbodyfat_unit);
 		
 		wishsleep = new JLabel("목표 수면시간");
@@ -816,7 +536,7 @@ public class MyPage extends JFrame {
 		gbc_wishsleep.anchor = GridBagConstraints.WEST;
 		gbc_wishsleep.insets = new Insets(0, 0, 0, 5);
 		gbc_wishsleep.gridx = 0;
-		gbc_wishsleep.gridy = 3;
+		gbc_wishsleep.gridy = 4;
 		wishbodyprofile.add(wishsleep, gbc_wishsleep);
 		
 		sleepTime = new JLabel("7");
@@ -824,16 +544,32 @@ public class MyPage extends JFrame {
 		gbc_sleepTime.insets = new Insets(0, 0, 0, 5);
 		gbc_sleepTime.anchor = GridBagConstraints.EAST;
 		gbc_sleepTime.gridx = 1;
-		gbc_sleepTime.gridy = 3;
+		gbc_sleepTime.gridy = 4;
 		wishbodyprofile.add(sleepTime, gbc_sleepTime);
 		
 		JLabel sleepTime_unit = new JLabel("시간");
 		GridBagConstraints gbc_sleepTime_unit = new GridBagConstraints();
 		gbc_sleepTime_unit.gridx = 2;
-		gbc_sleepTime_unit.gridy = 3;
+		gbc_sleepTime_unit.gridy = 4;
 		wishbodyprofile.add(sleepTime_unit, gbc_sleepTime_unit);
 		
 		setVisible(true);
 	}
-
+	
+	public String getmyHeightText() {
+		return myHeightText;
+	}
+	//키 변경 시 값 데이트
+	public void setmyHeightText(String myHeightText) {
+		this.myHeightText=myHeightText;
+	}
+	
+	public String getmyWeightText() {
+		return myWeightText;
+	}
+	//몸무게 변경 시 값 데이트
+	public void setmyWeightText(String myWeightText) {
+		this.myWeightText=myWeightText;
+	}
+	
 }
