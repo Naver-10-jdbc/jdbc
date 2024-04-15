@@ -8,6 +8,11 @@ public class Exercise {
 	byte[] img;
 	int time; 
 	
+	public Exercise(String name,String detail) {
+		this.name=name;
+		this.detail=detail;
+	}
+	
 	public String getName() {
 		return name;
 	}

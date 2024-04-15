@@ -19,7 +19,7 @@ public class Dialog_Timer extends JFrame {
 	   JButton btn;
 	   /*서비스 객체*/
 	   int minutes_exer[]= {15,15,10}; //임시로 넣음
-	   String names_exer[]= {"운동1","운동2","운동3","운동4"};
+	   String names_exer[];
 	   int how_set=0;
 	   int break_time_millis=4000;//5*60000;
 	   int millisecond=5000;//5*60000;
@@ -31,6 +31,7 @@ public class Dialog_Timer extends JFrame {
 	      Init_View();
 	      Init_Listener();
 	      how_set=set;
+	      this.names_exer=names_exer;
 	      if(flag) {	//운동할 차례
 	    	  System.out.println("운동차례");
 	    	  Timer_For_Exer();
@@ -42,6 +43,7 @@ public class Dialog_Timer extends JFrame {
 	   }
 	   
 	   public void Timer_For_Exer() {
+		   	  tv_name.setText(names_exer[how_set-1]);
 		   	  tv_how_set.setText(how_set+" Set");
 		      Timer timer=new Timer();
 		      TimerTask exer_Task=new TimerTask() {
@@ -116,12 +118,12 @@ public class Dialog_Timer extends JFrame {
 	      lb1.setIcon(new ImageIcon(img)); 
 	      add(lb1);
 	      //운동이름
-	      tv_name=new JLabel("운동이름");
+	      tv_name=new JLabel("");
 	      tv_name.setFont(new Font("맑은 고딕",Font.BOLD,20));
 	      tv_name.setBounds(100,170,300,25); 
 	      add(tv_name);
 	      //세트
-	      tv_how_set=new JLabel("1set");
+	      tv_how_set=new JLabel("");
 	      tv_how_set.setFont(new Font("맑은 고딕",Font.BOLD,18));
 	      tv_how_set.setBounds(120,205,80,20); 
 	      add(tv_how_set);

@@ -111,7 +111,10 @@ public class Week_Exercise extends JFrame {
             buttonPanel.add(exerciseButton, BorderLayout.EAST); // 버튼을 동쪽에 추가
             if(i!=now.getDayOfWeek().getValue()) exerciseButton.setEnabled(false);
             exerciseButton.addActionListener(e->{
-            	 new Daily_Exercise(Week_Of_Exercise[now.getDayOfWeek().getValue()-1]);
+            	String srr[]=new String[4];
+            	for(int j=0; j<4; j++) srr[j]=exercise_srr[now.getDayOfWeek().getValue()][j+1];
+            	for(int j=0; j<4; j++) System.out.println(srr[j]+"from we");
+            	new Daily_Exercise(srr,exercise_srr[now.getDayOfWeek().getValue()][0]);
             });
             day_exe.add(buttonPanel); // buttonPanel을 day_exe에 추가
             week_exe_main.add(day_exe);
