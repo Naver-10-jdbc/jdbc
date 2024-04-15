@@ -23,8 +23,9 @@ public class Daily_Exercise extends JFrame {
 	JLabel tv_h1_exer1,tv_h1_exer2,tv_h1_exer3,tv_h1_exer4;
 	JLabel tv_h2_exer1,tv_h2_exer2,tv_h2_exer3,tv_h2_exer4;
 	JButton start_btn;
-	
-	public Daily_Exercise() {
+	String str_exercise[];
+	public Daily_Exercise(String str_exercise[]) {
+		this.str_exercise=str_exercise;
 		Init_Layout_Whole();
 		Init_Layout1();
 		Init_Layout2();
