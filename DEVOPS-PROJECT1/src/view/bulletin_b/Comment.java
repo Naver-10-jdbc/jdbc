@@ -95,46 +95,43 @@ public class Comment extends JFrame {
         commentTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // 마우스 오른쪽 버튼을 클릭했는지 확인
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    // 마우스가 클릭된 위치의 행 인덱스를 가져옴
                     int row = commentTable.rowAtPoint(e.getPoint());
-                    // 해당 행을 선택 상태로 설정
-                    commentTable.setRowSelectionInterval(row, row);
-                    // 팝업 메뉴 생성
-                    JPopupMenu popupMenu = new JPopupMenu();
-                    // 삭제 메뉴 아이템 생성
-                    JMenuItem deleteMenuItem = new JMenuItem("삭제");
-                    // 삭제 메뉴 아이템에 대한 액션 리스너 추가
-                    deleteMenuItem.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            // 선택된 행의 댓글 ID를 가져와서 삭제 확인 다이얼로그를 표시하고, 삭제 진행
-                        	String cmtDate = (String) commentTable.getValueAt(row, 0);
-                            String comment = (String) commentTable.getValueAt(row, 1);
-                            String userId = (String) commentTable.getValueAt(row, 2);
-                            String loggedInUserId = Session.getInstance().getUserId();
-                            if (!userId.equals(loggedInUserId)) {
-                                JOptionPane.showMessageDialog(null, "다른 사용자의 댓글은 삭제할 수 없습니다.", "권한 없음", JOptionPane.ERROR_MESSAGE);
-                                return; // 삭제 권한이 없으면 메서드 종료
+                    if (row >= 0 && row < commentTable.getRowCount()) {
+                        commentTable.setRowSelectionInterval(row, row);
+                        JPopupMenu popupMenu = new JPopupMenu();
+                        JMenuItem deleteMenuItem = new JMenuItem("삭제");
+                        deleteMenuItem.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                int selectedRow = commentTable.getSelectedRow();
+                                if (selectedRow >= 0 && selectedRow < commentTable.getRowCount()) {
+                                    String fullComment = (String) commentTable.getValueAt(selectedRow, 0);
+                                    String[] commentParts = fullComment.split(": ");
+                                    String userId = commentParts[0].substring(commentParts[0].indexOf("]") + 2); // 댓글 작성자의 ID 가져오기
+                                    String comment = commentParts[1];
+                                    String loggedInUserId = Session.getInstance().getUserId(); // 현재 로그인한 사용자의 ID 가져오기
+
+                                    // 현재 로그인한 사용자의 ID와 댓글 작성자의 ID를 비교하여 동일한 경우에만 삭제 허용
+                                    if (loggedInUserId.equals(userId)) {
+                                        int option = JOptionPane.showConfirmDialog(null, "댓글을 삭제하시겠습니까?", "댓글 삭제", JOptionPane.YES_NO_OPTION);
+                                        if (option == JOptionPane.YES_OPTION) {
+                                            deleteComment(selectedRow, selectedBoardId, commentTable);
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "다른 사용자의 댓글은 삭제할 수 없습니다.", "권한 없음", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }
                             }
-                            
-                            int option = JOptionPane.showConfirmDialog(null, "댓글을 삭제하시겠습니까?", "댓글 삭제", JOptionPane.YES_NO_OPTION);
-                            if (option == JOptionPane.YES_OPTION) {
-                                deleteComment(cmtDate, comment, userId, selectedBoardId, commentTable);
-                            }
-                        }
-                    });
-                    // 팝업 메뉴에 삭제 메뉴 아이템 추가
-                    popupMenu.add(deleteMenuItem);
-                    // 팝업 메뉴를 마우스 클릭된 위치에 표시
-                    popupMenu.show(commentTable, e.getX(), e.getY());
+                        });
+                        popupMenu.add(deleteMenuItem);
+                        popupMenu.show(commentTable, e.getX(), e.getY());
+                    }
                 }
             }
         });
 
-
-        
+    
         // 입력 패널
         JPanel inputPanel = new JPanel(new BorderLayout());
         JTextField textField = new JTextField();
@@ -234,6 +231,7 @@ public class Comment extends JFrame {
     }
 
     // 게시글의 댓글을 가져와서 테이블에 표시하는 메서드
+ // 게시글의 댓글을 가져와서 테이블에 표시하는 메서드
     private void loadComments(int boardId, JTable commentTable) {
         Connection conn = null;
         CallableStatement cstmt = null;
@@ -241,26 +239,32 @@ public class Comment extends JFrame {
 
         try {
             // 데이터베이스 연결
-            conn =MySqlDBManager.getInstance();
+            conn = MySqlDBManager.getInstance();
 
             // 프로시저 호출
             cstmt = conn.prepareCall("{CALL select_comments(?)}");
             cstmt.setInt(1, boardId);
             rs = cstmt.executeQuery();
 
-            // 테이블 모델 생성
-            DefaultTableModel model = new DefaultTableModel(new String[]{"날짜", "댓글", "작성자"}, 0);
+         // 테이블 모델 생성
+            DefaultTableModel model = new DefaultTableModel(new String[]{"댓글"}, 0);
 
             // 결과셋에서 데이터 읽어와 모델에 추가
             while (rs.next()) {
                 String cmt_date = rs.getString("cmt_date");
                 String comment = rs.getString("comment");
                 String user_id = rs.getString("user_id");
-                model.addRow(new Object[]{cmt_date, comment, user_id});
+                // 한 행에 날짜, 작성자, 댓글 추가
+                String fullComment = "[" + cmt_date + "] " + user_id + ": " + comment;
+                model.addRow(new Object[]{fullComment});
             }
+
 
             // 테이블에 모델 설정
             commentTable.setModel(model);
+
+            // 행의 높이 조정하여 한 행에 모든 데이터가 보이도록 설정
+            commentTable.setRowHeight(60);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -374,7 +378,7 @@ public class Comment extends JFrame {
 
 
     
-    private void deleteComment(String cmtDate, String comment, String userId, int boardId, JTable commentTable) {
+    private void deleteComment(int row, int boardId, JTable commentTable) {
         Connection conn = null;
         PreparedStatement pstmt = null;
 
@@ -382,12 +386,19 @@ public class Comment extends JFrame {
             // 데이터베이스 연결
             conn = MySqlDBManager.getInstance();
 
+            // 선택된 행에서 댓글 데이터 가져오기
+            String fullComment = (String) commentTable.getValueAt(row, 0);
+            String[] commentParts = fullComment.split(": ");
+            // 변경된 부분: 작성자 ID와 댓글 내용을 분리할 때 ":"를 기준으로 분리하여야 함
+            String userId = commentParts[0].substring(commentParts[0].indexOf("]") + 2); // 댓글 작성자의 ID 가져오기
+            String comment = commentParts[1]; // 댓글 내용 가져오기
+
             // SQL 쿼리 작성
-            String sql = "DELETE FROM comment WHERE cmt_date = ? AND comment = ? AND user_id = ?";
+            // 변경된 부분: 댓글 내용과 작성자 ID를 모두 확인하여 삭제하도록 쿼리 수정
+            String sql = "DELETE FROM comment WHERE comment = ? AND user_id = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, cmtDate);
-            pstmt.setString(2, comment);
-            pstmt.setString(3, userId);
+            pstmt.setString(1, comment);
+            pstmt.setString(2, userId);
 
             // 쿼리 실행
             pstmt.executeUpdate();
