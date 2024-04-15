@@ -20,8 +20,9 @@ import javax.swing.table.DefaultTableModel;
 public class Board extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
+	private static JTable table;
 	
+
 
 	public Board() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,7 +108,7 @@ public class Board extends JFrame {
 	}
 
 	// 게시판 데이터 가져오기 메서드
-	private void loadBoardData() {
+	public static void loadBoardData() {
 		Connection conn = null;
 		CallableStatement cstmt = null;
 		ResultSet rs = null;

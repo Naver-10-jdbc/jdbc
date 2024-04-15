@@ -7,7 +7,7 @@ import view.main.Main;
 public class MainApp {
 	static String user_id;
 	public static void main(String[] args) {
-		//new Login();
-		new Main();
+		new Login();
+		//new Main();
 	}
 }

@@ -358,6 +358,8 @@ public class Comment extends JFrame {
 
                 // 게시글 삭제 실행
                 pstmtDeleteBoard.executeUpdate();
+                showBoardDetails(boardId, imageLabel, null, commentTable);
+                Board.loadBoardData();
             } else {
                 // 작성자의 ID와 로그인한 사용자의 ID가 일치하지 않는 경우에는 삭제를 거부
                 JOptionPane.showMessageDialog(null, "게시글 작성자만 삭제할 수 있습니다.", "권한 없음", JOptionPane.ERROR_MESSAGE);

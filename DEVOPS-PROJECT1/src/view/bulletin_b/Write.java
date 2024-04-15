@@ -1,16 +1,33 @@
 package view.bulletin_b;
 
-import db.MySqlDBManager;
-import view.logn.Session;
-
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.sql.*;
-import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
+
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import db.MySqlDBManager;
+import view.logn.Session;
 
 public class Write extends JFrame {
 
@@ -30,7 +47,7 @@ public class Write extends JFrame {
 
 		JLabel board_title = new JLabel("\uAC8C\uC2DC\uD310 \uAE00\uC4F0\uAE30");
 		board_title.setBounds(64, 21, 152, 59);
-		board_title.setFont(new Font("굴림┝", Font.PLAIN, 22));
+		board_title.setFont(new Font("굴림", Font.PLAIN, 22));
 		contentPane.add(board_title);
 
 		JButton btn_register = new JButton("등록");
@@ -54,8 +71,7 @@ public class Write extends JFrame {
 				}
 
 				String userId = Session.getInstance().getUserId();
-
-
+				
 				// 프로시저 호출
 				insertBoard(title, contents, picture, userId);
 
@@ -150,14 +166,19 @@ public class Write extends JFrame {
 			cstmt = conn.prepareCall("{CALL insert_board(?, ?, ?, ?)}");
 			cstmt.setString(1, title);
 			cstmt.setString(2, contents);
+			
 			if (picture != null) {
 				cstmt.setBytes(3, picture); // 이미지가 존재하는 경우
 			} else {
+				
 				cstmt.setNull(3, Types.BLOB); // 이미지가 존재하지 않는 경우
 			}			cstmt.setString(4, user_id);
 			cstmt.executeUpdate();
+			Board.loadBoardData();
+			dispose();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+
 		} finally {
 			try {
 				if (cstmt != null) cstmt.close();
