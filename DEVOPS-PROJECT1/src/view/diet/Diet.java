@@ -4,7 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.border.LineBorder;
+
+import db.PersonalDietDAO;
+import model.PersonalDiet;
 
 public class Diet extends JFrame implements ActionListener {
     public Diet() {
@@ -55,14 +60,19 @@ public class Diet extends JFrame implements ActionListener {
 
         // 식사시간
         String[] mealTimes = {"Breakfast", "Lunch", "Dinner"};
-
+        //데이터 입력되었는지 확인하기
+        ArrayList<PersonalDiet> arr_weekday_diet[]=new PersonalDietDAO().select_PerDiet();
+        
+        int week_day=1; //일, 월, 화, 수 ..
+        int week_diet=0; //아침, 점심, 저녁
         // 탄,단,식이섬유 버튼 추가
         for (String day : daysOfWeek) {
             JLabel dayLabel = new JLabel(day);
             dayLabel.setHorizontalAlignment(SwingConstants.CENTER); 
             main.add(dayLabel); 
-
-            for (String mealTime : mealTimes) {
+            
+            week_diet=0;
+            for (String mealTime : mealTimes) {   	
                 JPanel mealPanel = new JPanel();
                 mealPanel.setLayout(new BorderLayout());
                 mealPanel.setBorder(new LineBorder(Color.BLACK));
@@ -76,9 +86,9 @@ public class Diet extends JFrame implements ActionListener {
                 JPanel buttonPanel = new JPanel(new GridLayout(3, 1)); 
                 buttonPanel.setBackground(Color.WHITE); 
 
-                JButton carbButton = new JButton("Carbohydrate");
-                JButton proteinButton = new JButton("Protein");
-                JButton fiberButton = new JButton("Fiber");
+                JButton carbButton = new JButton(arr_weekday_diet[week_day].get(week_diet++).getDiet_name());
+                JButton proteinButton = new JButton(arr_weekday_diet[week_day].get(week_diet++).getDiet_name());
+                JButton fiberButton = new JButton(arr_weekday_diet[week_day].get(week_diet++).getDiet_name());
 
                 // 버튼 배경도 하얗게
                 carbButton.setBackground(Color.WHITE);
@@ -97,6 +107,7 @@ public class Diet extends JFrame implements ActionListener {
 
                 main.add(mealPanel); 
             }
+            week_day++;
         }
         add(main, BorderLayout.CENTER);
         setVisible(true);
