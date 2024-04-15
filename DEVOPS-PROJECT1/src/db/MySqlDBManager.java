@@ -8,7 +8,7 @@ public class MySqlDBManager {
       try {
          if(connection==null || connection.isClosed()) {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://192.168.0.33:3306/test";
+            String url = "jdbc:mysql://192.168.0.33:3306/test1";
             String id="root";
             String pwd="0124";
             connection=DriverManager.getConnection(url,id,pwd);

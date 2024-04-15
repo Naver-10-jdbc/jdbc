@@ -96,7 +96,7 @@ public class Main extends JFrame{
       });
       //¼ö¸é
       btn35.addActionListener(l->{
-         new Daily_Exercise();
+         //new Daily_Exercise();
       });
    }
    
