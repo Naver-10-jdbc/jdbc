@@ -1,5 +1,11 @@
 package view.mypg;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
 public class UpdateBMI {
 
 	private String myBMICal;
@@ -11,7 +17,7 @@ public class UpdateBMI {
 		//MyPage myPage = new MyPage();
 		MyPage myPage =mypage;
         // 사용자 키 가져오기
-        String weight = myPage.getmyWeightText(); // MyPage 클래스의 인스턴스를 직접 사용하여 키 정보를 가져옴
+        String weight = myPage.getmyWeightText(); // MyPage 클래스의 인스턴스를 직접 사용하여 몸무게 정보를 가져옴
         double myWeightNum = Double.parseDouble(weight);
         String myHeightText = myPage.getmyHeightText(); // 여기서 변경된 키 값을 가져옴
         double myHeightNum = Double.parseDouble(myHeightText);
@@ -26,4 +32,5 @@ public class UpdateBMI {
 	public void setMyBMICal(String myBMICal) {
 		this.myBMICal = myBMICal;
 	}
+		
 }
