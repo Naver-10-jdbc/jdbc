@@ -26,9 +26,9 @@ public class MyPageDAO {
             ResultSet rs = stmt.executeQuery();
             UsersData  usersData=new UsersData ();;
             if(rs.next()) {
-            	usersData.setUser_name(rs.getString(3));
-            	usersData.setUser_height(rs.getString(6));
-            	usersData.setUser_gender(rs.getString(7));
+            	usersData.setUser_name(rs.getString(4));
+            	usersData.setUser_height(rs.getString(7));
+            	usersData.setUser_gender(rs.getString(8));
             }
             rs.close();
             return usersData;
