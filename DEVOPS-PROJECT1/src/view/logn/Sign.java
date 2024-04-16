@@ -207,7 +207,7 @@ public class Sign extends JFrame {
 				}
 				// 사용자 정보를 데이터베이스에 삽입
 				UserDao users = new UserDao();
-				if(users.insertUser(txt_id.getText(), password, txt_name.getText(), txt_email.getText(), Integer.parseInt(age), Integer.parseInt(height), gender, Integer.parseInt(weight))) {
+				if(users.insertUser(txt_id.getText(), password, txt_name.getText(), txt_email.getText(), Integer.parseInt(age), Double.parseDouble(height), gender, Double.parseDouble(weight))) {
 					System.out.println("ㅇㅇㅇ");
 					JOptionPane.showMessageDialog(Sign.this,"회원가입이 완료되었습니다.");
 					dispose();
