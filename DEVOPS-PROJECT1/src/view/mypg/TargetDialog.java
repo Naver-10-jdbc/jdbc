@@ -4,17 +4,22 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class TargetDialog extends JDialog {
-    private JLabel myWishWeight, myWishSkmu, myWishBodyfat, whisCid, exeLevel, sleepTime;
+import db.MyPageDAO;
+import db.UsersData;
+import view.logn.Session;
 
-    public TargetDialog(JFrame parentFrame, JLabel wishWeight, JLabel wishSkmu, JLabel wishBodyfat, JLabel cidLabel, JLabel exeLabel, JLabel sleepLabel) {
+public class TargetDialog extends JDialog {
+    private JLabel myWishWeight, myWishSkmu, myWishBodyfat, whisCid, exeLevel, sleepTime, myBMI;
+    JTextField weightField, skmuField, bodyfatField, sleepField;
+    private JRadioButton cidC, cidI, cidD;
+    private int exeLevelNum;
+    private String cidSelect;
+    private JLabel wishCID, myWishBMI;
+    String user_id = Session.getInstance().getUserId();
+    
+    public TargetDialog(MyPage parentFrame) {
         super(parentFrame, "목표 업데이트", true);
-        myWishWeight = wishWeight;
-        myWishSkmu = wishSkmu;
-        myWishBodyfat = wishBodyfat;
-        whisCid = cidLabel;
-        exeLevel = exeLabel;
-        sleepTime = sleepLabel;
+        MyPage myPage =parentFrame;
 
         setSize(400, 600);
         setResizable(false);
@@ -28,7 +33,7 @@ public class TargetDialog extends JDialog {
 
         // 체중 입력 패널
         JPanel weightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField weightField = new JTextField(10);
+        weightField = new JTextField(10);
         weightPanel.add(new JLabel("체중 입력       "));
         weightPanel.add(weightField);
         weightPanel.add(new JLabel("kg"));
@@ -36,7 +41,7 @@ public class TargetDialog extends JDialog {
 
         // 골격근량 입력 패널
         JPanel skmuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField skmuField = new JTextField(10);
+        skmuField = new JTextField(10);
         skmuPanel.add(new JLabel("골격근량 입력"));
         skmuPanel.add(skmuField);
         skmuPanel.add(new JLabel("kg"));
@@ -44,7 +49,7 @@ public class TargetDialog extends JDialog {
 
         // 체지방량 입력 패널
         JPanel bodyfatPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField bodyfatField = new JTextField(10);
+        bodyfatField = new JTextField(10);
         bodyfatPanel.add(new JLabel("체지방량 입력"));
         bodyfatPanel.add(bodyfatField);
         bodyfatPanel.add(new JLabel("kg"));
@@ -52,7 +57,7 @@ public class TargetDialog extends JDialog {
 
         // 수면시간 입력 패널
         JPanel sleepPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField sleepField = new JTextField(10);
+        sleepField = new JTextField(10);
         sleepPanel.add(new JLabel("수면시간 입력"));
         sleepPanel.add(sleepField);
         sleepPanel.add(new JLabel("시간"));
@@ -61,9 +66,9 @@ public class TargetDialog extends JDialog {
         // CID 라디오 버튼
         JPanel radioPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         ButtonGroup cidGroup = new ButtonGroup();
-        JRadioButton cidC = new JRadioButton("C");
-        JRadioButton cidI = new JRadioButton("I");
-        JRadioButton cidD = new JRadioButton("D");
+        cidC = new JRadioButton("C");
+        cidI = new JRadioButton("I");
+        cidD = new JRadioButton("D");
         cidGroup.add(cidC);
         cidGroup.add(cidI);
         cidGroup.add(cidD);
@@ -109,11 +114,105 @@ public class TargetDialog extends JDialog {
 
         // 확인 버튼
         JButton confirmButton = new JButton("확인");
-        confirmButton.addActionListener(new ConfirmButtonListener(weightField, skmuField, bodyfatField, sleepField, cidC, cidI, cidD, exeHigh, exeMid, exeLow));
+        confirmButton.addActionListener(new ActionListener() {
 
+			private BMIimg bmiimg;
+			private UsersData usersData;
+			private JButton myBMIicon;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String weightValue = weightField.getText();
+                String skmuValue = skmuField.getText();
+                String bodyfatValue = bodyfatField.getText();
+                String sleepValue = sleepField.getText();
+				
+	            // 입력값 확인
+	            if (weightValue.isEmpty() || !isNumeric(weightValue) ||
+	            	skmuValue.isEmpty() || !isNumeric(skmuValue) ||
+	            	bodyfatValue.isEmpty() || !isNumeric(bodyfatValue) ||
+	            	sleepValue.isEmpty() || !isNumeric(sleepValue) ||
+	                (!cidC.isSelected() && !cidI.isSelected() && !cidD.isSelected()) ||
+	                (!exeHigh.isSelected() && !exeMid.isSelected() && !exeLow.isSelected())) {
+	                JOptionPane.showMessageDialog(TargetDialog.this, "입력값을 다시 확인하여 모두 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
+	            } else {
+	                // 입력값 처리
+	            	
+	            	myWishWeight = myPage.getMyWishWeihgt();
+	            	myWishWeight.setText(weightValue);
+	            	myWishSkmu = myPage.getMyWishskmu();
+	            	myWishSkmu.setText(skmuValue);
+	            	myWishBodyfat = myPage.getMyWishbodyfat();
+	            	myWishBodyfat.setText(bodyfatValue);
+	            	
+	            	wishCID = myPage.getWishCid();
+	                if (cidC.isSelected()) {
+	                	wishCID.setText("C");
+	                    cidSelect="C";
+	                } else if (cidI.isSelected()) {
+	                	wishCID.setText("I");
+	                    cidSelect="I";
+	                } else {
+	                	wishCID.setText("D");
+	                    cidSelect="D";
+	                }
+	                
+	                exeLevel = myPage.getExeLevel();
+	                if (exeHigh.isSelected()) {
+	                    exeLevel.setText("상");
+	                    exeLevelNum=2;
+	                } else if (exeMid.isSelected()) {
+	                    exeLevel.setText("중");
+	                    exeLevelNum=1;
+	                } else {
+	                    exeLevel.setText("하");
+	                    exeLevelNum=0;
+	                }
+	                
+	                sleepTime= myPage.getSleepTime();
+	                sleepTime.setText(sleepValue);
+	                
+	                MyPageDAO myPageDAO = new MyPageDAO();
+	                myPageDAO.updateTarget(user_id, Double.parseDouble(weightValue), Double.parseDouble(skmuValue), Double.parseDouble(bodyfatValue), Double.parseDouble(sleepValue), cidSelect, exeLevelNum);
+	                
+	                // BMI 계산
+                    double heightValue = Double.parseDouble(parentFrame.getmyHeightText());
+                    String myBMICal = String.format("%.1f", Double.parseDouble(weightField.getText()) / ((heightValue / 100) * (heightValue / 100)));
+	                
+	                myWishBMI = myPage.getMyWishBMI();
+	                myWishBMI.setText(myBMICal);
+	                
+	                //bmi에 맞는 이미지 가져오기
+                    bmiimg = new BMIimg();
+	                usersData=new MyPageDAO().loginData();
+	                String resource = bmiimg.bmi_img(usersData.getUser_gender(), Double.parseDouble(myBMICal));
+	                
+	                // 새로운 이미지 파일 로드
+	                ImageIcon newIcon = new ImageIcon(MyPage.class.getResource(resource));
+	                // 이미지 크기 조절
+	                Image image = newIcon.getImage().getScaledInstance(90, 215, Image.SCALE_SMOOTH);
+
+	                // 조절된 이미지로 ImageIcon 생성
+	                ImageIcon resizedIcon = new ImageIcon(image);
+
+	                // 버튼에 이미지 설정
+	                myBMIicon = myPage.getWishbodyimg();
+	                myBMIicon.setIcon(resizedIcon);
+	                
+	                dispose(); // 다이얼로그 창 닫기
+	            }
+			}
+		});
+        
         // 취소 버튼
         JButton cancelButton = new JButton("취소");
-        cancelButton.addActionListener(new CancelButtonListener());
+        cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 
         // 확인, 취소 버튼 패널
         JPanel buttonPanel = new JPanel();
@@ -125,6 +224,7 @@ public class TargetDialog extends JDialog {
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
     }
+    
 
     private void addGridBagComponent(JPanel panel, Component component, int gridx, int gridy, int anchor) {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -135,63 +235,6 @@ public class TargetDialog extends JDialog {
         panel.add(component, gbc);
     }
 
-    private class ConfirmButtonListener implements ActionListener {
-        private JTextField weightField, skmuField, bodyfatField, sleepField;
-        private JRadioButton cidC, cidI, cidD, exeHigh, exeMid, exeLow;
-
-        public ConfirmButtonListener(JTextField weightField, JTextField skmuField, JTextField bodyfatField, JTextField sleepField,
-                JRadioButton cidC, JRadioButton cidI, JRadioButton cidD, JRadioButton exeHigh, JRadioButton exeMid, JRadioButton exeLow) {
-            this.weightField = weightField;
-            this.skmuField = skmuField;
-            this.bodyfatField = bodyfatField;
-            this.sleepField = sleepField;
-            this.cidC = cidC;
-            this.cidI = cidI;
-            this.cidD = cidD;
-            this.exeHigh = exeHigh;
-            this.exeMid = exeMid;
-            this.exeLow = exeLow;
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            // 입력값 확인
-            if (weightField.getText().isEmpty() || !isNumeric(weightField.getText()) ||
-                skmuField.getText().isEmpty() || !isNumeric(skmuField.getText()) ||
-                bodyfatField.getText().isEmpty() || !isNumeric(bodyfatField.getText()) ||
-                sleepField.getText().isEmpty() || !isNumeric(sleepField.getText()) ||
-                (!cidC.isSelected() && !cidI.isSelected() && !cidD.isSelected()) ||
-                (!exeHigh.isSelected() && !exeMid.isSelected() && !exeLow.isSelected())) {
-                JOptionPane.showMessageDialog(TargetDialog.this, "입력값을 다시 확인하여 모두 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
-            } else {
-                // 입력값 처리
-                myWishWeight.setText(weightField.getText());
-                myWishSkmu.setText(skmuField.getText());
-                myWishBodyfat.setText(bodyfatField.getText());
-                if (cidC.isSelected()) {
-                    whisCid.setText("C");
-                } else if (cidI.isSelected()) {
-                    whisCid.setText("I");
-                } else {
-                    whisCid.setText("D");
-                }
-                if (exeHigh.isSelected()) {
-                    exeLevel.setText("상");
-                } else if (exeMid.isSelected()) {
-                    exeLevel.setText("중");
-                } else {
-                    exeLevel.setText("하");
-                }
-                sleepTime.setText(sleepField.getText());
-                dispose(); // 다이얼로그 창 닫기
-            }
-        }
-    }
-
-    private class CancelButtonListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            dispose(); // 다이얼로그 창 닫기
-        }
-    }
 
     private boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");
