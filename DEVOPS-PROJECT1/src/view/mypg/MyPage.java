@@ -11,6 +11,7 @@ import db.InbodyData;
 import db.MyPageDAO;
 import db.TargetData;
 import db.UsersData;
+import view.logn.Login;
 import view.logn.Session;
 
 public class MyPage extends JFrame {

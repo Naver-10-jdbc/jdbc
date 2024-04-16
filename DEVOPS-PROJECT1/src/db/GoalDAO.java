@@ -9,6 +9,7 @@ import java.util.List;
 import com.mysql.cj.exceptions.RSAException;
 
 import model.GraphXY;
+import view.logn.Session;
 
 public class GoalDAO {
 	PreparedStatement pstmt;
@@ -19,7 +20,7 @@ public class GoalDAO {
 			conn=MySqlDBManager.getInstance();
 			String sql ="insert into goal(user_id,goal_weight) values(?,?);";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,"example_user8");	//user_id값 바꾸기.
+			pstmt.setString(1,Session.getInstance().getUserId());	//user_id값 바꾸기.
 			pstmt.setInt(2, weight);
 			int rows = pstmt.executeUpdate();
 			return true;
@@ -32,12 +33,12 @@ public class GoalDAO {
 		}
 	}
 	
-	public List<GraphXY> select_Weight(int month){ //정상작동, ID값만 다음에 바꿔주기.
+	public List<GraphXY> select_Weight(int month){ //정상작동.
 		try {
 			 conn=MySqlDBManager.getInstance();
 			 String sql ="select goal_weight,date_format(goal_date,'%d')as weightday FROM goal WHERE user_id=? order by 2";
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1,"example_user8");	//user_id값 바꾸기.
+			 pstmt.setString(1,Session.getInstance().getUserId());	
 			 rs = pstmt.executeQuery();
 			 List<GraphXY> list=new ArrayList<GraphXY>();
 			 while(rs.next()) {

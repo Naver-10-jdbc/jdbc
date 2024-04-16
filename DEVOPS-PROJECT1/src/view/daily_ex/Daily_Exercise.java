@@ -1,8 +1,11 @@
 package view.daily_ex;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
@@ -13,8 +16,11 @@ import javax.swing.JPanel;
 
 import db.ExerciseDAO;
 import model.Exercise;
+import view.logn.Login;
 
 public class Daily_Exercise extends JFrame {
+	//뒤로가기 버튼
+	JButton btn_back;
 	//레이아웃1
 	JPanel panel1;
 	JLabel tv_day,tv_exer1,tv_exer2,tv_exer3,tv_exer4;
@@ -33,10 +39,15 @@ public class Daily_Exercise extends JFrame {
 	String weekday; //요일
 	public Daily_Exercise(String str_exercise[],String weekday) {
 		this.str_exercise=str_exercise;
+		if(str_exercise==null) {
+			System.out.println("null 발생, 화면끄기 from Daily_Exercise");
+			return;
+		}
 		this.weekday=weekday;
-		arr=new ExerciseDAO().select_today_exercise(str_exercise);
+		arr=new ExerciseDAO().select_today_exercise(str_exercise); 
 		exercise_name=new String[4];
 		for(int i=0; i<4; i++) exercise_name[i]=arr[i].getName();
+		Init_back_btn();
 		Init_Layout_Whole();
 		Init_Layout1();
 		Init_Layout2();
@@ -46,7 +57,7 @@ public class Daily_Exercise extends JFrame {
 	}
 	private void Event_Listener() {
 		start_btn.addActionListener((i)->{
-			new Dialog_Timer(1,true,exercise_name);
+			new Dialog_Timer(1,true,exercise_name,this);
 			
 		});
 	}
@@ -60,6 +71,18 @@ public class Daily_Exercise extends JFrame {
 		add(panel1); 
 		add(panel2);
 	}
+	   private void Init_back_btn() {
+		    btn_back = new JButton("←");		//가로, 세로 값 지정
+			btn_back.setBackground(new Color(134,229,127));
+			btn_back.setBounds(5, 5, 46, 46);
+			btn_back.setPreferredSize(new Dimension(30, 30));
+			btn_back.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose(); //뒤로가기 선택 시 창꺼짐
+				}
+			});
+			add(btn_back);
+	   }
 	private void Init_Layout_Whole() {
 		panel1=new JPanel();
 		panel1.setBackground(new Color(134,229,127));
@@ -74,7 +97,7 @@ public class Daily_Exercise extends JFrame {
 	private void Init_Layout1() {
 		/* 요일 + 운동 종류*/
 		int left_padding=50;
-		tv_day=new JLabel(weekday+"요일");
+		tv_day=new JLabel(weekday);
 		tv_day.setFont(new Font("맑은 고딕",Font.BOLD,18));
 		tv_day.setBounds(50,50,100,30); 
 		panel1.add(tv_day);	

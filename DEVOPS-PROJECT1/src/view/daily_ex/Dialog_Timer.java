@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Dialog_Timer extends JFrame {
 	   /*자바 스윙 컴포넌트*/
@@ -21,13 +22,18 @@ public class Dialog_Timer extends JFrame {
 	   int minutes_exer[]= {15,15,10}; //임시로 넣음
 	   String names_exer[];
 	   int how_set=0;
-	   int break_time_millis=4000;//5*60000;
-	   int millisecond=5000;//5*60000;
+	   int break_time_millis=2000;//5*60000;
+	   int millisecond=3000;//5*60000;
 	   boolean flag=false;	//현재 운동중(true)인지 휴식중(false)인지
 	   boolean flag_for_thread=false;
 	   
-	   public Dialog_Timer(int set,boolean flag,String names_exer[]) {
-	      Init_Jframe();
+	   /*타이머 클래스*/
+	   Timer timer;
+	   /*해당 클래스를 호출한 부모 클래스*/
+	   Daily_Exercise parent_frame;
+	   public Dialog_Timer(int set,boolean flag,String names_exer[],Daily_Exercise parent_frame) {
+	      this.parent_frame=parent_frame;
+		  Init_Jframe();
 	      Init_View();
 	      Init_Listener();
 	      how_set=set;
@@ -45,7 +51,7 @@ public class Dialog_Timer extends JFrame {
 	   public void Timer_For_Exer() {
 		   	  tv_name.setText(names_exer[how_set-1]);
 		   	  tv_how_set.setText(how_set+" Set");
-		      Timer timer=new Timer();
+		      timer=new Timer();
 		      TimerTask exer_Task=new TimerTask() {
 				@Override
 				public void run() {
@@ -62,8 +68,13 @@ public class Dialog_Timer extends JFrame {
 					if(millisecond<=0) {
 						cancel();
 						dispose();
-						if(how_set<4) new Dialog_Timer(how_set,false,names_exer);
-						else new Dialog_Finish();
+						if(how_set<4) {
+							new Dialog_Timer(how_set,false,names_exer,parent_frame);
+						}
+						else {
+							new Dialog_Finish();
+							parent_frame.dispose();
+						}
 					}
 				}
 		      };
@@ -73,7 +84,7 @@ public class Dialog_Timer extends JFrame {
 	   public void Timer_For_Break() {
 		   	  tv_name.setText("휴식 시간!");
 		   	  tv_how_set.setText(how_set+" Set");
-		      Timer timer=new Timer();
+		      timer=new Timer();
 		      TimerTask exer_Task=new TimerTask() {
 				@Override
 				public void run() {
@@ -90,7 +101,7 @@ public class Dialog_Timer extends JFrame {
 					if(break_time_millis<=0) {
 						cancel();
 						dispose();
-						new Dialog_Timer(how_set+1,true,names_exer);
+						new Dialog_Timer(how_set+1,true,names_exer,parent_frame);
 					}
 				}
 		      };
@@ -100,6 +111,8 @@ public class Dialog_Timer extends JFrame {
 	   private void Init_Listener() {
 	      btn.addActionListener((e)->{
 	         dispose();
+	         timer.cancel();
+	         JOptionPane.showMessageDialog(null, "운동을 중단하셨습니다.");
 	      });
 	   }
 	   
