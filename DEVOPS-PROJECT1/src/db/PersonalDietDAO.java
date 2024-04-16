@@ -10,7 +10,7 @@ import model.PersonalEx;
 import view.logn.Session;
 
 public class PersonalDietDAO {
-	PreparedStatement pstmt;
+	 PreparedStatement pstmt;
 	 Connection conn;
 	 ResultSet rs;
 	public ArrayList<PersonalDiet>[] select_PerDiet(){
@@ -22,11 +22,11 @@ public class PersonalDietDAO {
 			 String sql = "SELECT * FROM personal_diet WHERE user_id=?";
 			 pstmt = conn.prepareStatement(sql);
 			 System.out.println("pstmt");
-			 pstmt.setString(1,"example_user7");
+			 pstmt.setString(1,"example_user9");
 			 rs = pstmt.executeQuery();
 			 System.out.println("rs");
 			 while(rs.next()) {
-				 //System.out.println(rs.getString("diet_name")+" "+rs.getInt("weekend"));
+				 System.out.println(rs.getString("diet_name")+" "+rs.getInt("weekend"));
 				 week_arr[rs.getInt("weekend")].add(new PersonalDiet(rs.getString("diet_name"),rs.getInt("weekend"),rs.getInt("daytime")));
 			 }
 			 return week_arr;

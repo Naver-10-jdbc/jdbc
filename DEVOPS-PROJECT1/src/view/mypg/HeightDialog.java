@@ -1,16 +1,28 @@
 package view.mypg;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import db.MyPageDAO;
+import view.logn.Session;
 
 public class HeightDialog extends JDialog {
     private JButton myHeight;
     private JLabel myBMI;
+    String user_id = Session.getInstance().getUserId();
     
     //Mypage 175
 	public HeightDialog(MyPage parentFrame, JButton heightButton, JLabel bmiLabel) {
-		super(parentFrame, "Å° Á¤º¸ ÀÔ·Â", true);
+		super(parentFrame, "Å° ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½", true);
         myHeight = heightButton;
         myBMI = bmiLabel;
 
@@ -27,7 +39,7 @@ public class HeightDialog extends JDialog {
         panel.add(heightField);
 
         
-        JButton okButton = new JButton("È®ÀÎ");
+        JButton okButton = new JButton("È®ï¿½ï¿½");
         
         
         //okButton.addActionListener(new OkButtonListener(heightField));
@@ -38,18 +50,20 @@ public class HeightDialog extends JDialog {
 				String input = heightField.getText();
 				UpdateBMI updateBMI = new UpdateBMI();
 				if (input.isEmpty() || !isNumeric(input)) {
-					JOptionPane.showMessageDialog(HeightDialog.this, "¿Ã¹Ù¸¥ ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.", "¿À·ù", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(HeightDialog.this, "ï¿½Ã¹Ù¸ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.", "ï¿½ï¿½ï¿½ï¿½", JOptionPane.ERROR_MESSAGE);
 				} else {
 					myHeight.setText(input);
 					parentFrame.setmyHeightText(input);
 					myBMI.setText(updateBMI.updateBMI(parentFrame));
+					MyPageDAO myPageDAO = new MyPageDAO();
+					myPageDAO.updateUserHeight(user_id, Double.parseDouble(input));
 					dispose();
 				}	
 			}
 		});
     
         
-        JButton cancelButton = new JButton("Ãë¼Ò");
+        JButton cancelButton = new JButton("ï¿½ï¿½ï¿½");
         cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
