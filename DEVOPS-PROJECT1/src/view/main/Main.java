@@ -2,7 +2,10 @@ package view.main;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.time.LocalDate;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,11 +15,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import db.GoalDAO;
 import view.bulletin_b.Board;
 import view.daily_ex.Daily_Exercise;
 import view.diet.Diet;
 import view.mypg.MyPage;
 import view.week_ex.Week_Exercise;
+import service.*;
 
 public class Main extends JFrame{
    final int left_padding=20;
@@ -32,6 +37,7 @@ public class Main extends JFrame{
    //목표 달성도 레이아웃
    JPanel panel2;
    JLabel l21;
+   JButton grpah_btn;
    //오늘의 미션 레이아웃
    JPanel panel3;
    JLabel l31,l32,l33,l34;
@@ -39,8 +45,11 @@ public class Main extends JFrame{
    //오늘의 식단 추천
    JPanel panel4;
    JLabel l41;
-
-
+   
+   //자료구조
+   LocalDate now = LocalDate.now();
+   int month_today=now.getMonthValue();
+   int day_today=now.getDayOfMonth();
    public Main() {
       setSize(704,750);
       setLayout(null);
@@ -52,10 +61,15 @@ public class Main extends JFrame{
       Init_Panel4();
       Event_Listener();
       
+      
       setVisible(true);
    }
    
    private void Event_Listener() {
+	   grpah_btn.addActionListener((e)->{
+		  new GrpahService().show_graph();
+		  System.out.println("graph");
+	   });
       //myPage
       btn11.addActionListener((e)->{
          System.out.println("Mypage"); 
@@ -81,7 +95,14 @@ public class Main extends JFrame{
                      break;
                   }
                }
-               if(flag) break;
+               if(flag) {
+            	   if(new GoalDAO().insert_Weight(Integer.parseInt(str))) {
+            		   JOptionPane.showMessageDialog(null, "입력이 완료되었습니다.");
+            	   }else {
+            		   JOptionPane.showMessageDialog(null, "오늘 이미 한차례 입력하셨습니다.");
+            	   }
+            	   break;
+               }
                JOptionPane.showMessageDialog(null, "숫자만 입력해주세요.");
             }
          }
@@ -147,11 +168,24 @@ public class Main extends JFrame{
       l21.setBounds(left_padding,100,h2_width_size,h2_height_size); //x,y,width,height
       l21.setFont(new Font("맑은 고딕",Font.BOLD,h2_font_size));
       
+      JLabel lb3=new JLabel("");
+      int img_width=600;
+      int img_height=80;
+      lb3.setBounds(30,150,img_width,img_height);		
+      ImageIcon icon = new ImageIcon(Main.class.getResource("02.male_normal.png")); //이미지 삽입
+      Image image = icon.getImage().getScaledInstance(img_width,img_height, Image.SCALE_SMOOTH); // 이미지 크기 조절
+      lb3.setIcon(new ImageIcon(image)); 
+      add(lb3);
+      
+      grpah_btn=new JButton("이달의 몸무게 기록");
+      grpah_btn.setBounds(250,280,170,25); //x,y,width,height
+      grpah_btn.setFont(new Font("맑은 고딕",Font.BOLD,11));
       /*double[] xData=new double[] {0.0,1.0,2.0};
       double[] yData=new double[] {0.0,1.0,2.0};
       XYChart chart=QuickChart.getChart("sample","x","y","y(x)",xData,yData);
       */
       add(l21);
+      add(grpah_btn);
       
       
    }
@@ -167,7 +201,7 @@ public class Main extends JFrame{
       add(btn31);
         
         //중첩 레이아웃
-        l32=new JLabel("3/27");
+        l32=new JLabel(month_today+"/"+day_today);
         l33=new JLabel("수요일");
         l34=new JLabel("얼마 안남았어요! 화이팅!");
         l32.setFont(new Font("맑은 고딕",Font.BOLD,15));
@@ -208,7 +242,7 @@ public class Main extends JFrame{
       l41.setBounds(left_padding,500,h2_width_size,h2_height_size);
       l41.setFont(new Font("맑은 고딕",Font.BOLD,h2_font_size));
       
-        String header[] = {"3/27 수","아침","점심","저녁"};
+        String header[] = {month_today+"/"+day_today,"아침","점심","저녁"};
         String contents[][] = {
             {"식단","음식1,음식2,음식3","음식1,음식2,음식3","음식1,음식2,음식3"},
             {"총 칼로리","100kcal","99kcal","100kcal"},

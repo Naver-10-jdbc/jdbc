@@ -56,7 +56,7 @@ public class HeightDialog extends JDialog {
 					parentFrame.setmyHeightText(input);
 					myBMI.setText(updateBMI.updateBMI(parentFrame));
 					MyPageDAO myPageDAO = new MyPageDAO();
-					myPageDAO.updateUserHeight(user_id, Double.parseDouble(input));
+					//myPageDAO.updateUserHeight(user_id, Double.parseDouble(input));
 					dispose();
 				}	
 			}

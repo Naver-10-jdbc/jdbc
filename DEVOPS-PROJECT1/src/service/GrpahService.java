@@ -7,6 +7,9 @@ import model.GraphXY;
 import view.main.WeightGraph;
 
 public class GrpahService {
+	public GrpahService() {
+		
+	}
 	public void show_graph() {
 		 Thread t = new Thread(new Runnable() {
 			 @Override

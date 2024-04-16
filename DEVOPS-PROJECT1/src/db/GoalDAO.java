@@ -37,7 +37,7 @@ public class GoalDAO {
 			 conn=MySqlDBManager.getInstance();
 			 String sql ="select goal_weight,date_format(goal_date,'%d')as weightday FROM goal WHERE user_id=? order by 2";
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1,"example_user6");	//user_id값 바꾸기.
+			 pstmt.setString(1,"example_user8");	//user_id값 바꾸기.
 			 rs = pstmt.executeQuery();
 			 List<GraphXY> list=new ArrayList<GraphXY>();
 			 while(rs.next()) {
