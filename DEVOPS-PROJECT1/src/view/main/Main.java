@@ -212,17 +212,17 @@ public class Main extends JFrame{
       l21.setBounds(left_padding,100,h2_width_size,h2_height_size); //x,y,width,height
       l21.setFont(new Font("맑은 고딕",Font.BOLD,h2_font_size));
       
-      JLabel lb3=new JLabel("");
+      /*JLabel lb3=new JLabel("");
       int img_width=600;
       int img_height=80;
       lb3.setBounds(30,150,img_width,img_height);		
       ImageIcon icon = new ImageIcon(Main.class.getResource("WeightGraph.png")); //이미지 삽입
       Image image = icon.getImage().getScaledInstance(img_width,img_height, Image.SCALE_SMOOTH); // 이미지 크기 조절
       lb3.setIcon(new ImageIcon(image)); 
-      add(lb3);
+      add(lb3);*/
       
       grpah_btn=new JButton("이달의 몸무게 기록");
-      grpah_btn.setBounds(250,280,170,25); //x,y,width,height
+      grpah_btn.setBounds(20,150,500,100); //x,y,width,height
       grpah_btn.setFont(new Font("맑은 고딕",Font.BOLD,11));
       /*double[] xData=new double[] {0.0,1.0,2.0};
       double[] yData=new double[] {0.0,1.0,2.0};
