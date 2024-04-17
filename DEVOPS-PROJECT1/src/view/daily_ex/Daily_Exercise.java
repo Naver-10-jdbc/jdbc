@@ -35,7 +35,7 @@ public class Daily_Exercise extends JFrame {
 	String str_exercise[];
 	// 자료구조
 	Exercise[]arr;
-	String exercise_name[];
+	String exercise_name[]; 
 	String weekday; //요일
 	public Daily_Exercise(String str_exercise[],String weekday) {
 		this.str_exercise=str_exercise;
@@ -45,8 +45,8 @@ public class Daily_Exercise extends JFrame {
 		}
 		this.weekday=weekday;
 		arr=new ExerciseDAO().select_today_exercise(str_exercise); 
-		exercise_name=new String[4];
-		for(int i=0; i<4; i++) exercise_name[i]=arr[i].getName();
+		//exercise_name=new String[4];
+		//for(int i=0; i<4; i++) exercise_name[i]=arr[i].getName();
 		Init_back_btn();
 		Init_Layout_Whole();
 		Init_Layout1();
@@ -57,7 +57,7 @@ public class Daily_Exercise extends JFrame {
 	}
 	private void Event_Listener() {
 		start_btn.addActionListener((i)->{
-			new Dialog_Timer(1,true,exercise_name,this);
+			new Dialog_Timer(1,true,arr,this);
 			
 		});
 	}
@@ -134,8 +134,9 @@ public class Daily_Exercise extends JFrame {
 		panel2.add(tv_panel2_h1);
 		
 		JLabel lb1=new JLabel("");
-		lb1.setBounds(left_padding_img,0,img_size_label,img_size_label);		
-		ImageIcon icon = new ImageIcon(Daily_Exercise.class.getResource("02.male_normal.png")); //이미지 삽입
+		lb1.setBounds(left_padding_img,0,img_size_label,img_size_label);
+		byte[] imgDate1 = arr[0].getImg();
+		ImageIcon icon = new ImageIcon(imgDate1); //이미지 삽입
 		Image image1 = icon.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // 이미지 크기 조절
 		lb1.setIcon(new ImageIcon(image1)); 
 		panel2.add(lb1);
@@ -149,9 +150,10 @@ public class Daily_Exercise extends JFrame {
 		panel2.add(tv_h2_exer1);
 		
 		JLabel lb2=new JLabel("");
-		lb2.setBounds(left_padding_img,img_bottom_padding,img_size_label,img_size_label);		
-		ImageIcon icon2 = new ImageIcon(Daily_Exercise.class.getResource("02.male_normal.png")); //이미지 삽입
-		Image image2 = icon.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // 이미지 크기 조절
+		lb2.setBounds(left_padding_img,img_bottom_padding,img_size_label,img_size_label);
+		byte[] imgDate2 = arr[1].getImg();
+		ImageIcon icon2 = new ImageIcon(imgDate2); //이미지 삽입
+		Image image2 = icon2.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // 이미지 크기 조절
 		lb2.setIcon(new ImageIcon(image2)); 
 		panel2.add(lb2);
 		tv_h1_exer2=new JLabel(arr[1].getName());
@@ -164,9 +166,10 @@ public class Daily_Exercise extends JFrame {
 		panel2.add(tv_h2_exer2);
 		
 		JLabel lb3=new JLabel("");
-		lb3.setBounds(left_padding_img,img_bottom_padding*2,img_size_label,img_size_label);		
-		ImageIcon icon3 = new ImageIcon(Daily_Exercise.class.getResource("02.male_normal.png")); //이미지 삽입
-		Image image3 = icon.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // 이미지 크기 조절
+		lb3.setBounds(left_padding_img,img_bottom_padding*2,img_size_label,img_size_label);
+		byte[] imgDate3 = arr[2].getImg();
+		ImageIcon icon3 = new ImageIcon(imgDate3); //이미지 삽입
+		Image image3 = icon3.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // 이미지 크기 조절
 		lb3.setIcon(new ImageIcon(image3)); 
 		panel2.add(lb3);
 		tv_h1_exer3=new JLabel(arr[2].getName());
@@ -179,9 +182,10 @@ public class Daily_Exercise extends JFrame {
 		panel2.add(tv_h2_exer3);	
 		
 		JLabel lb4=new JLabel("");
-		lb4.setBounds(left_padding_img,img_bottom_padding*3,img_size_label,img_size_label);		
-		ImageIcon icon4 = new ImageIcon(Daily_Exercise.class.getResource("02.male_normal.png")); //이미지 삽입
-		Image image4 = icon.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // 이미지 크기 조절
+		lb4.setBounds(left_padding_img,img_bottom_padding*3,img_size_label,img_size_label);	
+		byte[] imgDate4 = arr[3].getImg();
+		ImageIcon icon4 = new ImageIcon(imgDate4); //이미지 삽입
+		Image image4 = icon4.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // 이미지 크기 조절
 		lb4.setIcon(new ImageIcon(image4)); 
 		panel2.add(lb4);
 		tv_h1_exer4=new JLabel(arr[3].getName());

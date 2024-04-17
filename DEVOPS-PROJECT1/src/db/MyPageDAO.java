@@ -56,12 +56,15 @@ public class MyPageDAO {
             String sql = new StringBuilder()
                     		.append("UPDATE users SET ")
                     		.append("user_height= ? ")
+                    		.append(",inbody_cid= ?")
                     		.append("WHERE user_id= ?")
+                    		
                     		.toString();
             
             stmt = conn.prepareStatement(sql);
             stmt.setDouble(1, height);
             stmt.setString(2, user_id);
+            
  
             // Äõ¸® ½ÇÇà
             int update = stmt.executeUpdate();

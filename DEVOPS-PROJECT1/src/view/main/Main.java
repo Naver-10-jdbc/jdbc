@@ -62,6 +62,7 @@ public class Main extends JFrame{
       setSize(704,750);
       setLayout(null);
       setResizable(false);
+      getContentPane().setBackground(Color.WHITE);
       Init_back_btn();
       Init_Layout();
       Init_Panel1();
@@ -279,6 +280,9 @@ public class Main extends JFrame{
         panel3.add(btn33);
         panel3.add(btn34);
         panel3.add(btn35);
+        
+        panel3.setBackground(new Color(240, 240, 240));
+        
    }
    private void Init_Panel4() {
       l41=new JLabel("오늘의 식단 추천");
@@ -305,6 +309,7 @@ public class Main extends JFrame{
         table.setRowHeight(45);
         JScrollPane scrollpane = new JScrollPane(table);
         panel4.add(scrollpane);
+        panel4.setBackground(Color.white);
         add(l41);
    }
 }

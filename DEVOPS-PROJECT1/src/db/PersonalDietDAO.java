@@ -13,6 +13,7 @@ public class PersonalDietDAO {
 	 PreparedStatement pstmt;
 	 Connection conn;
 	 ResultSet rs;
+	 String user_id=Session.getInstance().getUserId();
 	public ArrayList<PersonalDiet>[] select_PerDiet(){
 		ArrayList<PersonalDiet>[]week_arr=new ArrayList[8];
 		for(int i=0; i<8; i++) week_arr[i]=new ArrayList<PersonalDiet>();
@@ -22,7 +23,7 @@ public class PersonalDietDAO {
 			 String sql = "SELECT * FROM personal_diet WHERE user_id=?";
 			 pstmt = conn.prepareStatement(sql);
 			 System.out.println("pstmt");
-			 pstmt.setString(1,Session.getInstance().getUserId()); //바꾸기
+			 pstmt.setString(1,user_id); //바꾸기
 			 rs = pstmt.executeQuery();
 			 System.out.println("rs");
 			 while(rs.next()) {
@@ -50,13 +51,13 @@ public class PersonalDietDAO {
 			 if(day==7) {	//식단은 요일 1(일)~6(월)
 				 day=1; 
 			 }else day+=1;
-			 pstmt.setString(1,Session.getInstance().getUserId()); //바꾸기
+			 pstmt.setString(1,user_id); //바꾸기
 			 pstmt.setInt(2,day); //바꾸기
 			 rs = pstmt.executeQuery();
 			 int idx=0;
 			 //System.out.println();
 			 while(rs.next()) {
-				 System.out.println(rs.getString("diet_name")+"from PersonalDietDAO(today)");
+				 //System.out.println(rs.getString("diet_name")+"from PersonalDietDAO(today)");
 				 today_diet_srr[idx++]=rs.getString("diet_name");
 			 }
 			 return today_diet_srr;

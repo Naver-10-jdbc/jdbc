@@ -8,9 +8,10 @@ public class Exercise {
 	byte[] img;
 	int time; 
 	
-	public Exercise(String name,String detail) {
+	public Exercise(String name,String detail, byte[] img) {
 		this.name=name;
 		this.detail=detail;
+		this.img = img;
 	}
 	
 	public String getName() {
