@@ -38,6 +38,8 @@ public class Week_Exercise extends JFrame {
 
         // 뒤로가기 버튼
         JButton btn_back = new JButton("←");
+        btn_back.setBackground(new Color(255,255,255));
+        //btn_back.setBounds(10, 10, 80, 80);
         btn_back.setPreferredSize(new Dimension(50, 50));
         btn_back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +59,7 @@ public class Week_Exercise extends JFrame {
 
         // 설명 텍스트 패널
         JTextPane textPane = new JTextPane();
-        textPane.setFont(new Font("굴림", Font.PLAIN, 16));
+        textPane.setFont(new Font("맑은 고딕",Font.BOLD, 15));
         textPane.setText("운동 소요시간 = (1set 1분 운동, 1분 휴식) x 5set");
         panel.add(textPane, new GridBagConstraints(1, 1, 3, 1, 0, 0, GridBagConstraints.WEST,
                 GridBagConstraints.NONE, new Insets(0, 0, 0, 5), 0, 0));
@@ -69,6 +71,7 @@ public class Week_Exercise extends JFrame {
         
         // 요일별 운동 추천
         String exercise_srr[][]=new PersonalExDAO().select_PerEx();
+
         // 요일 및 운동 정보 배열
         /*String[][] exerciseInfo = {
                 {"월요일", "하체 운동", "스쿼트 3세트 x 10회\n런지 3세트 x 10회"},
@@ -92,11 +95,18 @@ public class Week_Exercise extends JFrame {
             // 1열에 운동 정보 추가
             JPanel exercisePanel = new JPanel(new GridLayout(2, 1)); // dayLabel에 하나로 합쳐서 2,1로 변경
             exercisePanel.setBackground(Color.WHITE);
-            JLabel dayLabel = new JLabel(exercise_srr[i][0]);
-            System.out.println(exercise_srr[i][0]+"요일");
-            dayLabel.setFont(new Font("굴림", Font.PLAIN, 16));
+            JLabel dayLabel = new JLabel(" "+exercise_srr[i][0]);
+            //System.out.println(exercise_srr[i][0]+"from Week_Exercise");
+            dayLabel.setFont(new Font("맑은 고딕",Font.BOLD, 16));
             exercisePanel.add(dayLabel);
-            JTextArea descriptionArea = new JTextArea(exercise_srr[i][1]+", "+exercise_srr[i][2]+", "+exercise_srr[i][3]+", "+exercise_srr[i][4]+", ");
+            JTextArea descriptionArea;
+          
+            if(exercise_srr[i][1]==null) {
+            	descriptionArea = new JTextArea("");
+            }else {
+            	descriptionArea = new JTextArea("  "+exercise_srr[i][1]+", "+exercise_srr[i][2]+", "+exercise_srr[i][3]+", "+exercise_srr[i][4]+", ");
+            }
+            descriptionArea.setFont(new Font("맑은 고딕",Font.BOLD, 14));
             descriptionArea.setLineWrap(true); // 텍스트가 영역을 벗어날 경우 자동으로 줄 바꿈
             descriptionArea.setWrapStyleWord(true); // 단어 단위 줄 바꿈
             descriptionArea.setEditable(false); // 텍스트 편집 비활성화
@@ -113,8 +123,12 @@ public class Week_Exercise extends JFrame {
             exerciseButton.addActionListener(e->{
             	String srr[]=new String[4];
             	for(int j=0; j<4; j++) srr[j]=exercise_srr[now.getDayOfWeek().getValue()][j+1];
-            	for(int j=0; j<4; j++) System.out.println(srr[j]+"from we");
-            	new Daily_Exercise(srr,exercise_srr[now.getDayOfWeek().getValue()][0]);
+            	//for(int j=0; j<4; j++) System.out.println(srr[j]+"from we");
+            	if(srr[0]==null) {
+            		JOptionPane.showMessageDialog(null, "CID목표를 먼저 입력해주세요!");
+            	}else {
+            		new Daily_Exercise(srr,exercise_srr[now.getDayOfWeek().getValue()][0]);
+            	}
             });
             day_exe.add(buttonPanel); // buttonPanel을 day_exe에 추가
             week_exe_main.add(day_exe);

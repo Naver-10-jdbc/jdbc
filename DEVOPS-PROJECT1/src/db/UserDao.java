@@ -33,7 +33,7 @@ public class UserDao {
         }
     }
 
-    public boolean insertUser(String user_id, String user_pw, String user_name, String user_email, int user_age, int user_height, String user_gender, int inbody_weight) {
+    public boolean insertUser(String user_id, String user_pw, String user_name, String user_email, int user_age, double d, String user_gender, double e) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -50,9 +50,9 @@ public class UserDao {
             stmt.setString(3, user_name);
             stmt.setString(4, user_email);
             stmt.setInt(5, user_age);
-            stmt.setInt(6, user_height);
+            stmt.setDouble(6, d);
             stmt.setString(7, user_gender);
-            stmt.setInt(8, inbody_weight);
+            stmt.setDouble(8, e);
 
             // Äõ¸® ½ÇÇà
             stmt.executeUpdate();
