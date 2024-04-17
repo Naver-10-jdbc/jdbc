@@ -22,7 +22,7 @@ public class Week_Exercise extends JFrame {
     private LocalDate now=LocalDate.now();
     private String Week_Of_Exercise[][]=new String[7][5]; //[*][0]: 요일, [*][1~4]:운동명
     public Week_Exercise() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 700, 1000);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

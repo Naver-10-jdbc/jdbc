@@ -62,7 +62,7 @@ public class Daily_Exercise extends JFrame {
 		});
 	}
 	private void Init_Jframe() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 350, 630);
 		setTitle("Do It Exercise");
 		setResizable(false);

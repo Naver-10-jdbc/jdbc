@@ -25,7 +25,7 @@ public class HeightDialog extends JDialog {
     
     //Mypage 175
 	public HeightDialog(MyPage parentFrame, JButton heightButton, JLabel bmiLabel) {
-		super(parentFrame, "Å° ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½", true);
+		super(parentFrame, "Å° Á¤º¸ ÀÔ·Â", true);
 		MyPage myPage =parentFrame;
         myHeight = heightButton;
         myBMI = bmiLabel;
@@ -43,7 +43,7 @@ public class HeightDialog extends JDialog {
         panel.add(heightField);
 
         
-        JButton okButton = new JButton("È®ï¿½ï¿½");
+        JButton okButton = new JButton("È®ÀÎ");
         
         
         //okButton.addActionListener(new OkButtonListener(heightField));
@@ -61,16 +61,16 @@ public class HeightDialog extends JDialog {
 				String input = heightField.getText();
 				UpdateBMI updateBMI = new UpdateBMI();
 				if (input.isEmpty() || !isNumeric(input)) {
-					JOptionPane.showMessageDialog(HeightDialog.this, "ï¿½Ã¹Ù¸ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.", "ï¿½ï¿½ï¿½ï¿½", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(HeightDialog.this, "¿Ã¹Ù¸¥ ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.", "¿À·ù", JOptionPane.ERROR_MESSAGE);
 				} else {
-					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ BMI ï¿½ï¿½ï¿½
+					//ÇÁ·ÎÇÊ BMI °è»ê
 					myHeight.setText(input);
 					parentFrame.setmyHeightText(input);
 					myBMI.setText(updateBMI.updateBMI(parentFrame));
 					MyPageDAO myPageDAO = new MyPageDAO();
 					myPageDAO.updateUserHeight(user_id, Double.parseDouble(input));
 					
-					//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ BMI ï¿½ï¿½ï¿½
+					//ÀÌ¹ÌÁö º¯°æÀ» À§ÇØ ¸ñÇ¥ BMI °è»ê
 					wishWeight = myPage.getMyWishWeihgt().getText();
 					if(wishWeight==null) {
 						wishBMIValue=0;
@@ -82,28 +82,28 @@ public class HeightDialog extends JDialog {
 					myWishBMI = myPage.getMyWishBMI();
 		            myWishBMI.setText(wishBMI);
 					
-					//bmiï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					//bmi¿¡ ¸Â´Â ÀÌ¹ÌÁö °¡Á®¿À±â
                     bmiimg = new BMIimg();
 	                usersData=new MyPageDAO().loginData();
-	                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ BMI
+	                //ÇÁ·ÎÇÊ BMI
 	                String resource = bmiimg.bmi_img(usersData.getUser_gender(), Double.parseDouble(updateBMI.updateBMI(parentFrame)));
-	                //ï¿½ï¿½Ç¥ BMI
+	                //¸ñÇ¥ BMI
 	                String resource2 = bmiimg.bmi_img(usersData.getUser_gender(), Double.parseDouble(wishBMI));
 	                
 	                
-	                // ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
+	                // »õ·Î¿î ÀÌ¹ÌÁö ÆÄÀÏ ·Îµå
 	                ImageIcon newIcon = new ImageIcon(MyPage.class.getResource(resource));
 	                ImageIcon newIcon2 = new ImageIcon(MyPage.class.getResource(resource2));
 	                
-	                // ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	                // ÀÌ¹ÌÁö Å©±â Á¶Àý
 	                Image image = newIcon.getImage().getScaledInstance(90, 215, Image.SCALE_SMOOTH);
 	                Image image2 = newIcon2.getImage().getScaledInstance(90, 215, Image.SCALE_SMOOTH);
 
-	                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ImageIcon ï¿½ï¿½ï¿½ï¿½
+	                // Á¶ÀýµÈ ÀÌ¹ÌÁö·Î ImageIcon »ý¼º
 	                ImageIcon resizedIcon = new ImageIcon(image);
 	                ImageIcon resizedIcon2 = new ImageIcon(image2);
 
-	                // ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	                // ¹öÆ°¿¡ ÀÌ¹ÌÁö ¼³Á¤
 	                myBMIicon = myPage.getBodyimg();
 	                myBMIicon.setIcon(resizedIcon);
 	                
@@ -116,7 +116,7 @@ public class HeightDialog extends JDialog {
 		});
     
         
-        JButton cancelButton = new JButton("ï¿½ï¿½ï¿½");
+        JButton cancelButton = new JButton("Ãë¼Ò");
         cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

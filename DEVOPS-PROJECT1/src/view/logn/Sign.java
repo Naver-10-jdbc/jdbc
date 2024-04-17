@@ -31,7 +31,7 @@ public class Sign extends JFrame {
 
 
 	public Sign() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 531, 728);
 		setLocationRelativeTo(null);
 		setResizable(false);

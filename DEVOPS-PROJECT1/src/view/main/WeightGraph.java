@@ -2,6 +2,8 @@ package view.main;
 
 import java.time.LocalDate;
 
+import javax.swing.WindowConstants;
+
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
@@ -16,7 +18,6 @@ public class WeightGraph {
 		String monthValue=LocalDate.now().getMonthValue()+"월";
 		//그래프 띄우기
 		XYChart chart=QuickChart.getChart("몸무게 기록 현황("+monthValue+")", "날짜", "몸무게", "일별", xData, yData);
-		new SwingWrapper(chart).displayChart();
-
+		new SwingWrapper(chart).displayChart().setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 	}
 }
