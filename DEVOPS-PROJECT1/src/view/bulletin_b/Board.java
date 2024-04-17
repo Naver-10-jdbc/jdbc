@@ -25,7 +25,7 @@ public class Board extends JFrame {
 
 
 	public Board() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 568);
 		setLocationRelativeTo(null);
 		setResizable(false);

@@ -62,8 +62,8 @@ public class Daily_Exercise extends JFrame {
 		});
 	}
 	private void Init_Jframe() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 630);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 600, 630);
 		setTitle("Do It Exercise");
 		setResizable(false);
 		setLayout(null);
@@ -86,7 +86,7 @@ public class Daily_Exercise extends JFrame {
 	private void Init_Layout_Whole() {
 		panel1=new JPanel();
 		panel1.setBackground(new Color(134,229,127));
-		panel1.setBounds(0,0,700,180);
+		panel1.setBounds(0,0,850,180);
 		panel1.setLayout(null);
 		panel2=new JPanel();
 		panel2.setBackground(Color.white);
@@ -103,7 +103,7 @@ public class Daily_Exercise extends JFrame {
 		panel1.add(tv_day);	
 		int top_padding=80;
 		int text_size=15;		
-		int width=250;
+		int width=600;
 		int height=20;
 		String str=arr[0].getName()+", "+arr[1].getName()+", "+arr[2].getName()+", "+arr[3].getName();
 		tv_exer1=new JLabel(str);
@@ -122,7 +122,7 @@ public class Daily_Exercise extends JFrame {
 		int img_size=50;
 		int img_size_label=120;
 		int img_bottom_padding=85;
-		int tv_width=150;
+		int tv_width=800;
 		int tv_h1_height=30;
 		int tv_h1_font_size=15;
 		int tv_h2_height=20;

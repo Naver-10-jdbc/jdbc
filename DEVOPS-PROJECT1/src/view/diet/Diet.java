@@ -15,7 +15,7 @@ public class Diet extends JFrame implements ActionListener {
     public Diet() {
         setTitle("주간식단");
         setSize(700, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout()); // 제목열 추가를 위해 보드로 함(각 식단위에 텍스트 줌)
 
         // 화면 중앙배치

@@ -47,7 +47,7 @@ public class Comment extends JFrame {
 
     public Comment(int boardId) {
         selectedBoardId = boardId;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 700, 1300);
         setLocationRelativeTo(null);
         setResizable(false);

@@ -46,7 +46,7 @@ public class MyPage extends JFrame {
 		targetData=new MyPageDAO().targetData();
 		bmiimg = new BMIimg();
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 630);
 		setTitle("MyPage");
 		setResizable(false);
