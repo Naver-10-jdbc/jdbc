@@ -402,7 +402,7 @@ public class Comment extends JFrame {
             pstmt.setString(1, comment);
             pstmt.setString(2, userId);
 
-            // 쿼리 실행
+            // 쿼리 실행e
             pstmt.executeUpdate();
 
             // 댓글 테이블 갱신
