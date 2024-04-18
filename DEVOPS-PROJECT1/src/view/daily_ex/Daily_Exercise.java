@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,7 +15,6 @@ import javax.swing.JPanel;
 
 import db.ExerciseDAO;
 import model.Exercise;
-import view.logn.Login;
 
 public class Daily_Exercise extends JFrame {
 	//뒤로가기 버튼
@@ -125,8 +123,8 @@ public class Daily_Exercise extends JFrame {
 		int tv_width=800;
 		int tv_h1_height=30;
 		int tv_h1_font_size=15;
-		int tv_h2_height=20;
-		int tv_h2_font_size=13;
+		int tv_h2_height=30;
+		int tv_h2_font_size=12;
 		
 		tv_panel2_h1=new JLabel("오늘의 운동!");
 		tv_panel2_h1.setFont(new Font("맑은 고딕",Font.BOLD,18));
@@ -141,11 +139,21 @@ public class Daily_Exercise extends JFrame {
 		lb1.setIcon(new ImageIcon(image1)); 
 		panel2.add(lb1);
 		tv_h1_exer1=new JLabel(arr[0].getName());
-		tv_h1_exer1.setBounds(left_padding_text,35,tv_width,tv_h1_height);
+		tv_h1_exer1.setBounds(left_padding_text,30,tv_width,tv_h1_height);
 		tv_h1_exer1.setFont(new Font("맑은 고딕",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer1);
 		tv_h2_exer1=new JLabel(arr[0].getDetail());
-		tv_h2_exer1.setBounds(left_padding_text,60,tv_width,tv_h2_height);
+		String detailText = arr[0].getDetail(); // 디테일 텍스트1
+		String[] sentences = detailText.split("\\."); // 마침표를 기준으로 텍스트를 분할
+
+		StringBuilder formattedText = new StringBuilder("<html>"); // HTML 형식으로 텍스트 포맷팅
+		for (String sentence : sentences) {
+		    formattedText.append(sentence.trim()).append(".<br>"); // 각 문장 뒤에 점과 줄 바꿈 문자를 추가
+		}
+		formattedText.append("</html>"); // 포맷팅 마무리
+
+		JLabel tv_h2_exer1 = new JLabel(formattedText.toString()); // 새로운 JLabel을 생성하고 텍스트를 설정
+		tv_h2_exer1.setBounds(left_padding_text, 60, tv_width, tv_h2_height);
 		tv_h2_exer1.setFont(new Font("맑은 고딕",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer1);
 		
@@ -157,10 +165,20 @@ public class Daily_Exercise extends JFrame {
 		lb2.setIcon(new ImageIcon(image2)); 
 		panel2.add(lb2);
 		tv_h1_exer2=new JLabel(arr[1].getName());
-		tv_h1_exer2.setBounds(left_padding_text,35+img_bottom_padding,tv_width,tv_h1_height);
+		tv_h1_exer2.setBounds(left_padding_text,30+img_bottom_padding,tv_width,tv_h1_height);
 		tv_h1_exer2.setFont(new Font("맑은 고딕",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer2);
 		tv_h2_exer2=new JLabel(arr[1].getDetail());
+		
+		String detailText2 = arr[1].getDetail(); // 디테일 텍스트2
+		String[] sentences2 = detailText2.split("\\."); // 마침표를 기준으로 텍스트를 분할
+
+		StringBuilder formattedText2 = new StringBuilder("<html>"); // HTML 형식으로 텍스트 포맷팅
+		for (String sentence2 : sentences2) {
+		    formattedText2.append(sentence2.trim()).append(".<br>"); // 각 문장 뒤에 점과 줄 바꿈 문자를 추가
+		}
+		formattedText2.append("</html>"); // 포맷팅 마무리
+		JLabel tv_h2_exer2 = new JLabel(formattedText2.toString()); // 새로운 JLabel을 생성하고 텍스트를 설정
 		tv_h2_exer2.setBounds(left_padding_text,60+img_bottom_padding,tv_width,tv_h2_height);
 		tv_h2_exer2.setFont(new Font("맑은 고딕",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer2);
@@ -173,10 +191,21 @@ public class Daily_Exercise extends JFrame {
 		lb3.setIcon(new ImageIcon(image3)); 
 		panel2.add(lb3);
 		tv_h1_exer3=new JLabel(arr[2].getName());
-		tv_h1_exer3.setBounds(left_padding_text,35+img_bottom_padding*2,tv_width,tv_h1_height);
+		tv_h1_exer3.setBounds(left_padding_text,30+img_bottom_padding*2,tv_width,tv_h1_height);
 		tv_h1_exer3.setFont(new Font("맑은 고딕",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer3);
 		tv_h2_exer3=new JLabel(arr[2].getDetail());
+		
+		String detailText3 = arr[2].getDetail(); // 디테일 텍스트3
+		String[] sentences3 = detailText3.split("\\."); // 마침표를 기준으로 텍스트를 분할
+
+		StringBuilder formattedText3 = new StringBuilder("<html>"); // HTML 형식으로 텍스트 포맷팅
+		for (String sentence3 : sentences3) {
+		    formattedText3.append(sentence3.trim()).append(".<br>"); // 각 문장 뒤에 점과 줄 바꿈 문자를 추가
+		}
+		formattedText3.append("</html>"); // 포맷팅 마무리
+		JLabel tv_h2_exer3 = new JLabel(formattedText3.toString()); // 새로운 JLabel을 생성하고 텍스트를 설정
+
 		tv_h2_exer3.setBounds(left_padding_text,60+img_bottom_padding*2,tv_width,tv_h2_height);
 		tv_h2_exer3.setFont(new Font("맑은 고딕",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer3);	
@@ -189,16 +218,28 @@ public class Daily_Exercise extends JFrame {
 		lb4.setIcon(new ImageIcon(image4)); 
 		panel2.add(lb4);
 		tv_h1_exer4=new JLabel(arr[3].getName());
-		tv_h1_exer4.setBounds(left_padding_text,35+img_bottom_padding*3,tv_width,tv_h1_height);
+		tv_h1_exer4.setBounds(left_padding_text,30+img_bottom_padding*3,tv_width,tv_h1_height);
 		tv_h1_exer4.setFont(new Font("맑은 고딕",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer4);
 		tv_h2_exer4=new JLabel(arr[3].getDetail());
+		
+		String detailText4 = arr[3].getDetail(); // 디테일 텍스트4
+		String[] sentences4 = detailText4.split("\\."); // 마침표를 기준으로 텍스트를 분할
+
+		StringBuilder formattedText4 = new StringBuilder("<html>"); // HTML 형식으로 텍스트 포맷팅
+		for (String sentence4 : sentences4) {
+		    formattedText4.append(sentence4.trim()).append(".<br>"); // 각 문장 뒤에 점과 줄 바꿈 문자를 추가
+		}
+		formattedText.append("</html>"); // 포맷팅 마무리
+		JLabel tv_h2_exer4 = new JLabel(formattedText4.toString()); // 새로운 JLabel을 생성하고 텍스트를 설정
+
 		tv_h2_exer4.setBounds(left_padding_text,60+img_bottom_padding*3,tv_width,tv_h2_height);
 		tv_h2_exer4.setFont(new Font("맑은 고딕",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer4);
 				
 		start_btn=new JButton("운동시작");
-		start_btn.setBounds(120,350,100,40);
+		start_btn.setBounds(195,355,200,50);
+	
 		panel2.add(start_btn);
 	}
 }

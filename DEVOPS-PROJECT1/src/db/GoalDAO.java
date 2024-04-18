@@ -74,8 +74,29 @@ public class GoalDAO {
 			 }
 			 return list;
 		} catch (Exception e) {
-			System.out.println("예외발생 from GoalDAO");
+			System.out.println("예외발생 select_Weight from GoalDAO");
 			return null;
+		} finally {
+			MySqlDBManager.disconnect(conn,pstmt, rs);
+		}
+	}
+	
+	// 해당 계정에서 오늘 운동을 했는지 여부확인(운동했으면 true, 안했으면 false)
+	public boolean IsEntered_Exercise_Today() {
+		try {
+			conn=MySqlDBManager.getInstance();
+			String sql ="select goal_exercise from goal where user_id=? AND goal_date=?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,Session.getInstance().getUserId());	//user_id값 바꾸기.
+			pstmt.setString(2,LocalDate.now().toString());
+			rs = pstmt.executeQuery();
+			rs.next();
+			if(rs.getString("goal_exercise")==null)return false;
+			else return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("IsEntered_Exercise_Today() 예외 from GoalDAO");
+			return false;
 		} finally {
 			MySqlDBManager.disconnect(conn,pstmt, rs);
 		}

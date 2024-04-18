@@ -8,11 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import db.checkedExerciseDAO;
+
 public class Dialog_Finish extends JFrame {
    JLabel tv1,tv2;
    JButton btn;
    public Dialog_Finish() {
-      Init_Jframe();
+      new checkedExerciseDAO().insert_Exercising_Today();
+	  Init_Jframe();
       Init_View();
       Init_Listener();
       setVisible(true);

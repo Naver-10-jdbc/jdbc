@@ -200,9 +200,9 @@ public class Main extends JFrame{
          panel3.setOpaque(true);
          add(panel3);
 
-        panel4=new JPanel();
-        panel4.setBounds(left_padding, 550, 504, 120);
-      add(panel4);
+         panel4=new JPanel();
+         panel4.setBounds(left_padding, 550, 600, 120);
+       add(panel4);
         /* panel1=new JPanel();
       panel1.setBounds(0, 0, 704, 100);
       panel1.setLayout(null);
@@ -253,7 +253,8 @@ public class Main extends JFrame{
       int img_height=150;
       grpah_btn.setBounds(30,150,img_width,img_height); //x,y,width,height
       grpah_btn.setFont(new Font("맑은 고딕",Font.BOLD,11));
-      ImageIcon icon = new ImageIcon(Main.class.getResource("WeightGraph.png")); //이미지 삽입
+      grpah_btn.setBackground(Color.white);
+      ImageIcon icon = new ImageIcon(Main.class.getResource("WeightGraph1.png")); //이미지 삽입
       Image image = icon.getImage().getScaledInstance(img_width,img_height, Image.SCALE_SMOOTH);// 이미지 크기 조절
       grpah_btn.setIcon(new ImageIcon(image)); //버튼에 이미지 부착
       /*double[] xData=new double[] {0.0,1.0,2.0};
@@ -335,7 +336,7 @@ public class Main extends JFrame{
             {"식단","음식1,음식2,음식3","음식1,음식2,음식3","음식1,음식2,음식3"},
             {"총 칼로리","100kcal","99kcal","100kcal"},
         };*/
-        System.out.println("첫번째길이:"+contents.length+"1번:"+contents[0].length+" 2번:"+contents[1].length);
+        //System.out.println("첫번째길이:"+contents.length+"1번:"+contents[0].length+" 2번:"+contents[1].length+"from Main");
         DefaultTableModel model = new DefaultTableModel(contents, header);
         JTable table = new JTable(model);
         table.setRowHeight(45);

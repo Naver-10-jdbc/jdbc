@@ -12,7 +12,9 @@ import java.util.Locale;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import db.GoalDAO;
 import db.PersonalExDAO;
+import db.checkedExerciseDAO;
 import model.PersonalEx;
 import view.daily_ex.Daily_Exercise;
 
@@ -119,7 +121,21 @@ public class Week_Exercise extends JFrame {
             JButton exerciseButton = new JButton("운동하기");
             exerciseButton.setBackground(Color.ORANGE);
             buttonPanel.add(exerciseButton, BorderLayout.EAST); // 버튼을 동쪽에 추가
-            if(i!=now.getDayOfWeek().getValue()) exerciseButton.setEnabled(false);
+            if(i!=now.getDayOfWeek().getValue()) {
+            	exerciseButton.setEnabled(false);
+            }else {
+            	if(new checkedExerciseDAO().IsExercise_Today()) {
+            		System.out.println("오늘 운동 함 from Week_Exercise ");
+            		exerciseButton.setEnabled(false);
+            		//exerciseButton.setText("오운완!");
+            		exerciseButton.setBackground(Color.red);
+            		JOptionPane.showMessageDialog(null, "오운완! 고생하셨습니다.");
+            		
+            	}else {
+            		exerciseButton.setBackground(Color.green); 
+            		System.out.println("오늘 운동 안함 from Week_Exercise");
+            	}
+            }
             exerciseButton.addActionListener(e->{
             	String srr[]=new String[4];
             	for(int j=0; j<4; j++) srr[j]=exercise_srr[now.getDayOfWeek().getValue()][j+1];
@@ -128,6 +144,7 @@ public class Week_Exercise extends JFrame {
             		JOptionPane.showMessageDialog(null, "CID목표를 먼저 입력해주세요!");
             	}else {
             		new Daily_Exercise(srr,exercise_srr[now.getDayOfWeek().getValue()][0]);
+            		dispose();
             	}
             });
             day_exe.add(buttonPanel); // buttonPanel을 day_exe에 추가
