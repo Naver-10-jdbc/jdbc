@@ -44,7 +44,7 @@ public class Sign extends JFrame {
 
 		JLabel txt_sign = new JLabel("회원가입");
 		txt_sign.setFont(new Font("굴림", Font.PLAIN, 20));
-		txt_sign.setBounds(235, 37, 79, 39);
+		txt_sign.setBounds(235, 37, 150, 39);
 		contentPane.add(txt_sign);
 
 		JLabel label_name = new JLabel("이름");

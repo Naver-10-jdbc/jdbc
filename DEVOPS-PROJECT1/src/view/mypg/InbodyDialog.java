@@ -147,7 +147,7 @@ public class InbodyDialog extends JDialog {
 
         panel.add(okButton);
         panel.add(cancelButton);
-
+       
         add(panel);
         pack();
     }

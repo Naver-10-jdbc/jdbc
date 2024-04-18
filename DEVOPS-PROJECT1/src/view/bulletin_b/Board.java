@@ -30,6 +30,7 @@ public class Board extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -37,6 +38,7 @@ public class Board extends JFrame {
 
 		// 이전 버튼
 		JButton btn_back = new JButton("←");
+		btn_back.setBackground(new Color(255, 255, 255));
 		btn_back.setBounds(10, 10, 50, 50);
 		contentPane.add(btn_back);
 		

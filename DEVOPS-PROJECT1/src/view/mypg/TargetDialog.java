@@ -218,7 +218,7 @@ public class TargetDialog extends JDialog {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(confirmButton);
         buttonPanel.add(cancelButton);
-
+        
         // 패널 추가
         getContentPane().add(panel, BorderLayout.CENTER);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);

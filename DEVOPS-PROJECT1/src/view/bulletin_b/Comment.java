@@ -1,6 +1,7 @@
 package view.bulletin_b;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -52,6 +53,7 @@ public class Comment extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 255, 255));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -70,6 +72,7 @@ public class Comment extends JFrame {
 
         // 이전 버튼
         JButton btn_back = new JButton("←");
+        btn_back.setBackground(new Color(255, 255, 255));
         btn_back.setBounds(10, 10, 50, 50);
         contentPane.add(btn_back);
 

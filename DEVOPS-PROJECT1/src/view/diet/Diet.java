@@ -27,6 +27,7 @@ public class Diet extends JFrame implements ActionListener {
 
         // WEST 위치에 btn_back 버튼 추가
         JButton btn_back = new JButton("←");
+        btn_back.setBackground(new Color(255, 255, 255));
         btn_back.setPreferredSize(new Dimension(50, 50));
         btn_back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

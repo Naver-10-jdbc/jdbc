@@ -127,8 +127,8 @@ public class HeightDialog extends JDialog {
 
         JPanel buttonPanel = new JPanel();
        
-        buttonPanel.add(cancelButton);
         buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
         getContentPane().add(panel, BorderLayout.CENTER);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	}

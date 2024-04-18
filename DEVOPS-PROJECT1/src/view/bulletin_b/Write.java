@@ -1,5 +1,6 @@
 package view.bulletin_b;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,7 @@ public class Write extends JFrame {
 		setBounds(100, 100, 700, 568);
 		setResizable(false);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
