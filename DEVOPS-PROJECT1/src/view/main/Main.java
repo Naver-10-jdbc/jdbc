@@ -84,7 +84,7 @@ public class Main extends JFrame{
       //myPage
       btn11.addActionListener((e)->{
          System.out.println("Mypage click FROM Main"); 
-         new MyPage();           
+         new MypgService().Exceute();    
       });
       //인증 게시판
       btn31.addActionListener((e)->{
@@ -146,11 +146,11 @@ public class Main extends JFrame{
       });
       //식단
       btn33.addActionListener(l->{
-         new Diet();
+    	  new DietService().Exceute();
       });
       //운동
       btn34.addActionListener(l->{
-         new Week_Exercise();
+         new WeekExerciseService().Exceute();
       });
       //수면
       btn35.addActionListener(l->{
