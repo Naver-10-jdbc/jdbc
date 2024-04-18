@@ -15,6 +15,7 @@ public class GrpahService {
 			 @Override
 			 public void run() {
 			  List<GraphXY>list=new GoalDAO().select_Weight(4);
+			  System.out.println("ÁÂÇ¥°³¼ö:"+list.size());
 			  if(list.size()==0||list==null) {
 				  new WeightGraph(new double[] {0},new double[] {0});
 			  }else {

@@ -78,21 +78,48 @@ public class Main extends JFrame{
    private void Event_Listener() {
 	   grpah_btn.addActionListener((e)->{
 		  new GrpahService().show_graph();
-		  System.out.println("graph");
+		  System.out.println("오늘여부:"+new GoalDAO().IsEntered_Weight_Today());
+		  System.out.println("graph click FROM Main");
 	   });
       //myPage
       btn11.addActionListener((e)->{
-         System.out.println("Mypage"); 
+         System.out.println("Mypage click FROM Main"); 
          new MyPage();           
       });
       //인증 게시판
       btn31.addActionListener((e)->{
-         System.out.println("인증게시판");
+         System.out.println("인증게시판 click FROM Main");
           new Board();  
       });
       //체중
       btn32.addActionListener(l->{
-         while (true) {
+    	  if(!new GoalDAO().IsEntered_Weight_Today()) {
+    		  while (true) {
+    			  String str=JOptionPane.showInputDialog("오늘의 몸무게를 입력해주세요.");
+    	          if(str==null) break;
+    	          else{
+    	               boolean flag=true;
+    	               for(char c:str.toCharArray()) {
+    	                  int num=c-'0';
+    	                  if(num>=0&&num<=9) continue;
+    	                  else {
+    	                     flag=false;
+    	                     break;
+    	                  }
+    	               }
+    	               if(flag) {
+    	            	   new GoalDAO().insert_Weight(Integer.parseInt(str));
+    	            	   JOptionPane.showMessageDialog(null, "입력이 완료되었습니다.");
+    	            	   break;
+    	               }else {
+    	            	   JOptionPane.showMessageDialog(null, "숫자만 입력해주세요.");
+    	               }
+    	          }
+    		  }
+    	  }else {
+    		  JOptionPane.showMessageDialog(null, "오늘 이미 한차례 입력하셨습니다.");
+    	  }
+    	  /*while (true) {
             String str=JOptionPane.showInputDialog("오늘의 몸무게를 입력해주세요.");
             if(str==null) break;
             else{
@@ -115,7 +142,7 @@ public class Main extends JFrame{
                }
                JOptionPane.showMessageDialog(null, "숫자만 입력해주세요.");
             }
-         }
+         }*/
       });
       //식단
       btn33.addActionListener(l->{
