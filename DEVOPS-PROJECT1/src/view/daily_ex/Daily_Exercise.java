@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,16 +15,15 @@ import javax.swing.JPanel;
 
 import db.ExerciseDAO;
 import model.Exercise;
-import view.logn.Login;
 
 public class Daily_Exercise extends JFrame {
-	//µÚ·Î°¡±â ¹öÆ°
+	//ë’¤ë¡œê°€ê¸° ë²„íŠ¼
 	JButton btn_back;
-	//·¹ÀÌ¾Æ¿ô1
+	//ë ˆì´ì•„ì›ƒ1
 	JPanel panel1;
 	JLabel tv_day,tv_exer1,tv_exer2,tv_exer3,tv_exer4;
 	JLabel tv_exer_time;
-	//·¹ÀÌ¾Æ¿ô2
+	//ë ˆì´ì•„ì›ƒ2
 	JPanel panel2;
 	JLabel tv_panel2_h1;
 	ImageIcon img1,img2,img3,img4;
@@ -33,14 +31,14 @@ public class Daily_Exercise extends JFrame {
 	JLabel tv_h2_exer1,tv_h2_exer2,tv_h2_exer3,tv_h2_exer4;
 	JButton start_btn;
 	String str_exercise[];
-	// ÀÚ·á±¸Á¶
+	// ìë£Œêµ¬ì¡°
 	Exercise[]arr;
 	String exercise_name[]; 
-	String weekday; //¿äÀÏ
+	String weekday; //ìš”ì¼
 	public Daily_Exercise(String str_exercise[],String weekday) {
 		this.str_exercise=str_exercise;
 		if(str_exercise==null) {
-			System.out.println("null ¹ß»ı, È­¸é²ô±â from Daily_Exercise");
+			System.out.println("null ë°œìƒ, í™”ë©´ë„ê¸° from Daily_Exercise");
 			return;
 		}
 		this.weekday=weekday;
@@ -63,7 +61,7 @@ public class Daily_Exercise extends JFrame {
 	}
 	private void Init_Jframe() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 350, 630);
+		setBounds(100, 100, 600, 630);
 		setTitle("Do It Exercise");
 		setResizable(false);
 		setLayout(null);
@@ -72,13 +70,13 @@ public class Daily_Exercise extends JFrame {
 		add(panel2);
 	}
 	   private void Init_back_btn() {
-		    btn_back = new JButton("¡ç");		//°¡·Î, ¼¼·Î °ª ÁöÁ¤
+		    btn_back = new JButton("â†");		//ê°€ë¡œ, ì„¸ë¡œ ê°’ ì§€ì •
 			btn_back.setBackground(new Color(134,229,127));
 			btn_back.setBounds(5, 5, 46, 46);
 			btn_back.setPreferredSize(new Dimension(30, 30));
 			btn_back.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					dispose(); //µÚ·Î°¡±â ¼±ÅÃ ½Ã Ã¢²¨Áü
+					dispose(); //ë’¤ë¡œê°€ê¸° ì„ íƒ ì‹œ ì°½êº¼ì§
 				}
 			});
 			add(btn_back);
@@ -86,33 +84,33 @@ public class Daily_Exercise extends JFrame {
 	private void Init_Layout_Whole() {
 		panel1=new JPanel();
 		panel1.setBackground(new Color(134,229,127));
-		panel1.setBounds(0,0,700,180);
+		panel1.setBounds(0,0,850,180);
 		panel1.setLayout(null);
 		panel2=new JPanel();
 		panel2.setBackground(Color.white);
 		panel2.setBounds(0,180,700,450);	
 		panel2.setLayout(null);
 	}
-	//ÀÌ·¸°Ô ÇÏÁö¸»°í ÇÑÁÙ·Î ³ª¿­ÇÏ±â.
+	//ì´ë ‡ê²Œ í•˜ì§€ë§ê³  í•œì¤„ë¡œ ë‚˜ì—´í•˜ê¸°.
 	private void Init_Layout1() {
-		/* ¿äÀÏ + ¿îµ¿ Á¾·ù*/
+		/* ìš”ì¼ + ìš´ë™ ì¢…ë¥˜*/
 		int left_padding=50;
 		tv_day=new JLabel(weekday);
-		tv_day.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,18));
+		tv_day.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,18));
 		tv_day.setBounds(50,50,100,30); 
 		panel1.add(tv_day);	
 		int top_padding=80;
 		int text_size=15;		
-		int width=250;
+		int width=600;
 		int height=20;
 		String str=arr[0].getName()+", "+arr[1].getName()+", "+arr[2].getName()+", "+arr[3].getName();
 		tv_exer1=new JLabel(str);
-		tv_exer1.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,text_size));
+		tv_exer1.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,text_size));
 		tv_exer1.setBounds(left_padding,top_padding,width,height); 
 		panel1.add(tv_exer1);
-		/*ÃÑ ¿îµ¿ ½Ã°£*/
-		tv_exer_time=new JLabel("ÃÑ ¿îµ¿½Ã°£ 40:00");
-		tv_exer_time.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,text_size));
+		/*ì´ ìš´ë™ ì‹œê°„*/
+		tv_exer_time=new JLabel("ì´ ìš´ë™ì‹œê°„ 40:00");
+		tv_exer_time.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,text_size));
 		tv_exer_time.setBounds(left_padding,top_padding+30,130,height); 
 		panel1.add(tv_exer_time);
 	}
@@ -122,82 +120,124 @@ public class Daily_Exercise extends JFrame {
 		int img_size=50;
 		int img_size_label=120;
 		int img_bottom_padding=85;
-		int tv_width=150;
+		int tv_width=800;
 		int tv_h1_height=30;
 		int tv_h1_font_size=15;
-		int tv_h2_height=20;
-		int tv_h2_font_size=13;
+		int tv_h2_height=30;
+		int tv_h2_font_size=12;
 		
-		tv_panel2_h1=new JLabel("¿À´ÃÀÇ ¿îµ¿!");
-		tv_panel2_h1.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,18));
+		tv_panel2_h1=new JLabel("ì˜¤ëŠ˜ì˜ ìš´ë™!");
+		tv_panel2_h1.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,18));
 		tv_panel2_h1.setBounds(left_padding_img,5,150,30); 
 		panel2.add(tv_panel2_h1);
 		
 		JLabel lb1=new JLabel("");
 		lb1.setBounds(left_padding_img,0,img_size_label,img_size_label);
 		byte[] imgDate1 = arr[0].getImg();
-		ImageIcon icon = new ImageIcon(imgDate1); //ÀÌ¹ÌÁö »ğÀÔ
-		Image image1 = icon.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ÀÌ¹ÌÁö Å©±â Á¶Àı
+		ImageIcon icon = new ImageIcon(imgDate1); //ì´ë¯¸ì§€ ì‚½ì…
+		Image image1 = icon.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ì´ë¯¸ì§€ í¬ê¸° ì¡°ì ˆ
 		lb1.setIcon(new ImageIcon(image1)); 
 		panel2.add(lb1);
 		tv_h1_exer1=new JLabel(arr[0].getName());
-		tv_h1_exer1.setBounds(left_padding_text,35,tv_width,tv_h1_height);
-		tv_h1_exer1.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h1_font_size));
+		tv_h1_exer1.setBounds(left_padding_text,30,tv_width,tv_h1_height);
+		tv_h1_exer1.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer1);
 		tv_h2_exer1=new JLabel(arr[0].getDetail());
-		tv_h2_exer1.setBounds(left_padding_text,60,tv_width,tv_h2_height);
-		tv_h2_exer1.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h2_font_size));
+		String detailText = arr[0].getDetail(); // ë””í…Œì¼ í…ìŠ¤íŠ¸1
+		String[] sentences = detailText.split("\\."); // ë§ˆì¹¨í‘œë¥¼ ê¸°ì¤€ìœ¼ë¡œ í…ìŠ¤íŠ¸ë¥¼ ë¶„í• 
+
+		StringBuilder formattedText = new StringBuilder("<html>"); // HTML í˜•ì‹ìœ¼ë¡œ í…ìŠ¤íŠ¸ í¬ë§·íŒ…
+		for (String sentence : sentences) {
+		    formattedText.append(sentence.trim()).append(".<br>"); // ê° ë¬¸ì¥ ë’¤ì— ì ê³¼ ì¤„ ë°”ê¿ˆ ë¬¸ìë¥¼ ì¶”ê°€
+		}
+		formattedText.append("</html>"); // í¬ë§·íŒ… ë§ˆë¬´ë¦¬
+
+		JLabel tv_h2_exer1 = new JLabel(formattedText.toString()); // ìƒˆë¡œìš´ JLabelì„ ìƒì„±í•˜ê³  í…ìŠ¤íŠ¸ë¥¼ ì„¤ì •
+		tv_h2_exer1.setBounds(left_padding_text, 60, tv_width, tv_h2_height);
+		tv_h2_exer1.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer1);
 		
 		JLabel lb2=new JLabel("");
 		lb2.setBounds(left_padding_img,img_bottom_padding,img_size_label,img_size_label);
 		byte[] imgDate2 = arr[1].getImg();
-		ImageIcon icon2 = new ImageIcon(imgDate2); //ÀÌ¹ÌÁö »ğÀÔ
-		Image image2 = icon2.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ÀÌ¹ÌÁö Å©±â Á¶Àı
+		ImageIcon icon2 = new ImageIcon(imgDate2); //ì´ë¯¸ì§€ ì‚½ì…
+		Image image2 = icon2.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ì´ë¯¸ì§€ í¬ê¸° ì¡°ì ˆ
 		lb2.setIcon(new ImageIcon(image2)); 
 		panel2.add(lb2);
 		tv_h1_exer2=new JLabel(arr[1].getName());
-		tv_h1_exer2.setBounds(left_padding_text,35+img_bottom_padding,tv_width,tv_h1_height);
-		tv_h1_exer2.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h1_font_size));
+		tv_h1_exer2.setBounds(left_padding_text,30+img_bottom_padding,tv_width,tv_h1_height);
+		tv_h1_exer2.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer2);
 		tv_h2_exer2=new JLabel(arr[1].getDetail());
+		
+		String detailText2 = arr[1].getDetail(); // ë””í…Œì¼ í…ìŠ¤íŠ¸2
+		String[] sentences2 = detailText2.split("\\."); // ë§ˆì¹¨í‘œë¥¼ ê¸°ì¤€ìœ¼ë¡œ í…ìŠ¤íŠ¸ë¥¼ ë¶„í• 
+
+		StringBuilder formattedText2 = new StringBuilder("<html>"); // HTML í˜•ì‹ìœ¼ë¡œ í…ìŠ¤íŠ¸ í¬ë§·íŒ…
+		for (String sentence2 : sentences2) {
+		    formattedText2.append(sentence2.trim()).append(".<br>"); // ê° ë¬¸ì¥ ë’¤ì— ì ê³¼ ì¤„ ë°”ê¿ˆ ë¬¸ìë¥¼ ì¶”ê°€
+		}
+		formattedText2.append("</html>"); // í¬ë§·íŒ… ë§ˆë¬´ë¦¬
+		JLabel tv_h2_exer2 = new JLabel(formattedText2.toString()); // ìƒˆë¡œìš´ JLabelì„ ìƒì„±í•˜ê³  í…ìŠ¤íŠ¸ë¥¼ ì„¤ì •
 		tv_h2_exer2.setBounds(left_padding_text,60+img_bottom_padding,tv_width,tv_h2_height);
-		tv_h2_exer2.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h2_font_size));
+		tv_h2_exer2.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer2);
 		
 		JLabel lb3=new JLabel("");
 		lb3.setBounds(left_padding_img,img_bottom_padding*2,img_size_label,img_size_label);
 		byte[] imgDate3 = arr[2].getImg();
-		ImageIcon icon3 = new ImageIcon(imgDate3); //ÀÌ¹ÌÁö »ğÀÔ
-		Image image3 = icon3.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ÀÌ¹ÌÁö Å©±â Á¶Àı
+		ImageIcon icon3 = new ImageIcon(imgDate3); //ì´ë¯¸ì§€ ì‚½ì…
+		Image image3 = icon3.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ì´ë¯¸ì§€ í¬ê¸° ì¡°ì ˆ
 		lb3.setIcon(new ImageIcon(image3)); 
 		panel2.add(lb3);
 		tv_h1_exer3=new JLabel(arr[2].getName());
-		tv_h1_exer3.setBounds(left_padding_text,35+img_bottom_padding*2,tv_width,tv_h1_height);
-		tv_h1_exer3.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h1_font_size));
+		tv_h1_exer3.setBounds(left_padding_text,30+img_bottom_padding*2,tv_width,tv_h1_height);
+		tv_h1_exer3.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer3);
 		tv_h2_exer3=new JLabel(arr[2].getDetail());
+		
+		String detailText3 = arr[2].getDetail(); // ë””í…Œì¼ í…ìŠ¤íŠ¸3
+		String[] sentences3 = detailText3.split("\\."); // ë§ˆì¹¨í‘œë¥¼ ê¸°ì¤€ìœ¼ë¡œ í…ìŠ¤íŠ¸ë¥¼ ë¶„í• 
+
+		StringBuilder formattedText3 = new StringBuilder("<html>"); // HTML í˜•ì‹ìœ¼ë¡œ í…ìŠ¤íŠ¸ í¬ë§·íŒ…
+		for (String sentence3 : sentences3) {
+		    formattedText3.append(sentence3.trim()).append(".<br>"); // ê° ë¬¸ì¥ ë’¤ì— ì ê³¼ ì¤„ ë°”ê¿ˆ ë¬¸ìë¥¼ ì¶”ê°€
+		}
+		formattedText3.append("</html>"); // í¬ë§·íŒ… ë§ˆë¬´ë¦¬
+		JLabel tv_h2_exer3 = new JLabel(formattedText3.toString()); // ìƒˆë¡œìš´ JLabelì„ ìƒì„±í•˜ê³  í…ìŠ¤íŠ¸ë¥¼ ì„¤ì •
+
 		tv_h2_exer3.setBounds(left_padding_text,60+img_bottom_padding*2,tv_width,tv_h2_height);
-		tv_h2_exer3.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h2_font_size));
+		tv_h2_exer3.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer3);	
 		
 		JLabel lb4=new JLabel("");
 		lb4.setBounds(left_padding_img,img_bottom_padding*3,img_size_label,img_size_label);	
 		byte[] imgDate4 = arr[3].getImg();
-		ImageIcon icon4 = new ImageIcon(imgDate4); //ÀÌ¹ÌÁö »ğÀÔ
-		Image image4 = icon4.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ÀÌ¹ÌÁö Å©±â Á¶Àı
+		ImageIcon icon4 = new ImageIcon(imgDate4); //ì´ë¯¸ì§€ ì‚½ì…
+		Image image4 = icon4.getImage().getScaledInstance(img_size,img_size, Image.SCALE_SMOOTH); // ì´ë¯¸ì§€ í¬ê¸° ì¡°ì ˆ
 		lb4.setIcon(new ImageIcon(image4)); 
 		panel2.add(lb4);
 		tv_h1_exer4=new JLabel(arr[3].getName());
-		tv_h1_exer4.setBounds(left_padding_text,35+img_bottom_padding*3,tv_width,tv_h1_height);
-		tv_h1_exer4.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h1_font_size));
+		tv_h1_exer4.setBounds(left_padding_text,30+img_bottom_padding*3,tv_width,tv_h1_height);
+		tv_h1_exer4.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h1_font_size));
 		panel2.add(tv_h1_exer4);
 		tv_h2_exer4=new JLabel(arr[3].getDetail());
+		
+		String detailText4 = arr[3].getDetail(); // ë””í…Œì¼ í…ìŠ¤íŠ¸4
+		String[] sentences4 = detailText4.split("\\."); // ë§ˆì¹¨í‘œë¥¼ ê¸°ì¤€ìœ¼ë¡œ í…ìŠ¤íŠ¸ë¥¼ ë¶„í• 
+
+		StringBuilder formattedText4 = new StringBuilder("<html>"); // HTML í˜•ì‹ìœ¼ë¡œ í…ìŠ¤íŠ¸ í¬ë§·íŒ…
+		for (String sentence4 : sentences4) {
+		    formattedText4.append(sentence4.trim()).append(".<br>"); // ê° ë¬¸ì¥ ë’¤ì— ì ê³¼ ì¤„ ë°”ê¿ˆ ë¬¸ìë¥¼ ì¶”ê°€
+		}
+		formattedText.append("</html>"); // í¬ë§·íŒ… ë§ˆë¬´ë¦¬
+		JLabel tv_h2_exer4 = new JLabel(formattedText4.toString()); // ìƒˆë¡œìš´ JLabelì„ ìƒì„±í•˜ê³  í…ìŠ¤íŠ¸ë¥¼ ì„¤ì •
+
 		tv_h2_exer4.setBounds(left_padding_text,60+img_bottom_padding*3,tv_width,tv_h2_height);
-		tv_h2_exer4.setFont(new Font("¸¼Àº °íµñ",Font.BOLD,tv_h2_font_size));
+		tv_h2_exer4.setFont(new Font("ë§‘ì€ ê³ ë”•",Font.BOLD,tv_h2_font_size));
 		panel2.add(tv_h2_exer4);
 				
-		start_btn=new JButton("¿îµ¿½ÃÀÛ");
+		start_btn=new JButton("ìš´ë™ì‹œì‘");
 		start_btn.setBounds(120,350,100,40);
 		panel2.add(start_btn);
 	}
