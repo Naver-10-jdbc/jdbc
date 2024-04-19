@@ -69,4 +69,28 @@ public class PersonalDietDAO {
 		}
 		
 	}
+	
+	public String getDietComment(String dietName) {
+	    try {
+	        conn = MySqlDBManager.getInstance();
+	        String sql = "SELECT diet_comment FROM diet WHERE diet_name = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, dietName);
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            return rs.getString("diet_comment");
+	            //return이 실행되면서 diet_name에 대한 diet_comment값을 받아온다
+	        } else {
+	        	System.out.println("해당되는 diet_comment값이 없습니다");
+	            return null; // 해당하는 diet_comment가 없을 경우 처리
+	        }
+	    } catch (Exception e) {
+	        System.out.println("getDietComment 예외발생:" + e.getMessage());
+	        return null;
+	    } finally {
+	        MySqlDBManager.disconnect(conn, pstmt, rs);
+	    }
+	}
+
 }

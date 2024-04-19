@@ -143,13 +143,20 @@ public class Diet extends JFrame implements ActionListener {
         }
      // 클릭된 버튼이 탄수화물, 단백질, 식이섬유 버튼인 경우
         else {
-            String mealDetails = button.getText(); // 버튼의 텍스트 가져오기
-            System.out.println(mealDetails);
+            String mealName = button.getText(); // 버튼의 텍스트 가져오기
+            System.out.println(mealName+ "(음식명)을 선택했습니다.");
+            
+            // 사용자가 선택한 음식설명(diet_comment)를 가져오기
+            PersonalDietDAO personalDietDAO = new PersonalDietDAO();
+            // 사용자가 선택한 음식설명(diet_comment)를 가져오기
+            
             // 아래 경로는 실제 이미지 파일의 경로로 수정해야 합니다.
             ImageIcon icon = new ImageIcon("sweetpotato.png"); // 이미지 아이콘 생성
             JLabel imageLabel = new JLabel(icon); // 이미지 레이블 생성
-            JLabel detailsLabel = new JLabel(mealDetails); // 상세 정보 레이블 생성
-            JLabel textLabel = new JLabel("음식1"); // 설명 레이블 생성
+            JLabel detailsLabel = new JLabel(mealName); // 상세 정보 레이블 생성
+            JLabel textLabel = new JLabel(new PersonalDietDAO().getDietComment(mealName)); // 설명 레이블 생성
+            //이 부분에 버튼을 누를 시 음식 코멘트가 나오게 끔 버튼코드 작성
+
             JPanel panel = new JPanel(new BorderLayout()); // 패널에 BorderLayout 설정
 
             // 이미지, 상세 정보, 설명 레이블을 패널에 추가
