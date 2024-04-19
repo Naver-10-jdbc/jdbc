@@ -24,7 +24,7 @@ public class PersonalExDAO {
 			 rs = pstmt.executeQuery();
 			 int idx=1;
 			 while(rs.next()) {
-				//System.out.println(rs.getInt("weekend")+", "+rs.getString("ex_name")+"  from PersonalExDAO");
+				System.out.println(rs.getInt("weekend")+", "+rs.getString("ex_name")+"  from PersonalExDAO");
 				 Week_of_Exercise[rs.getInt("weekend")][idx++]=rs.getString("ex_name");
 				 if(idx==5) idx=1;
 				 
